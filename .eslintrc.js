@@ -1,14 +1,40 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
-  },
-  extends: ["plugin:vue/essential", "eslint:recommended", "@vue/prettier"],
+  extends: [
+    'plugin:vue/recommended',
+    'plugin:prettier-vue/recommended',
+    'prettier/vue',
+  ],
   parserOptions: {
-    parser: "babel-eslint",
+    parser: 'babel-eslint',
+  },
+  settings: {
+    'prettier-vue': {
+      SFCBlocks: {
+        template: true,
+        script: true,
+        style: true,
+        customBlocks: {
+          docs: { lang: 'markdown' },
+          config: { lang: 'json' },
+          module: { lang: 'js' },
+          comments: false,
+        },
+      },
+      usePrettierrc: true,
+      fileInfoOptions: {
+        withNodeModules: false,
+      },
+    },
   },
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    'prettier-vue/prettier': [
+      'error',
+      {
+        printWidth: 80,
+        singleQuote: true,
+        semi: false,
+        trailingComma: 'es5',
+      },
+    ],
   },
-};
+}
