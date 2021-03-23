@@ -1,9 +1,5 @@
 module.exports = {
-  extends: [
-    'plugin:vue/recommended',
-    'plugin:prettier-vue/recommended',
-    'prettier/vue',
-  ],
+  extends: ['plugin:vue/recommended', 'plugin:prettier-vue/recommended', 'prettier/vue'],
   parserOptions: {
     parser: 'babel-eslint',
   },
@@ -30,7 +26,7 @@ module.exports = {
     'prettier-vue/prettier': [
       'error',
       {
-        printWidth: 80,
+        printWidth: 350,
         singleQuote: true,
         semi: false,
         trailingComma: 'es5',
