@@ -2,7 +2,13 @@
   <tr>
     <td class="text-center">
       <div class="form-check text-center">
-        <input type="checkbox" class="form-check-input position-static" />
+        <input
+          type="checkbox"
+          class="form-check-input position-static"
+          :value="user.check"
+          :checked="user.check"
+          @input="deleteCheck({ user: user, check: !user.check })"
+        />
       </div>
     </td>
     <td>{{ user.id }}</td>
@@ -25,7 +31,29 @@ export default {
   },
   computed: {
     sexString() {
-      return this.user.sex == 1 ? '男' : '女'
+      let sex = ''
+      switch (this.user.sex) {
+        case '0':
+          sex = '不明'
+          break
+        case '1':
+          sex = '男'
+          break
+        case '2':
+          sex = '女'
+          break
+        case '9':
+          sex = '適用不能'
+          break
+        default:
+          break
+      }
+      return sex
+    },
+  },
+  methods: {
+    deleteCheck(e) {
+      this.$store.dispatch('users/deleteCheck', e)
     },
   },
 }

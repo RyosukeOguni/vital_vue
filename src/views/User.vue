@@ -10,7 +10,6 @@
             </router-link>
           </li>
         </ul>
-        <!-- <b-table striped hover :items="usersList"></b-table> -->
         <UserTable :users-list="usersList"></UserTable>
       </section>
     </article>

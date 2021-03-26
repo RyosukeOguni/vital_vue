@@ -5,7 +5,13 @@
         <thead>
           <tr>
             <th class="border-top-0 text-center">
-              <button type="button" class="btn py-1 px-2 btn-danger fs14">削除</button>
+              <button
+                type="button"
+                class="btn py-1 px-2 btn-danger fs14"
+                @click="removeUser"
+              >
+                削除
+              </button>
             </th>
             <th class="border-top-0">ID</th>
             <th class="border-top-0">名前</th>
@@ -59,6 +65,11 @@ export default {
     return {
       paginate: ['paginate-items'],
     }
+  },
+  methods: {
+    removeUser() {
+      this.$store.dispatch('users/removeUser')
+    },
   },
 }
 </script>

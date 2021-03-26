@@ -9,6 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 // vue-paginateを読込
+// vue-paginateには型定義ファイルが提供されていないので、src/@type/d.tsに型定義を設定している
 import VuePaginate from 'vue-paginate'
 Vue.use(VuePaginate)
 
