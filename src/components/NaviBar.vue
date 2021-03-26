@@ -6,10 +6,19 @@
       </h1>
       <b-dropdown right no-caret variant="hidden">
         <template #button-content>
-          <b-icon icon="list" aria-hidden="true" class="text-white" style="width: 2rem; height: 2rem"></b-icon>
+          <b-icon
+            icon="list"
+            aria-hidden="true"
+            class="text-white"
+            style="width: 2rem; height: 2rem"
+          ></b-icon>
         </template>
-        <b-dropdown-item><router-link to="/vital">バイタル登録</router-link></b-dropdown-item>
-        <b-dropdown-item><router-link to="/user">利用者登録</router-link></b-dropdown-item>
+        <b-dropdown-item
+          ><router-link to="/vital">バイタル登録</router-link></b-dropdown-item
+        >
+        <b-dropdown-item
+          ><router-link to="/user">利用者登録</router-link></b-dropdown-item
+        >
       </b-dropdown>
     </nav>
   </header>

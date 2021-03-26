@@ -8,7 +8,9 @@
             <button type="button" class="btn btn-primary fs14">バイタル新規登録</button>
           </li>
           <li class="ml-3">
-            <button type="button" class="btn btn-outline-secondary fs14">バイタル一覧表示／編集</button>
+            <button type="button" class="btn btn-outline-secondary fs14">
+              バイタル一覧表示／編集
+            </button>
           </li>
         </ul>
       </section>
@@ -40,12 +42,21 @@
       </section>
     </article>
     <!-- Modal -->
-    <div class="modal fade" id="weatherModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="weatherModalLabel">
+    <div
+      class="modal fade"
+      id="weatherModal"
+      data-backdrop="static"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="weatherModalLabel"
+    >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <p class="col-md-12">本日は<u class="mx-2 font-weight-bold fs18">2020年07月24日(金)</u>です。</p>
+              <p class="col-md-12">
+                本日は<u class="mx-2 font-weight-bold fs18">2020年07月24日(金)</u>です。
+              </p>
               <dl class="col-md-4">
                 <dt class="font-weight-normal d-inline-block">天　候：</dt>
                 <dd class="d-inline-block"><u class="font-weight-bold fs18">晴れ</u></dd>
@@ -75,7 +86,14 @@
             </ul>
             <div class="text-right">
               <button type="button" class="btn btn-secondary fs14">戻る</button>
-              <button type="button" class="btn btn-primary fs14" data-dismiss="modal" aria-label="Close">登録</button>
+              <button
+                type="button"
+                class="btn btn-primary fs14"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                登録
+              </button>
             </div>
           </div>
         </div>

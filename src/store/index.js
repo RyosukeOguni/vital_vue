@@ -1,13 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import UsersModule from './modules/users'
 Vue.use(Vuex)
 
-const USER_PROPERTY = []
-
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    users: UsersModule,
+  },
 })

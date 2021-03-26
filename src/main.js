@@ -8,8 +8,13 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-Vue.config.productionTip = false
+// vue-paginateを読込
+import VuePaginate from 'vue-paginate'
+Vue.use(VuePaginate)
 
+Vue.config.productionTip = false
+// ブラウザのデベロッパーを許可
+Vue.config.devtools = true
 new Vue({
   router,
   store,
