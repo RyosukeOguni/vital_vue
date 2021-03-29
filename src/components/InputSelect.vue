@@ -1,20 +1,23 @@
 <template>
-  <input
+  <select
     v-model="newText"
     class="text-field-input"
-    :type="type"
     :disabled="fill"
     @input="inputForm({ name: name, text: newText })"
-  />
+  >
+    <option v-for="select in selectlist" :key="select.value" :value="select.value">
+      {{ select.name }}
+    </option>
+  </select>
 </template>
 
 <script>
 export default {
-  name: 'InputText',
+  name: 'InputSelect',
   props: {
-    type: {
-      type: String,
-      default: '',
+    selectlist: {
+      type: Array,
+      default: () => [],
     },
     name: {
       type: String,

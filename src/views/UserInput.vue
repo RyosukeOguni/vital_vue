@@ -7,39 +7,20 @@
         <section class="mt-4">
           <ul class="row list-unstyled">
             <li class="col-md-12">
-              <label class="text-field">
-                <span class="text-field-label">名前</span>
-                <input class="text-field-input" type="text" name="name" />
-              </label>
+              <!-- fill="fill"で入力不可 -->
+              <InputForm type="text" name="name">名前</InputForm>
             </li>
             <li class="col-md-6">
-              <label class="text-field">
-                <span class="text-field-label">年齢</span>
-                <input class="text-field-input" type="number" name="age" />
-              </label>
+              <InputForm type="number" name="age">年齢</InputForm>
             </li>
             <li class="col-md-6">
-              <label class="text-field">
-                <span class="text-field-label">性別</span>
-                <select class="text-field-input" name="sex">
-                  <option value="0" selected>-</option>
-                  <option value="1">男</option>
-                  <option value="2">女</option>
-                  <option value="9">適用不能</option>
-                </select>
-              </label>
+              <InputForm :selectlist="sex" name="sex">性別</InputForm>
             </li>
             <li class="col-md-12">
-              <label class="text-field">
-                <span class="text-field-label">診断名</span>
-                <input class="text-field-input" type="text" name="diagnosis" />
-              </label>
+              <InputForm type="text" name="diagnosis">診断名</InputForm>
             </li>
             <li class="col-md-12">
-              <label class="text-field">
-                <span class="text-field-label">備考</span>
-                <input class="text-field-input" type="text" name="note" />
-              </label>
+              <InputForm type="text" name="note">備考</InputForm>
             </li>
           </ul>
         </section>
@@ -53,10 +34,22 @@
 </template>
 <script>
 import ProgressBar from '@/components/ProgressBar.vue'
+import InputForm from '@/components/InputForm.vue'
 export default {
   name: 'UserInput',
   components: {
     ProgressBar,
+    InputForm,
+  },
+  data() {
+    return {
+      sex: [
+        { value: '0', name: '-' },
+        { value: '1', name: '男' },
+        { value: '2', name: '女' },
+        { value: '9', name: '適用不能' },
+      ],
+    }
   },
 }
 </script>

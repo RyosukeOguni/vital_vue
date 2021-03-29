@@ -1,9 +1,19 @@
 import axios from 'axios'
+
+const userData = {
+  id: '',
+  name: '',
+  age: '',
+  sex: '',
+  diagnosis: '',
+  note: '',
+}
+
 export default {
   namespaced: true,
   state: {
     usersList: [],
-    userData: {},
+    userData: userData,
     paginationNUmber: 1,
   },
   getters: {
@@ -32,6 +42,9 @@ export default {
     // DBより削除したuserをstateから削除
     removeUser(state) {
       state.usersList = state.usersList.filter((data) => data.check !== true)
+    },
+    inputState(state, { name, text }) {
+      state.userData[name] = text
     },
   },
   actions: {
@@ -66,6 +79,9 @@ export default {
       } catch (reason) {
         console.log(reason.message)
       }
+    },
+    inputForm(context, e) {
+      context.commit('inputState', e)
     },
   },
 }
