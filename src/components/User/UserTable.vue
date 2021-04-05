@@ -8,7 +8,7 @@
               <button
                 type="button"
                 class="btn py-1 px-2 btn-danger fs14"
-                @click="removeUser"
+                @click="removeUsersList"
               >
                 削除
               </button>
@@ -67,8 +67,8 @@ export default {
     }
   },
   methods: {
-    removeUser() {
-      this.$store.dispatch('users/removeUser')
+    removeUsersList() {
+      this.$store.dispatch('users/removeUsersList')
     },
   },
 }

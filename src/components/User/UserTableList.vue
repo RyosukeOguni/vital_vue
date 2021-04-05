@@ -16,7 +16,7 @@
     <td>{{ user.age }}歳</td>
     <td>{{ sexString }}</td>
     <td>{{ user.diagnosis }}</td>
-    <td>{{ user.created_at }}</td>
+    <td>{{ createDate }}</td>
   </tr>
 </template>
 
@@ -30,33 +30,25 @@ export default {
     },
   },
   computed: {
+    // 数字から性別文字に変換
     sexString() {
-      let sex = ''
-      switch (this.user.sex) {
-        case '0':
-          sex = '不明'
-          break
-        case '1':
-          sex = '男'
-          break
-        case '2':
-          sex = '女'
-          break
-        case '9':
-          sex = '適用不能'
-          break
-        default:
-          break
-      }
-      return sex
+      // storeから性別リスト（配列）を取得
+      let sexList = this.$store.getters['users/sexList']
+      // 性別リスト（配列）から数字の対応するものをひとつだけ取得して、値をreturn
+      let sexString = sexList.find((data) => data.value === this.user.sex)
+      return sexString.name
+    },
+    createDate() {
+      // フォーマットでライブラリmomentのデータを整形表示
+      let date = this.user.created_at
+      return date.format('YYYY年MM月DD日')
     },
   },
   methods: {
+    // チェックボックスに入力があればstoreのdeleteCheckを動かす
     deleteCheck(e) {
       this.$store.dispatch('users/deleteCheck', e)
     },
   },
 }
 </script>
-
-<style></style>

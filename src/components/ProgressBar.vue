@@ -1,13 +1,25 @@
 <template>
   <ul class="progressbar list-unstyled d-flex justify-content-center">
-    <li class="w-50 position-relative text-center fs12 active">基本情報入力</li>
-    <li class="w-50 position-relative text-center fs12">確認</li>
+    <li
+      v-for="(step, index) in progress"
+      :key="index"
+      :class="step.active && 'active'"
+      class="w-50 position-relative text-center fs12"
+    >
+      {{ step.state }}
+    </li>
   </ul>
 </template>
 
 <script>
 export default {
   name: 'ProgressBar',
+  props: {
+    progress: {
+      type: Array,
+      default: () => [],
+    },
+  },
 }
 </script>
 
@@ -29,6 +41,8 @@ export default {
   color: #ffffff;
   text-align: center;
   font-size: 1rem;
+  position: relative;
+  z-index: 1;
 }
 .progressbar li:after {
   content: '';
@@ -38,7 +52,7 @@ export default {
   background: #d0e1f9;
   top: 1rem;
   left: -50%;
-  z-index: -1;
+  z-index: 0;
 }
 .progressbar li:first-child:after {
   content: none;

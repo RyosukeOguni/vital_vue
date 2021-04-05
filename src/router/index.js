@@ -20,11 +20,6 @@ const routes = [
     name: 'User',
     component: () => import('../views/User.vue'),
   },
-  {
-    path: '/user_input',
-    name: 'UserInput',
-    component: () => import('../views/UserInput.vue'),
-  },
 ]
 
 const router = new VueRouter({

@@ -1,25 +1,38 @@
 <template>
-  <label class="text-field" :class="fill">
-    <span class="text-field-label"><slot></slot></span>
-    <InputText v-if="type" :type="type" :fill="!!fill" :name="name"></InputText>
-    <InputSelect
-      v-if="selectlist"
-      :selectlist="selectlist"
-      :fill="!!fill"
-      :name="name"
-    ></InputSelect>
-  </label>
+  <div :class="!validate || 'error'">
+    <label class="text-field" :class="fill">
+      <span class="text-field-label"><slot></slot><span v-if="validate">※</span></span>
+      <!-- typeがバインドされた場合、inputを表示 -->
+      <input
+        v-if="type"
+        v-model="newValue"
+        class="text-field-input"
+        :type="type"
+        :disabled="!!fill"
+        min="0"
+        @input="inputForm({ name: name, text: newValue })"
+      />
+      <!-- 配列selectlistがバインドされた場合、selectを表示 -->
+      <select
+        v-if="selectlist"
+        v-model="newValue"
+        class="text-field-input"
+        :disabled="!!fill"
+        @change="inputForm({ name: name, text: newValue })"
+      >
+        <option value="" disabled selected>選択して下さい</option>
+        <option v-for="select in selectlist" :key="select.value" :value="select.value">
+          {{ select.name }}
+        </option>
+      </select>
+    </label>
+    <p v-if="validate" class="fs12">{{ validate }}</p>
+  </div>
 </template>
 
 <script>
-import InputText from './InputText.vue'
-import InputSelect from './InputSelect.vue'
 export default {
   name: 'InputForm',
-  components: {
-    InputText,
-    InputSelect,
-  },
   props: {
     type: {
       type: String,
@@ -29,13 +42,32 @@ export default {
       type: Array,
       default: null,
     },
+    name: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    validate: {
+      type: String,
+      default: '',
+    },
     fill: {
       type: String,
       default: '',
     },
-    name: {
-      type: String,
-      default: '',
+  },
+  data() {
+    return {
+      // もしvalueがあればvalueを返す、valueが無い場合、typeがnumberまたは指定無ければ０、その他の場合は空文字を返す
+      newValue: this.value ? this.value : this.type == 'number' ? 0 : '',
+    }
+  },
+  methods: {
+    inputForm(e) {
+      this.$store.dispatch('users/inputForm', e)
     },
   },
 }
@@ -77,5 +109,13 @@ select.text-field-input:disabled {
   color: #212529;
   opacity: 1;
   appearance: none;
+}
+.error,
+.error .text-field-label {
+  color: #b00020;
+}
+.error .text-field {
+  border-bottom: 2px solid #b00020;
+  background-color: #ffd8df;
 }
 </style>

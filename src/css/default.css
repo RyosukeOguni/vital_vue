@@ -1,5 +1,49 @@
-a,
-a:hover {
-  color: #fff;
-  text-decoration: none;
+/* Fontsize */
+.fs8 {
+  font-size: 0.5rem !important;
+}
+.fs10 {
+  font-size: 0.625rem !important;
+}
+.fs12 {
+  font-size: 0.75rem !important;
+}
+.fs14 {
+  font-size: 0.875rem !important;
+}
+.fs18 {
+  font-size: 1.125rem !important;
+}
+.fs20 {
+  font-size: 1.25rem !important;
+}
+
+/* 5 Columns */
+.col-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .col-sm-15 {
+    width: 20%;
+    flex: 0 0 20%;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-15 {
+    width: 20%;
+    flex: 0 0 20%;
+  }
+}
+@media (min-width: 1200px) {
+  .col-lg-15 {
+    width: 20%;
+    flex: 0 0 20%;
+  }
 }
