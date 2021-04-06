@@ -23,7 +23,7 @@
           size="sm"
           variant="outline-danger"
           @click="
-            resetUserData()
+            resetData()
             close()
           "
         >
@@ -55,8 +55,8 @@ export default {
     this.$store.dispatch('users/usersDataSet')
   },
   methods: {
-    resetUserData() {
-      this.$store.dispatch('users/resetUserData')
+    resetData() {
+      this.$store.dispatch('users/resetData')
     },
   },
 }

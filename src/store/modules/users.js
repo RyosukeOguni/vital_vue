@@ -23,7 +23,7 @@ export default {
   state: {
     usersList: [],
     userData: userData,
-    userValidate: userData,
+    userValidate: {},
     paginationNUmber: 1,
   },
 
@@ -66,11 +66,13 @@ export default {
     inputUserData(state, { name, text }) {
       state.userData[name] = text
     },
-    // userDateオブジェクトのプロパティを空にする
-    resetUserData(state) {
+    // userDate、userValidateオブジェクトをリセット
+    resetData(state) {
+      // userDateオブジェクトのプロパティを空にする
       Object.keys(state.userData).forEach((key) => {
         state.userData[key] = ''
       })
+      // userValidateオブジェクトを空にする
       state.userValidate = {}
     },
     // userValidateに値を追加する
@@ -141,9 +143,9 @@ export default {
       dispatch('usersDataSet')
     },
 
-    // ▼ 入力したしたuserDataをstateから削除
-    resetUserData({ commit }) {
-      commit('resetUserData')
+    // ▼ 入力したuserDataをstateから削除
+    resetData({ commit }) {
+      commit('resetData')
     },
     // stateのuserDateの対応する状態に対し、userValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }) {
@@ -151,22 +153,22 @@ export default {
       if (!state.userData.name) {
         e.name = '名前を入力してください'
       } else {
-        delete e.name
+        e.name = ''
       }
       if (!state.userData.age) {
         e.age = '年齢を入力してください'
       } else {
-        delete e.age
+        e.age = ''
       }
       if (!state.userData.sex) {
         e.sex = '性別を選択してください'
       } else {
-        delete e.sex
+        e.sex = ''
       }
       if (!state.userData.diagnosis) {
         e.diagnosis = '診断名を入力してください'
       } else {
-        delete e.diagnosis
+        e.diagnosis = ''
       }
       commit('inputValidate', e)
     },

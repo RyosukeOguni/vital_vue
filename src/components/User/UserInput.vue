@@ -26,7 +26,7 @@
             class="btn btn-primary fs14"
             @click="
               userRegist()
-              resetUserData()
+              resetData()
               $bvModal.hide('modal-1')
             "
           >
@@ -84,8 +84,10 @@ export default {
       this.progressMove()
     },
     pageNext() {
+      // 一度目のバリデーションで、userValidateにプロパティを付与する
       this.$store.dispatch('users/Validate')
-      if (!Object.keys(this.userValidate).length) {
+      // userValidateのプロパティの値がすべて空の時、次のページへ移る
+      if (Object.values(this.userValidate).every((value) => value === '')) {
         this.page++
         this.progressMove()
       }
@@ -93,8 +95,8 @@ export default {
     userRegist() {
       this.$store.dispatch('users/userRegist')
     },
-    resetUserData() {
-      this.$store.dispatch('users/resetUserData')
+    resetData() {
+      this.$store.dispatch('users/resetData')
     },
     progressMove() {
       // progress配列からactiveを全てfalseに変更

@@ -61,8 +61,8 @@ export default {
   },
   data() {
     return {
-      // もしvalueがあればvalueを返す、valueが無い場合、typeがnumberまたは指定無ければ０、その他の場合は空文字を返す
-      newValue: this.value ? this.value : this.type == 'number' ? 0 : '',
+      // もしvalueがあればvalueを返す、valueが無い場合は空文字を返す
+      newValue: this.value || '',
     }
   },
   methods: {
