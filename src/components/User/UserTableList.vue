@@ -11,12 +11,12 @@
         />
       </div>
     </td>
-    <td>{{ user.id }}</td>
-    <td>{{ user.name }}</td>
-    <td>{{ user.age }}歳</td>
-    <td>{{ sexString }}</td>
-    <td>{{ user.diagnosis }}</td>
-    <td>{{ createDate }}</td>
+    <td @click="showUser(user.id)">{{ user.id }}</td>
+    <td @click="showUser(user.id)">{{ user.name }}</td>
+    <td @click="showUser(user.id)">{{ user.age }}歳</td>
+    <td @click="showUser(user.id)">{{ sexString }}</td>
+    <td @click="showUser(user.id)">{{ user.diagnosis }}</td>
+    <td @click="showUser(user.id)">{{ createDate }}</td>
   </tr>
 </template>
 
@@ -48,6 +48,11 @@ export default {
     // チェックボックスに入力があればstoreのdeleteCheckを動かす
     deleteCheck(e) {
       this.$store.dispatch('users/deleteCheck', e)
+    },
+    // 非同期通信が終了するのを待って、モーダルを実行する
+    async showUser(id) {
+      await this.$store.dispatch('users/showUser', id)
+      await this.$bvModal.show('modal-put')
     },
   },
 }

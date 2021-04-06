@@ -7,7 +7,7 @@
         </h2>
         <ul class="list-unstyled d-flex">
           <li class="border-secondary pr-3">
-            <b-button v-b-modal.modal-1 variant="primary" class="fs14"
+            <b-button v-b-modal.modal-post variant="primary" class="fs14"
               >利用者登録</b-button
             >
           </li>
@@ -15,20 +15,41 @@
         <UserTable v-if="usersList" :users-list="usersList"></UserTable>
       </section>
     </article>
-    <b-modal id="modal-1" title="BootstrapVue" hide-footer　no-close-on-backdrop>
-      <!-- <template #modal-title>利用者登録</template> -->
+
+    <b-modal id="modal-post" hide-footer　no-close-on-backdrop>
       <template #modal-header="{ close }">
-        <h5>利用者登録</h5>
-        <b-button
-          size="sm"
-          variant="outline-danger"
+        <h5 class="modal-title">利用者登録</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
           @click="
             resetData()
             close()
           "
         >
-          Close Modal
-        </b-button>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </template>
+      <UserInput></UserInput>
+    </b-modal>
+
+    <b-modal id="modal-put" hide-footer　no-close-on-backdrop>
+      <template #modal-header="{ close }">
+        <h5 class="modal-title">利用者変更</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          @click="
+            resetData()
+            close()
+          "
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </template>
       <UserInput></UserInput>
     </b-modal>
@@ -52,7 +73,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('users/usersDataSet')
+    this.$store.dispatch('users/usersListSet')
   },
   methods: {
     resetData() {

@@ -27,7 +27,7 @@
             @click="
               userRegist()
               resetData()
-              $bvModal.hide('modal-1')
+              $bvModal.hide('modal-post')
             "
           >
             登録

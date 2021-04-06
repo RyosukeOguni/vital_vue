@@ -1,5 +1,13 @@
 import axios from 'axios'
 
+function User() {
+  this.name = ''
+  this.age = ''
+  this.sex = ''
+  this.diagnosis = ''
+  this.note = ''
+}
+
 const userData = {
   name: '',
   age: '',
@@ -16,6 +24,7 @@ const sexList = [
 
 const url = 'http://localhost:8000/api/users'
 
+// 時間に関するパッケージをインポート
 import moment from 'moment'
 export default {
   namespaced: true,
@@ -40,7 +49,7 @@ export default {
 
   mutations: {
     // DBから取得したusersをstateに反映
-    usersDataSet(state, payload) {
+    usersListSet(state, payload) {
       state.usersList = payload.data.map((data) => {
         let attribute = data.data.attribute
         attribute.created_at = moment(attribute.created_at)
@@ -49,6 +58,15 @@ export default {
         return attribute
       })
     },
+
+    // DBから取得したuserをstateに反映
+    userDataSet(state, payload) {
+      let attribute = payload.data.attribute
+      delete attribute.id
+      delete attribute.created_at
+      state.userData = attribute
+    },
+
     // チェックボタン押下の状態をstateに反映
     deleteCheck(state, { user, check }) {
       state.usersList = state.usersList.map((data) => {
@@ -58,23 +76,28 @@ export default {
         return data
       })
     },
+
     // DBより削除したusersをstateから削除
     removeUsersList(state) {
       state.usersList = state.usersList.filter((data) => data.check !== true)
     },
-    // userDateオブジェクトのプロパティに入力する
+
+    // userDataオブジェクトのプロパティに入力する
     inputUserData(state, { name, text }) {
       state.userData[name] = text
     },
-    // userDate、userValidateオブジェクトをリセット
+
+    // userData、userValidateオブジェクトをリセット
     resetData(state) {
-      // userDateオブジェクトのプロパティを空にする
-      Object.keys(state.userData).forEach((key) => {
-        state.userData[key] = ''
-      })
+      // userDataオブジェクトのプロパティを空にする
+      // Object.keys(state.userData).forEach((key) => {
+      //   state.userData[key] = ''
+      // })
+      state.userData = new User()
       // userValidateオブジェクトを空にする
       state.userValidate = {}
     },
+
     // userValidateに値を追加する
     inputValidate(state, e) {
       state.userValidate = e
@@ -88,14 +111,28 @@ export default {
     },
 
     // ▼ 非同期通信でDBからUser一覧データを取得
-    async usersDataSet({ commit }) {
+    async usersListSet({ commit }) {
       // 非同期通信でapiからusersを取得
       await axios
         .get(url)
         .then((response) => {
           console.log(response)
+          // userをstateに反映
+          commit('usersListSet', response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
+    async showUser({ commit }, id) {
+      // 非同期通信でapiからuser一件を取得
+      await axios
+        .get(url + '/' + id)
+        .then((response) => {
+          console.log(response)
           // usersをstateに反映
-          commit('usersDataSet', response.data)
+          commit('userDataSet', response.data)
         })
         .catch((error) => {
           console.log(error)
@@ -108,6 +145,8 @@ export default {
       let delete_users = state.usersList.filter((data) => data.check === true)
       //delete_usersから、idの値のみをオブジェクトリテラルで配列に入れる
       delete_users = delete_users.map((user) => ({ id: user.id }))
+      // DBより削除したuserをstateから削除
+      commit('removeUsersList')
       // 非同期通信でapiにjsonで削除対象を送信
       await axios
         .post(url + '/selectdelete', delete_users)
@@ -117,8 +156,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      // DBより削除したuserをstateから削除
-      commit('removeUsersList')
     },
 
     // ▼ フォームに入力があった場合、UserData{}の対応するキーに値を入れる
@@ -140,14 +177,14 @@ export default {
           console.log(error)
         })
       // DBへの登録が完了したら、新しいDB情報をstateに再取得する
-      dispatch('usersDataSet')
+      dispatch('usersListSet')
     },
 
     // ▼ 入力したuserDataをstateから削除
     resetData({ commit }) {
       commit('resetData')
     },
-    // stateのuserDateの対応する状態に対し、userValidateにの対応するキーにエラーメッセージを追加する
+    // stateのuserDataの対応する状態に対し、userValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }) {
       let e = {}
       if (!state.userData.name) {
