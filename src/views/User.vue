@@ -15,54 +15,18 @@
         <UserTable v-if="usersList" :users-list="usersList"></UserTable>
       </section>
     </article>
-
-    <b-modal id="modal-post" hide-footer　no-close-on-backdrop>
-      <template #modal-header="{ close }">
-        <h5 class="modal-title">利用者登録</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          @click="
-            resetData()
-            close()
-          "
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </template>
-      <UserInput></UserInput>
-    </b-modal>
-
-    <b-modal id="modal-put" hide-footer　no-close-on-backdrop>
-      <template #modal-header="{ close }">
-        <h5 class="modal-title">利用者変更</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          @click="
-            resetData()
-            close()
-          "
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </template>
-      <UserInput></UserInput>
-    </b-modal>
+    <UserModal id="modal-post">利用者登録</UserModal>
+    <UserModal id="modal-put">利用者変更</UserModal>
   </main>
 </template>
 <script>
 import UserTable from '@/components/User/UserTable'
-import UserInput from '@/components/User/UserInput'
+import UserModal from '@/components/User/UserModal'
 export default {
   name: 'User',
   components: {
     UserTable,
-    UserInput,
+    UserModal,
   },
   computed: {
     usersList() {
@@ -74,11 +38,6 @@ export default {
   },
   created() {
     this.$store.dispatch('users/usersListSet')
-  },
-  methods: {
-    resetData() {
-      this.$store.dispatch('users/resetData')
-    },
   },
 }
 </script>

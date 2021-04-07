@@ -9,6 +9,7 @@
           :user-validate="userValidate"
         ></UserInputStep1>
         <UserInputStep2 v-if="page === 2" :user-data="userData"></UserInputStep2>
+
         <div class="form-footer mt-2 mb-2 text-center">
           <button v-if="page > 1" class="btn btn-secondary fs14" @click="pageBack">
             戻る
