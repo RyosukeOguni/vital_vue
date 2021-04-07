@@ -2,7 +2,7 @@
   <section class="mt-4">
     <ul class="row list-unstyled">
       <li class="col-md-12">
-        <!-- fill="fill" で入力不可 -->
+        <!-- fill で入力不可　:fill="boolean" で入力制御 -->
         <InputForm type="text" name="name" :value="userData.name" fill>名前</InputForm>
       </li>
       <li class="col-md-6">

@@ -1,14 +1,17 @@
 <template>
-  <div :class="!validate || 'error'">
-    <label class="text-field" :class="'fill' in $attrs && 'fill'">
-      <span class="text-field-label"><slot></slot><span v-if="validate">※</span></span>
+  <div :class="!!validate && 'error'">
+    <!-- fillプロパティがある場合、fillをclassに追加 -->
+    <label class="text-field" :class="{ fill: fill }">
+      <span class="text-field-label"
+        ><slot>ラベル名</slot><span v-if="validate">※</span></span
+      >
       <!-- typeがバインドされた場合、inputを表示 -->
       <input
         v-if="type"
         v-model="newValue"
         class="text-field-input"
         :type="type"
-        :disabled="'fill' in $attrs"
+        :disabled="fill"
         min="0"
         @input="inputForm({ name: name, text: newValue })"
       />
@@ -17,7 +20,7 @@
         v-if="selectlist"
         v-model="newValue"
         class="text-field-input"
-        :disabled="'fill' in $attrs"
+        :disabled="fill"
         @change="inputForm({ name: name, text: newValue })"
       >
         <option value="" disabled selected>選択して下さい</option>
@@ -54,10 +57,10 @@ export default {
       type: String,
       default: '',
     },
-    // fill: {
-    //   type: String,
-    //   default: '',
-    // },
+    fill: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
