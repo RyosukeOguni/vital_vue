@@ -1,6 +1,6 @@
 <template>
   <div :class="!validate || 'error'">
-    <label class="text-field" :class="fill">
+    <label class="text-field" :class="'fill' in $attrs && 'fill'">
       <span class="text-field-label"><slot></slot><span v-if="validate">※</span></span>
       <!-- typeがバインドされた場合、inputを表示 -->
       <input
@@ -8,7 +8,7 @@
         v-model="newValue"
         class="text-field-input"
         :type="type"
-        :disabled="!!fill"
+        :disabled="'fill' in $attrs"
         min="0"
         @input="inputForm({ name: name, text: newValue })"
       />
@@ -17,7 +17,7 @@
         v-if="selectlist"
         v-model="newValue"
         class="text-field-input"
-        :disabled="!!fill"
+        :disabled="'fill' in $attrs"
         @change="inputForm({ name: name, text: newValue })"
       >
         <option value="" disabled selected>選択して下さい</option>
@@ -38,10 +38,6 @@ export default {
       type: String,
       default: '',
     },
-    selectlist: {
-      type: Array,
-      default: null,
-    },
     name: {
       type: String,
       default: '',
@@ -50,19 +46,22 @@ export default {
       type: [String, Number],
       default: '',
     },
+    selectlist: {
+      type: Array,
+      default: null,
+    },
     validate: {
       type: String,
       default: '',
     },
-    fill: {
-      type: String,
-      default: '',
-    },
+    // fill: {
+    //   type: String,
+    //   default: '',
+    // },
   },
   data() {
     return {
-      // もしvalueがあればvalueを返す、valueが無い場合は空文字を返す
-      newValue: this.value || '',
+      newValue: this.value,
     }
   },
   methods: {
@@ -98,11 +97,25 @@ export default {
   background: none;
   height: 4rem;
 }
+/* セレクトボックスのアイコンをSVGでバックグラウンド表示 */
+select.text-field-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' color='gray' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 20px, 100%;
+}
+/* 入力不可 */
 .text-field.fill {
   background-color: #ffffff;
 }
 .fill .text-field-input {
   margin-bottom: 0;
+}
+.fill select.text-field-input {
+  background: none;
 }
 input.text-field-input:disabled,
 select.text-field-input:disabled {
@@ -110,6 +123,7 @@ select.text-field-input:disabled {
   opacity: 1;
   appearance: none;
 }
+/* バリデーション */
 .error,
 .error .text-field-label {
   color: #b00020;

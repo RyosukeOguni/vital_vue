@@ -1,19 +1,12 @@
 import axios from 'axios'
 
+// コンストラクター関数でuserDataのプロパティを定義
 function User() {
   this.name = ''
   this.age = ''
   this.sex = ''
   this.diagnosis = ''
   this.note = ''
-}
-
-const userData = {
-  name: '',
-  age: '',
-  sex: '',
-  diagnosis: '',
-  note: '',
 }
 
 const sexList = [
@@ -31,7 +24,7 @@ export default {
 
   state: {
     usersList: [],
-    userData: userData,
+    userData: new User(),
     userValidate: {},
     paginationNUmber: 1,
   },
@@ -62,7 +55,6 @@ export default {
     // DBから取得したuserをstateに反映
     userDataSet(state, payload) {
       let attribute = payload.data.attribute
-      delete attribute.id
       delete attribute.created_at
       state.userData = attribute
     },
@@ -98,7 +90,7 @@ export default {
       state.userValidate = {}
     },
 
-    // userValidateに値を追加する
+    // userValidateにプロパティと値を追加する
     inputValidate(state, e) {
       state.userValidate = e
     },
@@ -187,26 +179,14 @@ export default {
     // stateのuserDataの対応する状態に対し、userValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }) {
       let e = {}
-      if (!state.userData.name) {
-        e.name = '名前を入力してください'
-      } else {
-        e.name = ''
-      }
-      if (!state.userData.age) {
-        e.age = '年齢を入力してください'
-      } else {
-        e.age = ''
-      }
-      if (!state.userData.sex) {
-        e.sex = '性別を選択してください'
-      } else {
-        e.sex = ''
-      }
-      if (!state.userData.diagnosis) {
-        e.diagnosis = '診断名を入力してください'
-      } else {
-        e.diagnosis = ''
-      }
+      !state.userData.name ? (e.name = '名前を入力してください') : (e.name = '')
+      !state.userData.age && state.userData.age !== 0
+        ? (e.age = '年齢を入力してください')
+        : (e.age = '')
+      !state.userData.sex ? (e.sex = '性別を選択してください') : (e.sex = '')
+      !state.userData.diagnosis
+        ? (e.diagnosis = '診断名を入力してください')
+        : (e.diagnosis = '')
       commit('inputValidate', e)
     },
   },
