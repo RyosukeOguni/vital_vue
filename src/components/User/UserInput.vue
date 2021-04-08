@@ -88,6 +88,7 @@ export default {
         this.progressMove()
       }
     },
+    // UserInputButtonのdecisionが発火したときの処理
     decision() {
       this.$store.dispatch('users/' + this.inputType)
       this.$store.dispatch('users/resetData')
