@@ -15,18 +15,37 @@
         <UserTable v-if="usersList" :users-list="usersList"></UserTable>
       </section>
     </article>
-    <UserModal id="modal-post">利用者登録</UserModal>
-    <UserModal id="modal-put">利用者変更</UserModal>
+    <!-- 利用者登録ボタンを押下したときに展開する利用者登録モーダル -->
+    <UserModal id="modal-post"
+      >利用者登録
+      <template #input>
+        <UserInput input-type="userRegist" model-id="modal-post">
+          <template #button>登録</template>
+        </UserInput>
+      </template>
+    </UserModal>
+    <!-- テーブル行を押したときに展開する利用者変更モーダル -->
+    <UserModal id="modal-put"
+      >利用者変更
+      <template #input>
+        <UserInput input-type="userEdit" model-id="modal-put">
+          <template #button>変更</template>
+        </UserInput>
+      </template>
+    </UserModal>
   </main>
 </template>
 <script>
 import UserTable from '@/components/User/UserTable'
 import UserModal from '@/components/User/UserModal'
+import UserInput from '@/components/User/UserInput.vue'
+
 export default {
   name: 'User',
   components: {
     UserTable,
     UserModal,
+    UserInput,
   },
   computed: {
     usersList() {

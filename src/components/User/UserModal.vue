@@ -15,17 +15,12 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </template>
-    <UserInput></UserInput>
+    <slot name="input"> </slot>
   </b-modal>
 </template>
 <script>
-import UserInput from './UserInput.vue'
-
 export default {
   name: 'UserModal',
-  components: {
-    UserInput,
-  },
   methods: {
     resetData() {
       this.$store.dispatch('users/resetData')

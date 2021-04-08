@@ -172,6 +172,25 @@ export default {
       dispatch('usersListSet')
     },
 
+    // ▼ 非同期通信でDBからUserDataを更新
+    async userEdit({ dispatch, state }) {
+      // jsonで送るデータをオブジェクトのまま取得
+      var json = state.userData
+      let id = json.id
+      delete json.id
+      // 非同期通信でapiにjsonで送信
+      await axios
+        .put(url + '/' + id, json)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      // DBへの登録が完了したら、新しいDB情報をstateに再取得する
+      dispatch('usersListSet')
+    },
+
     // ▼ 入力したuserDataをstateから削除
     resetData({ commit }) {
       commit('resetData')

@@ -9,31 +9,14 @@
           :user-validate="userValidate"
         ></UserInputStep1>
         <UserInputStep2 v-if="page === 2" :user-data="userData"></UserInputStep2>
-
-        <div class="form-footer mt-2 mb-2 text-center">
-          <button v-if="page > 1" class="btn btn-secondary fs14" @click="pageBack">
-            戻る
-          </button>
-          <button
-            v-if="page < progress.length"
-            class="btn btn-primary fs14"
-            @click="pageNext"
-          >
-            次へ
-          </button>
-          <!-- @clickイベントを複数持たせる場合、methodsの関数名に()をつけて、スペース区切りで記述 -->
-          <button
-            v-else
-            class="btn btn-primary fs14"
-            @click="
-              userRegist()
-              resetData()
-              $bvModal.hide('modal-post')
-            "
-          >
-            登録
-          </button>
-        </div>
+        <UserInputButton
+          :page="page"
+          :progress="progress"
+          @pageBack="pageBack"
+          @pageNext="pageNext"
+          @decision="decision"
+          ><slot name="button"></slot
+        ></UserInputButton>
       </section>
     </article>
   </main>
@@ -42,6 +25,7 @@
 import ProgressBar from '../ProgressBar.vue'
 import UserInputStep1 from './UserInputStep1.vue'
 import UserInputStep2 from './UserInputStep2.vue'
+import UserInputButton from './UserInputButton.vue'
 
 export default {
   name: 'UserInput',
@@ -49,6 +33,17 @@ export default {
     ProgressBar,
     UserInputStep1,
     UserInputStep2,
+    UserInputButton,
+  },
+  props: {
+    inputType: {
+      type: String,
+      default: '',
+    },
+    modelId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -93,11 +88,10 @@ export default {
         this.progressMove()
       }
     },
-    userRegist() {
-      this.$store.dispatch('users/userRegist')
-    },
-    resetData() {
+    decision() {
+      this.$store.dispatch('users/' + this.inputType)
       this.$store.dispatch('users/resetData')
+      !!this.modelId && this.$bvModal.hide(this.modelId)
     },
     progressMove() {
       // progress配列からactiveを全てfalseに変更
@@ -110,8 +104,3 @@ export default {
   },
 }
 </script>
-<style>
-.form-footer > button {
-  margin-right: 0.5rem;
-}
-</style>
