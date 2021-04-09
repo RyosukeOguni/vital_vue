@@ -80,7 +80,7 @@ export default {
       this.progressMove()
     },
     pageNext() {
-      // 一度目のバリデーションで、userValidateにプロパティを付与する
+      // バリデーションを開始してuserValidateにプロパティを付与する
       this.$store.dispatch('users/Validate')
       // userValidateのプロパティの値がすべて空の時、次のページへ移る
       if (Object.values(this.userValidate).every((value) => value === '')) {
@@ -92,8 +92,10 @@ export default {
     decision() {
       this.$store.dispatch('users/' + this.inputType)
       this.$store.dispatch('users/resetData')
+      // モーダルが指定されていない場合、閉じる処理を行わない
       !!this.modelId && this.$bvModal.hide(this.modelId)
     },
+    // プログレスバーをページ通りに進める
     progressMove() {
       // progress配列からactiveを全てfalseに変更
       this.progress = this.progress.map((data) => ({ active: false, state: data.state }))
