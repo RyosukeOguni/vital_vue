@@ -5,7 +5,7 @@
         <ul class="row list-unstyled">
           <li class="col-md-6">
             <router-link
-              to="/vital"
+              to="/weather"
               class="position-relative d-block border border-white"
               style="background: #9aadd3"
             >

@@ -44,7 +44,6 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="weatherModal"
       data-backdrop="static"
       tabindex="-1"
       role="dialog"
@@ -105,5 +104,7 @@
 <script>
 export default {
   name: 'Vital',
+  computed: {},
+  created() {},
 }
 </script>

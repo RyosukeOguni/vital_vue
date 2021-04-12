@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('users/inputForm', e)
+      this.$emit('inputForm', e)
     },
   },
 }

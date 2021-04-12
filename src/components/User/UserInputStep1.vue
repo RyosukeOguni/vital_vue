@@ -8,6 +8,7 @@
           name="name"
           :value="userData.name"
           :validate="userValidate.name"
+          @inputForm="inputForm"
           >名前</InputForm
         >
       </li>
@@ -17,6 +18,7 @@
           name="age"
           :value="userData.age"
           :validate="userValidate.age"
+          @inputForm="inputForm"
           >年齢</InputForm
         >
       </li>
@@ -26,6 +28,7 @@
           name="sex"
           :value="userData.sex"
           :validate="userValidate.sex"
+          @inputForm="inputForm"
           >性別</InputForm
         >
       </li>
@@ -35,6 +38,7 @@
           name="diagnosis"
           :value="userData.diagnosis"
           :validate="userValidate.diagnosis"
+          @inputForm="inputForm"
           >診断名</InputForm
         >
       </li>
@@ -44,6 +48,7 @@
           name="note"
           :value="userData.note"
           :validate="userValidate.note"
+          @inputForm="inputForm"
           >備考</InputForm
         >
       </li>
@@ -52,10 +57,10 @@
 </template>
 
 <script>
-import InputForm from '../InputForm.vue'
+import InputForm from '@/components/Common/InputForm.vue'
 
 export default {
-  name: 'UserInputArea',
+  name: 'UserInputStep1',
   components: {
     InputForm,
   },
@@ -71,7 +76,12 @@ export default {
   },
   computed: {
     sexList() {
-      return this.$store.getters['users/sexList']
+      return this.$store.getters['user/sexList']
+    },
+  },
+  methods: {
+    inputForm(e) {
+      this.$store.dispatch('user/inputForm', e)
     },
   },
 }

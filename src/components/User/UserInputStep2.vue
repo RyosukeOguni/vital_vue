@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import InputForm from '../InputForm.vue'
+import InputForm from '@/components/Common/InputForm.vue'
 
 export default {
-  name: 'UserInputArea',
+  name: 'UserInputStep2',
   components: {
     InputForm,
   },
@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     sexList() {
-      return this.$store.getters['users/sexList']
+      return this.$store.getters['user/sexList']
     },
   },
 }

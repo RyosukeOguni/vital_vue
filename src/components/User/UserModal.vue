@@ -23,7 +23,7 @@ export default {
   name: 'UserModal',
   methods: {
     resetData() {
-      this.$store.dispatch('users/resetData')
+      this.$store.dispatch('user/resetData')
     },
   },
 }

@@ -9,23 +9,23 @@
           :user-validate="userValidate"
         ></UserInputStep1>
         <UserInputStep2 v-if="page === 2" :user-data="userData"></UserInputStep2>
-        <UserInputButton
+        <InputButton
           :page="page"
           :progress="progress"
           @pageBack="pageBack"
           @pageNext="pageNext"
           @decision="decision"
           ><slot name="button"></slot
-        ></UserInputButton>
+        ></InputButton>
       </section>
     </article>
   </main>
 </template>
 <script>
-import ProgressBar from '../ProgressBar.vue'
-import UserInputStep1 from './UserInputStep1.vue'
-import UserInputStep2 from './UserInputStep2.vue'
-import UserInputButton from './UserInputButton.vue'
+import ProgressBar from '@/components/Common/ProgressBar.vue'
+import UserInputStep1 from '@/components/User/UserInputStep1.vue'
+import UserInputStep2 from '@/components/User/UserInputStep2.vue'
+import InputButton from '@/components/Common/InputButton.vue'
 
 export default {
   name: 'UserInput',
@@ -33,7 +33,7 @@ export default {
     ProgressBar,
     UserInputStep1,
     UserInputStep2,
-    UserInputButton,
+    InputButton,
   },
   props: {
     inputType: {
@@ -56,10 +56,10 @@ export default {
   },
   computed: {
     userData() {
-      return this.$store.getters['users/userData']
+      return this.$store.getters['user/userData']
     },
     userValidate() {
-      return this.$store.getters['users/userValidate']
+      return this.$store.getters['user/userValidate']
     },
   },
   // userValidateに値が入っている間
@@ -67,7 +67,7 @@ export default {
     userData: {
       handler: function () {
         if (Object.keys(this.userValidate).length) {
-          this.$store.dispatch('users/Validate')
+          this.$store.dispatch('user/Validate')
         }
       },
       // userDataの下位のプロパティが変更された場合でもwatchを起動させる
@@ -81,7 +81,7 @@ export default {
     },
     pageNext() {
       // バリデーションを開始してuserValidateにプロパティを付与する
-      this.$store.dispatch('users/Validate')
+      this.$store.dispatch('user/Validate')
       // userValidateのプロパティの値がすべて空の時、次のページへ移る
       if (Object.values(this.userValidate).every((value) => value === '')) {
         this.page++
@@ -90,8 +90,8 @@ export default {
     },
     // UserInputButtonのdecisionが発火したときの処理
     decision() {
-      this.$store.dispatch('users/' + this.inputType)
-      this.$store.dispatch('users/resetData')
+      this.$store.dispatch('user/' + this.inputType)
+      this.$store.dispatch('user/resetData')
       // モーダルが指定されていない場合、閉じる処理を行わない
       !!this.modelId && this.$bvModal.hide(this.modelId)
     },

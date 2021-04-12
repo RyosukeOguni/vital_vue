@@ -49,14 +49,14 @@ export default {
   },
   computed: {
     usersList() {
-      return this.$store.getters['users/usersList']
+      return this.$store.getters['user/usersList']
     },
     usersLength() {
       return this.usersList.length
     },
   },
   created() {
-    this.$store.dispatch('users/usersListSet')
+    this.$store.dispatch('user/usersListSet')
   },
 }
 </script>

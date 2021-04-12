@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import NaviBar from '@/components/NaviBar.vue'
+import NaviBar from '@/components/Common/NaviBar.vue'
 
 export default {
   name: 'Top',

@@ -33,7 +33,7 @@ export default {
     // 数字から性別文字に変換
     sexString() {
       // storeから性別リスト（配列）を取得
-      let sexList = this.$store.getters['users/sexList']
+      let sexList = this.$store.getters['user/sexList']
       // 性別リスト（配列）から数字の対応するものをひとつだけ取得して、値をreturn
       let sexString = sexList.find((data) => data.value === this.user.sex)
       return sexString.name
@@ -47,11 +47,11 @@ export default {
   methods: {
     // チェックボックスに入力があればstoreのdeleteCheckを動かす
     deleteCheck(e) {
-      this.$store.dispatch('users/deleteCheck', e)
+      this.$store.dispatch('user/deleteCheck', e)
     },
     // 非同期通信が終了するのを待って、モーダルを実行する
     async showUser(id) {
-      await this.$store.dispatch('users/showUser', id)
+      await this.$store.dispatch('user/showUser', id)
       await this.$bvModal.show('modal-put')
     },
   },

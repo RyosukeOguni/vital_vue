@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     removeUsersList() {
-      this.$store.dispatch('users/removeUsersList')
+      this.$store.dispatch('user/removeUsersList')
     },
   },
 }

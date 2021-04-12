@@ -14,7 +14,7 @@
           ></b-icon>
         </template>
         <b-dropdown-item
-          ><router-link to="/vital">バイタル登録</router-link></b-dropdown-item
+          ><router-link to="/weather">バイタル登録</router-link></b-dropdown-item
         >
         <b-dropdown-item
           ><router-link to="/user">利用者登録</router-link></b-dropdown-item
