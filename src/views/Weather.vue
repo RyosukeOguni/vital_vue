@@ -18,56 +18,64 @@
         <h2 class="border-bottom border-secondary pb-2 mb-3">気候情報</h2>
         <p>
           本日は<u class="mx-2 font-weight-bold fs18">{{
-            today.format('YYYY年MM月DD日')
+            today.format('YYYY年MM月DD日(ddd)')
           }}</u
           >です。
         </p>
-        <div v-show="!!Object.values(WeatherData).length" class="row">
+        <ul v-if="!!Object.values(weatherData).length" class="list-unstyled d-flex">
+          <li class="border-secondary pr-3">
+            <button type="button" class="btn btn-primary fs14">天候登録</button>
+          </li>
+        </ul>
+        <div v-else class="row">
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ WeatherType[WeatherData.weather] }}</u>
+              <u class="font-weight-bold fs18">{{ weatherType[weatherData.weather] }}</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">外気温：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ WeatherData.temp }} ℃</u>
+              <u class="font-weight-bold fs18">{{ weatherData.temp }} ℃</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">内気温：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ WeatherData.room_temp }} ℃</u>
+              <u class="font-weight-bold fs18">{{ weatherData.room_temp }} ℃</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">外湿度：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ WeatherData.humidity }} ％</u>
+              <u class="font-weight-bold fs18">{{ weatherData.humidity }} ％</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline">内湿度：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ WeatherData.room_humidity }} ％</u>
+              <u class="font-weight-bold fs18">{{ weatherData.room_humidity }} ％</u>
             </dd>
           </dl>
         </div>
-        <ul v-show="!!Object.values(WeatherData).length" class="list-unstyled d-flex">
-          <li class="border-secondary pr-3">
-            <button type="button" class="btn btn-primary fs14">天候登録</button>
-          </li>
-        </ul>
       </section>
     </article>
     <!-- 利用者登録ボタンを押下したときに展開する利用者登録モーダル -->
-    <WeatherModal id="modal-post"></WeatherModal>
+    <WeatherModal id="modal-post">
+      <template #input>
+        <WeatherInput
+          input-type="weatherRegist"
+          model-id="modal-post"
+          :today="today"
+        ></WeatherInput></template
+    ></WeatherModal>
   </main>
 </template>
 
 <script>
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
+import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -75,6 +83,7 @@ export default {
   name: 'Weather',
   components: {
     WeatherModal,
+    WeatherInput,
   },
   data() {
     return {
@@ -82,24 +91,23 @@ export default {
     }
   },
   computed: {
-    WeatherData() {
-      return this.$store.getters['weather/WeatherData']
+    weatherData() {
+      return this.$store.getters['weather/weatherData']
     },
-    WeatherType() {
-      return this.$store.getters['weather/WeatherType']
+    weatherType() {
+      return this.$store.getters['weather/weatherType']
     },
   },
-  created() {
-    // var date = '2021-03-07'
-    var date = moment().format('YYYY-MM-DD')
-    axios
-      .get('http://localhost:8000/api/weather_records?day=' + date)
+  async created() {
+    var day = moment()
+    await axios
+      .get('http://localhost:8000/api/weather_records?day=' + day.format('YYYY-MM-DD'))
       .then((response) => {
         console.log(response)
         this.$store.dispatch('weather/showTodayWeather', response)
       })
-      .catch((error) => {
-        this.$store.dispatch('weather/showTodayWeather', null)
+      .catch(() => {
+        this.$store.dispatch('weather/getTodayWeather', day)
         this.$bvModal.show('modal-post')
       })
   },

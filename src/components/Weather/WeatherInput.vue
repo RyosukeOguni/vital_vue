@@ -3,19 +3,28 @@
     <article class="">
       <div class="row">
         <p class="col-md-12">
-          本日は<u class="mx-2 font-weight-bold fs18">2020年07月24日(金)</u>です。
+          本日は<u class="mx-2 font-weight-bold fs18">{{
+            today.format('YYYY年MM月DD日(ddd)')
+          }}</u
+          >です。
         </p>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">天　候：</dt>
-          <dd class="d-inline-block"><u class="font-weight-bold fs18">晴れ</u></dd>
+          <dd class="d-inline-block">
+            <u class="font-weight-bold fs18">{{ weatherData.weather }}</u>
+          </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外気温：</dt>
-          <dd class="d-inline-block"><u class="font-weight-bold fs18">31.0℃</u></dd>
+          <dd class="d-inline-block">
+            <u class="font-weight-bold fs18">{{ weatherData.temp }} ℃</u>
+          </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外湿度：</dt>
-          <dd class="d-inline-block"><u class="font-weight-bold fs18">70％</u></dd>
+          <dd class="d-inline-block">
+            <u class="font-weight-bold fs18">{{ weatherData.humidity }} ％</u>
+          </dd>
         </dl>
       </div>
       <ul class="row list-unstyled">
@@ -70,6 +79,10 @@ export default {
       type: String,
       default: '',
     },
+    today: {
+      type: Object,
+      default: () => {},
+    },
   },
   computed: {
     weatherData() {
@@ -78,18 +91,24 @@ export default {
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
     },
+    weatherType() {
+      return this.$store.getters['weather/weatherType']
+    },
   },
-  // userValidateに値が入っている間
+  // weatherValidateに値が入っている間
   watch: {
     weatherData: {
       handler: function () {
-        if (Object.keys(this.weatherValidate).length) {
+        if (!!Object.keys(this.weatherValidate).length) {
           this.$store.dispatch('weather/Validate')
         }
       },
       // userDataの下位のプロパティが変更された場合でもwatchを起動させる
       deep: true,
     },
+  },
+  created() {
+    this.$store.dispatch('weather/getTodayWeather')
   },
   methods: {
     inputForm(e) {
