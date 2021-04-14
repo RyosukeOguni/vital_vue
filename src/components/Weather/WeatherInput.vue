@@ -11,19 +11,19 @@
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">天　候：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ weatherData.weather }}</u>
+            <u class="font-weight-bold fs18">{{ wheatherJp[weatherData.weather] }}</u>
           </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外気温：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ weatherData.temp }} ℃</u>
+            <u class="font-weight-bold fs18">{{ weatherData.temp }}℃</u>
           </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外湿度：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ weatherData.humidity }} ％</u>
+            <u class="font-weight-bold fs18">{{ weatherData.humidity }}％</u>
           </dd>
         </dl>
       </div>
@@ -91,8 +91,8 @@ export default {
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
     },
-    weatherType() {
-      return this.$store.getters['weather/weatherType']
+    wheatherJp() {
+      return this.$store.getters['weather/wheatherJp']
     },
   },
   // weatherValidateに値が入っている間

@@ -22,7 +22,7 @@
           }}</u
           >です。
         </p>
-        <ul v-if="!!Object.values(weatherData).length" class="list-unstyled d-flex">
+        <ul v-if="!Object.values(weatherData).length" class="list-unstyled d-flex">
           <li class="border-secondary pr-3">
             <button type="button" class="btn btn-primary fs14">天候登録</button>
           </li>
@@ -31,7 +31,7 @@
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ weatherType[weatherData.weather] }}</u>
+              <u class="font-weight-bold fs18">{{ wheatherJp[weatherData.weather] }}</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
@@ -78,7 +78,7 @@ import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import moment from 'moment'
 import axios from 'axios'
-
+moment.locale('ja')
 export default {
   name: 'Weather',
   components: {
@@ -94,20 +94,26 @@ export default {
     weatherData() {
       return this.$store.getters['weather/weatherData']
     },
-    weatherType() {
-      return this.$store.getters['weather/weatherType']
+    wheatherJp() {
+      return this.$store.getters['weather/wheatherJp']
+    },
+    weatherDefalut() {
+      return this.$store.getters['weather/weatherDefalut']
+    },
+    wheatherTranslate() {
+      return this.$store.getters['weather/wheatherTranslate']
     },
   },
-  async created() {
-    var day = moment()
-    await axios
-      .get('http://localhost:8000/api/weather_records?day=' + day.format('YYYY-MM-DD'))
+  created() {
+    var day = moment().format('YYYY-MM-DD')
+    axios
+      .get('http://localhost:8000/api/weather_records?day=' + day)
       .then((response) => {
         console.log(response)
         this.$store.dispatch('weather/showTodayWeather', response)
       })
       .catch(() => {
-        this.$store.dispatch('weather/getTodayWeather', day)
+        this.$store.dispatch('weather/getTodayWeather')
         this.$bvModal.show('modal-post')
       })
   },
