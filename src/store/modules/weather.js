@@ -1,3 +1,4 @@
+import moment from 'moment'
 import axios from 'axios'
 
 const weatherDate = () => ({
@@ -8,34 +9,46 @@ const weatherDate = () => ({
   room_temp: '',
   room_humidity: '',
 })
-
+// OpenWeatherAPIから受け取った天気状態とDB管理するための数値の対応
 const wheatherEn = {
   Clear: 1,
   Clouds: 2,
   Rain: 3,
   Snow: 4,
 }
-
+// DBで数値化された天気状態と日本語の対応
 const wheatherJp = {
   1: '晴れ',
   2: '曇り',
   3: '雨',
   4: '雪',
 }
-
+// OpenWeatherAPIから受け取った天気状態をDB管理するための数値に置き換える
 const wheatherTranslate = (main) => {
   return wheatherEn[main]
 }
-
+// jsonからidと名前を抽出して文字列に変換
+const alrtMsg = (day) => {
+  return moment(day).format('YYYY年MM月DD日(ddd)')
+}
+// 小数点以下の桁数を表示
+const getDecimalLength = (number) => {
+  var numbers = String(number).split('.')
+  return numbers[1] ? numbers[1].length : 0
+}
 export default {
   namespaced: true,
   state: {
+    // DBから取得した天候情報
     weatherData: {},
+    // OpenWeatherAPIから取得した天候情報と入力用
+    weatherInputData: {},
     weatherValidate: {},
   },
 
   getters: {
     weatherData: (state) => state.weatherData,
+    weatherInputData: (state) => state.weatherInputData,
     weatherValidate: (state) => state.weatherValidate,
     wheatherJp: () => wheatherJp,
   },
@@ -44,19 +57,16 @@ export default {
     weatherDataSet(state, payload) {
       state.weatherData = payload
     },
-    // ▼ weatherDataの各プロパティに、Inputされた値を入力する
-    inputweatherData(state, { name, text }) {
-      state.weatherData[name] = text
+    weatherInputDataSet(state, payload) {
+      state.weatherInputData = payload
     },
-    // ▼ weatherValidateにプロパティと値を追加する
-    weatherValidate(state, e) {
-      state.weatherValidate = e
+    // ▼ weatherInputDataの各プロパティに、Inputされた値を入力する
+    inputFormWeatherData(state, { name, text }) {
+      state.weatherInputData[name] = text
     },
-    // ▼ weatherDate、weatherValidateオブジェクトをリセット
+    // ▼ weatherInputData、weatherValidateオブジェクトをリセット
     resetData(state) {
-      // weatherDateオブジェクトを初期化する
-      state.weatherDate = {}
-      // weatherValidateオブジェクトを空にする
+      state.weatherInputData = {}
       state.weatherValidate = {}
     },
     // ▼ weatherValidateにプロパティと値を追加する
@@ -66,12 +76,30 @@ export default {
   },
 
   actions: {
+    postTodayWeather({ state, commit }) {
+      // jsonで送るデータをオブジェクトのまま取得
+      var json = state.weatherInputData
+      // 非同期通信でapiにjsonで送信
+      axios
+        .post('http://localhost:8000/api/weather_records', json)
+        .then((response) => {
+          console.log(response)
+          alert(alrtMsg(response.data.data.attribute.day) + 'の天候情報を登録しました')
+          commit('weatherDataSet', response.data.data.attribute)
+          commit('resetData')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    // ▼ DBから取得した天候情報をweatherDateに入れる
     showTodayWeather({ commit }, response) {
       response !== null
         ? commit('weatherDataSet', response.data.data.attribute)
         : commit('weatherDataSet', weatherDate())
     },
-    getTodayWeather({ commit }) {
+    // ▼ OpenWeatherAPIから今日の天候情報を取得してweatherInputDataに入れる
+    inputTodayWeather({ commit }, today) {
       axios
         .get(
           'http://api.openweathermap.org/data/2.5/weather?units=metric&lang=ja&lat=34.6834327&lon=135.5122527&APPID=69007bdad58e58af7e51e0ff3e768857'
@@ -79,29 +107,39 @@ export default {
         .then((response) => {
           console.log(response)
           let attribute = weatherDate()
-          attribute.day = moment().format()
+          attribute.day = today.format('YYYY-MM-DD')
           attribute.weather = wheatherTranslate(response.data.weather[0].main)
           attribute.temp = Math.round(response.data.main.temp * 10) / 10
           attribute.humidity = response.data.main.humidity
-          commit('weatherDataSet', attribute)
+          commit('weatherInputDataSet', attribute)
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    // ▼ フォームに入力があった場合、UserData{}の対応するキーに値を入れる
+    // ▼ フォームに入力があった場合、weatherInputData{}の対応するキーに値を入れる
     inputForm({ commit }, e) {
-      commit('inputweatherData', e)
+      commit('inputFormWeatherData', e)
     },
-    // ▼ stateのweatherDateの対応する状態に対し、weatherValidateにの対応するキーにエラーメッセージを追加する
+    // ▼ weatherInputDataの対応する状態に対し、weatherValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }) {
       let e = {}
-      !state.weatherData.room_temp
-        ? (e.room_temp = '内気温を入力してください')
-        : (e.room_temp = '')
-      !state.weatherData.room_humidity
-        ? (e.room_humidity = '内湿度を選択してください')
-        : (e.room_humidity = '')
+      // 内気温のバリデーション
+      if (!state.weatherInputData.room_temp) {
+        e.room_temp = '内気温を入力してください'
+      } else if (getDecimalLength(state.weatherInputData.room_temp) > 1) {
+        e.room_temp = '小数点第1位までで入力して下さい'
+      } else {
+        e.room_temp = ''
+      }
+      // 内湿度のバリデーション
+      if (!state.weatherInputData.room_humidity) {
+        e.room_humidity = '内湿度を入力してください'
+      } else if (getDecimalLength(state.weatherInputData.room_humidity) > 1) {
+        e.room_humidity = '小数点第1位までで入力して下さい'
+      } else {
+        e.room_humidity = ''
+      }
       commit('inputValidate', e)
     },
     // ▼ 入力したweatherDateをstateから削除

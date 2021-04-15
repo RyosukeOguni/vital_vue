@@ -13,6 +13,7 @@
         :type="type"
         :disabled="fill"
         min="0"
+        step="0.1"
         @input="inputForm({ name: name, text: newValue })"
       />
       <!-- 配列selectlistがバインドされた場合、selectを表示 -->

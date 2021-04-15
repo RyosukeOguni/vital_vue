@@ -15,18 +15,26 @@
         </ul>
       </section>
       <section class="mt-4 col-md-10">
-        <h2 class="border-bottom border-secondary pb-2 mb-3">気候情報</h2>
+        <h2 class="border-bottom border-secondary pb-2 mb-3">天候情報</h2>
         <p>
           本日は<u class="mx-2 font-weight-bold fs18">{{
             today.format('YYYY年MM月DD日(ddd)')
           }}</u
           >です。
         </p>
+        <!-- DBから取得した天候情報が無ければ天候登録ボタンを表示する -->
         <ul v-if="!Object.values(weatherData).length" class="list-unstyled d-flex">
           <li class="border-secondary pr-3">
-            <button type="button" class="btn btn-primary fs14">天候登録</button>
+            <button
+              type="button"
+              class="btn btn-primary fs14"
+              @click="openModel('modal-post')"
+            >
+              天候登録
+            </button>
           </li>
         </ul>
+        <!-- DBから取得した天候情報が有れば情報を表示する -->
         <div v-else class="row">
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
@@ -61,14 +69,10 @@
         </div>
       </section>
     </article>
-    <!-- 利用者登録ボタンを押下したときに展開する利用者登録モーダル -->
+    <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
     <WeatherModal id="modal-post">
       <template #input>
-        <WeatherInput
-          input-type="weatherRegist"
-          model-id="modal-post"
-          :today="today"
-        ></WeatherInput></template
+        <WeatherInput model-id="modal-post" :today="today"></WeatherInput></template
     ></WeatherModal>
   </main>
 </template>
@@ -105,7 +109,8 @@ export default {
     },
   },
   created() {
-    var day = moment().format('YYYY-MM-DD')
+    // コンポーネントが読み込まれた際、DBから今日の天候情報を取得し、無ければモーダルを開く
+    var day = this.today.format('YYYY-MM-DD')
     axios
       .get('http://localhost:8000/api/weather_records?day=' + day)
       .then((response) => {
@@ -113,9 +118,13 @@ export default {
         this.$store.dispatch('weather/showTodayWeather', response)
       })
       .catch(() => {
-        this.$store.dispatch('weather/getTodayWeather')
-        this.$bvModal.show('modal-post')
+        this.openModel('modal-post')
       })
+  },
+  methods: {
+    openModel(modelid) {
+      this.$bvModal.show(modelid)
+    },
   },
 }
 </script>

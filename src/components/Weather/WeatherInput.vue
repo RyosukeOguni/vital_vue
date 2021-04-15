@@ -11,19 +11,21 @@
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">天　候：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ wheatherJp[weatherData.weather] }}</u>
+            <u class="font-weight-bold fs18">{{
+              wheatherJp[weatherInputData.weather]
+            }}</u>
           </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外気温：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ weatherData.temp }}℃</u>
+            <u class="font-weight-bold fs18">{{ weatherInputData.temp }}℃</u>
           </dd>
         </dl>
         <dl class="col-md-4">
           <dt class="font-weight-normal d-inline-block">外湿度：</dt>
           <dd class="d-inline-block">
-            <u class="font-weight-bold fs18">{{ weatherData.humidity }}％</u>
+            <u class="font-weight-bold fs18">{{ weatherInputData.humidity }}％</u>
           </dd>
         </dl>
       </div>
@@ -32,7 +34,7 @@
           <InputForm
             type="number"
             name="room_temp"
-            :value="weatherData.room_temp"
+            :value="weatherInputData.room_temp"
             :validate="weatherValidate.room_temp"
             @inputForm="inputForm"
             >内気温(℃)</InputForm
@@ -42,7 +44,7 @@
           <InputForm
             type="number"
             name="room_humidity"
-            :value="weatherData.room_humidity"
+            :value="weatherInputData.room_humidity"
             :validate="weatherValidate.room_humidity"
             @inputForm="inputForm"
             >内湿度(％)</InputForm
@@ -50,13 +52,10 @@
         </li>
       </ul>
       <div class="form-footer text-right">
-        <button type="button" class="btn btn-secondary fs14">戻る</button>
-        <button
-          type="button"
-          class="btn btn-primary fs14"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="btn btn-secondary fs14" @click="closeModel()">
+          後で登録
+        </button>
+        <button type="button" class="btn btn-primary fs14" @click="postData()">
           登録
         </button>
       </div>
@@ -71,10 +70,6 @@ export default {
     InputForm,
   },
   props: {
-    inputType: {
-      type: String,
-      default: '',
-    },
     modelId: {
       type: String,
       default: '',
@@ -85,8 +80,8 @@ export default {
     },
   },
   computed: {
-    weatherData() {
-      return this.$store.getters['weather/weatherData']
+    weatherInputData() {
+      return this.$store.getters['weather/weatherInputData']
     },
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
@@ -95,24 +90,37 @@ export default {
       return this.$store.getters['weather/wheatherJp']
     },
   },
-  // weatherValidateに値が入っている間
+  // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする
   watch: {
-    weatherData: {
+    weatherInputData: {
       handler: function () {
         if (!!Object.keys(this.weatherValidate).length) {
           this.$store.dispatch('weather/Validate')
         }
       },
-      // userDataの下位のプロパティが変更された場合でもwatchを起動させる
+      // weatherInputDataの下位のプロパティが変更された場合でもwatchを起動させる
       deep: true,
     },
   },
   created() {
-    this.$store.dispatch('weather/getTodayWeather')
+    this.$store.dispatch('weather/inputTodayWeather', this.today)
   },
   methods: {
+    closeModel() {
+      this.$store.dispatch('weather/resetData')
+      this.$bvModal.hide(this.modelId)
+    },
     inputForm(e) {
       this.$store.dispatch('weather/inputForm', e)
+    },
+    postData() {
+      // バリデーションを開始してweatherValidateにプロパティを付与する
+      this.$store.dispatch('weather/Validate')
+      // weatherValidateのプロパティの値がすべて空の時、DBに天候情報を登録しモーダルを閉じる
+      if (Object.values(this.weatherValidate).every((value) => value === '')) {
+        this.$bvModal.hide(this.modelId)
+        this.$store.dispatch('weather/postTodayWeather')
+      }
     },
   },
 }
