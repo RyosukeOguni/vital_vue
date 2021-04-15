@@ -66,6 +66,17 @@
               <u class="font-weight-bold fs18">{{ weatherData.room_humidity }} ％</u>
             </dd>
           </dl>
+          <ul class="list-unstyled d-flex">
+            <li class="border-secondary pr-3">
+              <button
+                type="button"
+                class="btn btn-primary fs14"
+                @click="openModel('modal-put')"
+              >
+                天候編集
+              </button>
+            </li>
+          </ul>
         </div>
       </section>
     </article>
@@ -74,12 +85,18 @@
       <template #input>
         <WeatherInput model-id="modal-post" :today="today"></WeatherInput></template
     ></WeatherModal>
+    <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
+    <WeatherModal id="modal-put">
+      <template #input>
+        <WeatherUpdate model-id="modal-put" :today="today"></WeatherUpdate></template
+    ></WeatherModal>
   </main>
 </template>
 
 <script>
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
+import WeatherUpdate from '@/components/Weather/WeatherUpdate.vue'
 import moment from 'moment'
 import axios from 'axios'
 moment.locale('ja')
@@ -88,6 +105,7 @@ export default {
   components: {
     WeatherModal,
     WeatherInput,
+    WeatherUpdate,
   },
   data() {
     return {

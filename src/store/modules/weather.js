@@ -73,6 +73,9 @@ export default {
     inputValidate(state, e) {
       state.weatherValidate = e
     },
+    dataToInput(state) {
+      state.weatherInputData = JSON.parse(JSON.stringify(state.weatherData))
+    },
   },
 
   actions: {
@@ -145,6 +148,9 @@ export default {
     // ▼ 入力したweatherDateをstateから削除
     resetData({ commit }) {
       commit('resetData')
+    },
+    dataToInput({ commit }) {
+      commit('dataToInput')
     },
   },
 }
