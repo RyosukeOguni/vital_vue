@@ -64,8 +64,8 @@ export default {
       state.weatherInputData = payload
     },
     // ▼ weatherInputDataの各プロパティに、Inputされた値を入力する
-    inputFormWeatherData(state, { name, text }) {
-      state.weatherInputData[name] = text
+    inputFormWeatherData(state, { name, value }) {
+      state.weatherInputData[name] = value
     },
     // ▼ weatherInputData、weatherValidateオブジェクトをリセット
     resetData(state) {

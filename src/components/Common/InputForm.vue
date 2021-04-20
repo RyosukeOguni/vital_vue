@@ -14,7 +14,7 @@
         :disabled="fill"
         min="0"
         step="0.1"
-        @input="inputForm({ name: name, text: newValue })"
+        @input="inputForm({ name: name, value: newValue })"
       />
       <!-- 配列selectlistがバインドされた場合、selectを表示 -->
       <select
@@ -22,7 +22,7 @@
         v-model="newValue"
         class="text-field-input"
         :disabled="fill"
-        @change="inputForm({ name: name, text: newValue })"
+        @change="inputForm({ name: name, value: newValue })"
       >
         <option value="" disabled selected>選択して下さい</option>
         <option v-for="select in selectlist" :key="select.value" :value="select.value">

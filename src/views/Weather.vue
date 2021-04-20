@@ -21,9 +21,9 @@
             </button>
           </li>
           <li class="ml-3">
-            <button type="button" class="btn btn-outline-secondary fs14">
-              バイタル一覧表示／編集
-            </button>
+            <router-link to="/vital" class="btn btn-outline-secondary fs14"
+              >バイタル一覧表示／編集</router-link
+            >
           </li>
         </ul>
       </section>

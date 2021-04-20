@@ -1,28 +1,16 @@
+// 時間に関するパッケージをインポート
+import moment from 'moment'
 import axios from 'axios'
+import moduleList from './vital/moduleList'
 
-// userDateオブジェクトを返す
-const userDate = () => ({
-  name: '',
-  age: '',
-  sex: '',
-  diagnosis: '',
-  note: '',
-})
-
-const sexList = [
-  { value: '1', name: '男' },
-  { value: '2', name: '女' },
-  { value: '9', name: '適用不能' },
-]
-
-const url = 'http://localhost:8000/api/users'
+const url = 'http://localhost:8000/api/vitals'
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {
   let msg = ''
   if (Array.isArray(data)) {
-    data.forEach((user) => {
-      msg += '【' + user.id + '：' + user.name + '】'
+    data.forEach((vital) => {
+      msg += '【' + vital.id + '：' + vital.name + '】'
     })
   } else {
     let json = data.data.attribute
@@ -31,77 +19,74 @@ const alrtMsg = (data) => {
   return msg
 }
 
-// 時間に関するパッケージをインポート
-import moment from 'moment'
 export default {
   namespaced: true,
-
   state: {
-    usersList: [],
-    userData: userDate(),
-    userValidate: {},
+    vitalsList: [],
+    vitalData: moduleList.vitalDate(),
+    vitalValidate: {},
     paginationNUmber: 1,
   },
 
   getters: {
-    usersList: (state) =>
+    vitalsList: (state) =>
       // ライブラリMomentのインスタンスcreated_atを比較して降順に並び替え
-      state.usersList.sort((a, b) => {
+      state.vitalsList.sort((a, b) => {
         return b.created_at - a.created_at
       }),
-    userData: (state) => state.userData,
-    sexList: () => sexList,
-    userValidate: (state) => state.userValidate,
+    vitalData: (state) => state.vitalData,
+    sexList: () => moduleList.sexList,
+    vitalValidate: (state) => state.vitalValidate,
   },
 
   mutations: {
     // ▼ DBから取得した利用者一覧をstateに反映
-    usersListSet(state, payload) {
-      state.usersList = payload.data.map((data) => {
+    vitalsListSet(state, payload) {
+      state.vitalsList = payload.data.map((data) => {
         // jsonからattribute項目を抽出
         let attribute = data.data.attribute
         // timedate型の文字列created_atをMomentインスタンスに変換
         attribute.created_at = moment(attribute.created_at)
-        // DBから取得したUser情報に、管理画面で使用するcheckの状態を与える
+        // DBから取得したVital情報に、管理画面で使用するcheckの状態を与える
         attribute = { ...attribute, check: false }
         return attribute
       })
     },
 
     // ▼ DBから取得した利用者１件をstateに反映
-    userDataSet(state, payload) {
+    vitalDataSet(state, payload) {
       let attribute = payload.data.attribute
       delete attribute.created_at
-      state.userData = attribute
+      state.vitalData = attribute
     },
 
-    // ▼ チェックボタン押下の状態をstate.usersListに反映
-    deleteCheck(state, { user, check }) {
-      state.usersList = state.usersList.map((data) => {
-        // payloadされたuserオブジェクトをリストと比較して、同じであればチェック状態を変更
-        if (data === user) {
+    // ▼ チェックボタン押下の状態をstate.vitalsListに反映
+    deleteCheck(state, { vital, check }) {
+      state.vitalsList = state.vitalsList.map((data) => {
+        // payloadされたvitalオブジェクトをリストと比較して、同じであればチェック状態を変更
+        if (data === vital) {
           data.check = check
         }
         return data
       })
     },
 
-    // ▼ userDataの各プロパティに、Inputされた値を入力する
-    inputUserData(state, { name, value }) {
-      state.userData[name] = value
+    // ▼ vitalDataの各プロパティに、Inputされた値を入力する
+    inputVitalData(state, { name, text }) {
+      state.vitalData[name] = text
     },
 
-    // ▼ userValidateにプロパティと値を追加する
+    // ▼ vitalValidateにプロパティと値を追加する
     inputValidate(state, e) {
-      state.userValidate = e
+      state.vitalValidate = e
     },
 
-    // ▼ userData、userValidateオブジェクトをリセット
+    // ▼ vitalData、vitalValidateオブジェクトをリセット
     resetData(state) {
-      // userDataオブジェクトを初期化する
-      state.userData = userDate()
-      // userValidateオブジェクトを空にする
-      state.userValidate = {}
+      // vitalDataオブジェクトを初期化する
+      state.vitalData = vitalDate()
+      // vitalValidateオブジェクトを空にする
+      state.vitalValidate = {}
     },
   },
 
@@ -112,13 +97,13 @@ export default {
     },
 
     // ▼ 非同期通信でDBから利用者一覧データを取得
-    async usersListSet({ commit }) {
+    async vitalsListSet({ commit }) {
       await axios
         .get(url)
         .then((response) => {
           console.log(response)
-          // userをstateに反映
-          commit('usersListSet', response.data)
+          // vitalをstateに反映
+          commit('vitalsListSet', response.data)
         })
         .catch((error) => {
           console.log(error)
@@ -126,25 +111,25 @@ export default {
     },
 
     // ▼ 非同期通信でapiから利用者１件を取得
-    async showUser({ commit }, id) {
+    async showVital({ commit }, id) {
       await axios
         .get(url + '/' + id)
         .then((response) => {
           console.log(response)
-          // usersをstateに反映
-          commit('userDataSet', response.data)
+          // vitalsをstateに反映
+          commit('vitalDataSet', response.data)
         })
         .catch((error) => {
           console.log(error)
         })
     },
 
-    // ▼ 非同期通信でDBからチェックを付けたUserを削除
-    async removeUsersList({ dispatch, state }) {
-      // stateのusersListから、checkが付いているuserのみをdelete_usersに抽出
-      let delete_users = state.usersList.filter((data) => data.check === true)
-      // delete_usersから、idと名前のみをオブジェクトリテラルで配列に入れる
-      let json = delete_users.map((user) => ({ id: user.id, name: user.name }))
+    // ▼ 非同期通信でDBからチェックを付けたVitalを削除
+    async removeVitalsList({ dispatch, state }) {
+      // stateのvitalsListから、checkが付いているvitalのみをdelete_vitalsに抽出
+      let delete_vitals = state.vitalsList.filter((data) => data.check === true)
+      // delete_vitalsから、idと名前のみをオブジェクトリテラルで配列に入れる
+      let json = delete_vitals.map((vital) => ({ id: vital.id, name: vital.name }))
       // 非同期通信でapiにjsonで削除対象を送信
       !!json.length &&
         (await axios
@@ -152,7 +137,7 @@ export default {
           .then((response) => {
             console.log(response)
             // DBへの削除が完了したら、新しいDB情報をstateに再取得する
-            dispatch('usersListSet')
+            dispatch('vitalsListSet')
             alert(alrtMsg(json) + 'を削除しました')
           })
           .catch((error) => {
@@ -160,10 +145,10 @@ export default {
           }))
     },
 
-    // ▼ 非同期通信でUserDataをDBに登録
-    async userRegist({ dispatch, state }) {
+    // ▼ 非同期通信でVitalDataをDBに登録
+    async vitalRegist({ dispatch, state }) {
       // jsonで送るデータをオブジェクトのまま取得
-      var json = state.userData
+      var json = state.vitalData
       // 非同期通信でapiにjsonで送信
       await axios
         .post(url, json)
@@ -175,13 +160,13 @@ export default {
           console.log(error)
         })
       // DBへの登録が完了したら、新しいDB情報をstateに再取得する
-      dispatch('usersListSet')
+      dispatch('vitalsListSet')
     },
 
-    // ▼ 非同期通信でDBからUserDataを更新
-    async userEdit({ dispatch, state }) {
+    // ▼ 非同期通信でDBからVitalDataを更新
+    async vitalEdit({ dispatch, state }) {
       // jsonで送るデータをオブジェクトのまま取得
-      var json = state.userData
+      var json = state.vitalData
       // 非同期通信でapiにjsonで送信
       await axios
         .put(url + '/' + json.id, json)
@@ -193,28 +178,28 @@ export default {
           console.log(error)
         })
       // DBへの登録が完了したら、新しいDB情報をstateに再取得する
-      dispatch('usersListSet')
+      dispatch('vitalsListSet')
     },
 
-    // ▼ フォームに入力があった場合、UserData{}の対応するキーに値を入れる
+    // ▼ フォームに入力があった場合、VitalData{}の対応するキーに値を入れる
     inputForm({ commit }, e) {
-      commit('inputUserData', e)
+      commit('inputVitalData', e)
     },
 
-    // ▼ 入力したuserDataをstateから削除
+    // ▼ 入力したvitalDataをstateから削除
     resetData({ commit }) {
       commit('resetData')
     },
 
-    // ▼ stateのuserDataの対応する状態に対し、userValidateにの対応するキーにエラーメッセージを追加する
+    // ▼ stateのvitalDataの対応する状態に対し、vitalValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }) {
       let e = {}
-      !state.userData.name ? (e.name = '名前を入力してください') : (e.name = '')
-      !state.userData.age && state.userData.age !== 0
+      !state.vitalData.name ? (e.name = '名前を入力してください') : (e.name = '')
+      !state.vitalData.age && state.vitalData.age !== 0
         ? (e.age = '年齢を入力してください')
         : (e.age = '')
-      !state.userData.sex ? (e.sex = '性別を選択してください') : (e.sex = '')
-      !state.userData.diagnosis
+      !state.vitalData.sex ? (e.sex = '性別を選択してください') : (e.sex = '')
+      !state.vitalData.diagnosis
         ? (e.diagnosis = '診断名を入力してください')
         : (e.diagnosis = '')
       commit('inputValidate', e)
