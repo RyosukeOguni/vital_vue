@@ -36,6 +36,9 @@ const getDecimalLength = (number) => {
   var numbers = String(number).split('.')
   return numbers[1] ? numbers[1].length : 0
 }
+
+const url = 'http://localhost:8000/api/weather_records'
+
 export default {
   namespaced: true,
   state: {
@@ -73,8 +76,9 @@ export default {
     inputValidate(state, e) {
       state.weatherValidate = e
     },
+    // ▼ DBから取得したweatherDataをweatherInputDataにディープコピー
     dataToInput(state) {
-      state.weatherInputData = JSON.parse(JSON.stringify(state.weatherData))
+      state.weatherInputData = { ...state.weatherData }
     },
   },
 
@@ -84,7 +88,7 @@ export default {
       var json = state.weatherInputData
       // 非同期通信でapiにjsonで送信
       axios
-        .post('http://localhost:8000/api/weather_records', json)
+        .post(url, json)
         .then((response) => {
           console.log(response)
           alert(alrtMsg(response.data.data.attribute.day) + 'の天候情報を登録しました')
@@ -95,11 +99,28 @@ export default {
           console.log(error)
         })
     },
+    putTodayWeather({ state, commit }) {
+      // jsonで送るデータをオブジェクトのまま取得
+      var json = state.weatherInputData
+      // 非同期通信でapiにjsonで送信
+      axios
+        .put(url + '/' + json.id, json)
+        .then((response) => {
+          console.log(response)
+          alert(alrtMsg(response.data.data.attribute.day) + 'の天候情報を変更しました')
+          commit('weatherDataSet', response.data.data.attribute)
+          commit('resetData')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
     // ▼ DBから取得した天候情報をweatherDateに入れる
     showTodayWeather({ commit }, response) {
       response !== null
         ? commit('weatherDataSet', response.data.data.attribute)
-        : commit('weatherDataSet', weatherDate())
+        : commit('weatherDataSet', {})
     },
     // ▼ OpenWeatherAPIから今日の天候情報を取得してweatherInputDataに入れる
     inputTodayWeather({ commit }, today) {

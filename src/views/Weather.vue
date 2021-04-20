@@ -3,9 +3,22 @@
     <article class="vital_menu row justify-content-center">
       <section class="mt-4 col-md-10">
         <h2 class="border-bottom border-secondary pb-2 mb-3">バイタル登録</h2>
+        <div
+          v-show="!Object.values(weatherData).length"
+          class="alert alert-danger"
+          role="alert"
+        >
+          本日の天候情報を登録しないとバイタル新規登録はできません
+        </div>
         <ul class="list-unstyled d-flex">
           <li class="border-secondary pr-3" style="border-right: 1px dotted">
-            <button type="button" class="btn btn-primary fs14">バイタル新規登録</button>
+            <button
+              type="button"
+              class="btn btn-primary fs14"
+              :disabled="!Object.values(weatherData).length"
+            >
+              バイタル新規登録
+            </button>
           </li>
           <li class="ml-3">
             <button type="button" class="btn btn-outline-secondary fs14">
@@ -66,11 +79,11 @@
               <u class="font-weight-bold fs18">{{ weatherData.room_humidity }} ％</u>
             </dd>
           </dl>
-          <ul class="list-unstyled d-flex">
+          <ul class="col-12 list-unstyled d-flex">
             <li class="border-secondary pr-3">
               <button
                 type="button"
-                class="btn btn-primary fs14"
+                class="btn btn-warning fs14"
                 @click="openModel('modal-put')"
               >
                 天候編集
