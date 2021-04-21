@@ -58,9 +58,13 @@ export default {
       paginate: ['paginate-items'],
     }
   },
-  methods: {
-    removeVitalsList() {
-      this.$store.dispatch('vital/removeVitalsList')
+  watch: {
+    vitalsList: {
+      handler: function () {
+        // vitalsListが変更された場合、ページネーションを０に戻す
+        this.paginate['paginate-items'].page = 0
+      },
+      deep: true,
     },
   },
 }

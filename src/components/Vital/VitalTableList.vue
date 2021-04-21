@@ -1,12 +1,12 @@
 <template>
   <tr @click="showVital(vital.id)">
-    <td>{{ vital.day }}</td>
-    <td>{{ vital.weather }}</td>
-    <td>{{ vital.body_temp }}歳</td>
-    <td>{{ vital.condition }}</td>
-    <td>{{ vital.mood }}</td>
-    <td>{{ vital.sleep }}</td>
-    <td>{{ vital.breakfast }}</td>
+    <td>{{ day }}</td>
+    <td>{{ weather }}</td>
+    <td>{{ vital.body_temp }}℃</td>
+    <td>{{ condition }}</td>
+    <td>{{ mood }}</td>
+    <td>{{ sleep }}</td>
+    <td>{{ breakfast }}</td>
   </tr>
 </template>
 
@@ -20,18 +20,36 @@ export default {
     },
   },
   computed: {
-    // 数字から性別文字に変換
-    sexString() {
-      // storeから性別リスト（配列）を取得
-      let sexList = this.$store.getters['vital/sexList']
-      // 性別リスト（配列）から数字の対応するものをひとつだけ取得して、値をreturn
-      let sexString = sexList.find((data) => data.value === this.vital.sex)
-      return sexString.name
-    },
-    createDate() {
+    day() {
       // フォーマットでライブラリmomentのデータを整形表示
-      let date = this.vital.created_at
-      return date.format('YYYY年MM月DD日')
+      let day = this.vital.day
+      return day.format('YYYY年M月D日')
+    },
+    moduleList() {
+      return this.$store.getters['vitalIndex/moduleList']
+    },
+    weather() {
+      return this.moduleList.wheatherJp[this.vital.weather]
+    },
+    mood() {
+      let mood = this.moduleList.mood.find((data) => data.value === this.vital.mood)
+      return mood.name
+    },
+    condition() {
+      let condition = this.moduleList.mood.find(
+        (data) => data.value === this.vital.condition
+      )
+      return condition.name
+    },
+    sleep() {
+      let sleep = this.moduleList.sleep.find((data) => data.value === this.vital.sleep)
+      return sleep.name
+    },
+    breakfast() {
+      let breakfast = this.moduleList.breakfast.find(
+        (data) => data.value === this.vital.breakfast
+      )
+      return breakfast.name
     },
   },
   methods: {

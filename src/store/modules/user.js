@@ -40,7 +40,6 @@ export default {
     usersList: [],
     userData: userDate(),
     userValidate: {},
-    paginationNUmber: 1,
   },
 
   getters: {

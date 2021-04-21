@@ -3,7 +3,7 @@ import moment from 'moment'
 import axios from 'axios'
 import moduleList from './vital/moduleList'
 
-const url = 'http://localhost:8000/api/vitals'
+const url = 'http://localhost:8000/api/index/medicals'
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {
@@ -25,30 +25,22 @@ export default {
     vitalsList: [],
     vitalData: moduleList.vitalDate(),
     vitalValidate: {},
-    paginationNUmber: 1,
   },
 
   getters: {
-    vitalsList: (state) =>
-      // ライブラリMomentのインスタンスcreated_atを比較して降順に並び替え
-      state.vitalsList.sort((a, b) => {
-        return b.created_at - a.created_at
-      }),
+    vitalsList: (state) => state.vitalsList,
     vitalData: (state) => state.vitalData,
-    sexList: () => moduleList.sexList,
     vitalValidate: (state) => state.vitalValidate,
+    moduleList: () => moduleList,
   },
 
   mutations: {
-    // ▼ DBから取得した利用者一覧をstateに反映
+    // ▼ DBから取得したバイタル一覧をstateに反映
     vitalsListSet(state, payload) {
       state.vitalsList = payload.data.map((data) => {
-        // jsonからattribute項目を抽出
         let attribute = data.data.attribute
-        // timedate型の文字列created_atをMomentインスタンスに変換
-        attribute.created_at = moment(attribute.created_at)
-        // DBから取得したVital情報に、管理画面で使用するcheckの状態を与える
-        attribute = { ...attribute, check: false }
+        // timedate型の文字列dayをMomentインスタンスに変換
+        attribute.day = moment(attribute.day)
         return attribute
       })
     },
@@ -58,17 +50,6 @@ export default {
       let attribute = payload.data.attribute
       delete attribute.created_at
       state.vitalData = attribute
-    },
-
-    // ▼ チェックボタン押下の状態をstate.vitalsListに反映
-    deleteCheck(state, { vital, check }) {
-      state.vitalsList = state.vitalsList.map((data) => {
-        // payloadされたvitalオブジェクトをリストと比較して、同じであればチェック状態を変更
-        if (data === vital) {
-          data.check = check
-        }
-        return data
-      })
     },
 
     // ▼ vitalDataの各プロパティに、Inputされた値を入力する
@@ -91,15 +72,10 @@ export default {
   },
 
   actions: {
-    // ▼ 削除チェックボックスの動作
-    deleteCheck({ commit }, e) {
-      commit('deleteCheck', e)
-    },
-
-    // ▼ 非同期通信でDBから利用者一覧データを取得
-    async vitalsListSet({ commit }) {
-      await axios
-        .get(url)
+    // ▼ 非同期通信でDBからバイタル一覧データを取得
+    vitalsListSet({ commit }, input) {
+      axios
+        .get(url + '?user_id=' + input.user_id + '&month=' + input.year_month)
         .then((response) => {
           console.log(response)
           // vitalをstateに反映

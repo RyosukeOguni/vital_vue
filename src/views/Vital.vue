@@ -18,8 +18,8 @@
           <li class="col-md-3">
             <InputForm
               type="month"
-              name="yearMonth"
-              :value="tableProps.yearMonth"
+              name="year_month"
+              :value="tableProps.year_month"
               @inputForm="inputForm"
               >年月</InputForm
             >
@@ -34,6 +34,7 @@
 import VitalTable from '@/components/Vital/VitalTable'
 import InputForm from '@/components/Common/InputForm.vue'
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   name: 'Vital',
@@ -45,7 +46,7 @@ export default {
     return {
       tableProps: {
         user_id: '',
-        yearMonth: '',
+        year_month: moment().format('YYYY-MM'),
       },
       userNameList: [],
     }
@@ -58,6 +59,16 @@ export default {
       return this.vitalsList.length
     },
   },
+  // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする
+  watch: {
+    tableProps: {
+      handler: function (tableProps) {
+        this.$store.dispatch('vitalIndex/vitalsListSet', tableProps)
+      },
+      // 下位のプロパティが変更された場合でもwatchを起動させる
+      deep: true,
+    },
+  },
   created() {
     axios
       .get('http://localhost:8000/api/users')
@@ -65,7 +76,7 @@ export default {
         console.log(response)
         this.userNameList = response.data.data.map((data) => ({
           value: data.data.id,
-          name: data.data.attribute.name,
+          name: data.data.id + '：' + data.data.attribute.name,
         }))
       })
       .catch((error) => {
