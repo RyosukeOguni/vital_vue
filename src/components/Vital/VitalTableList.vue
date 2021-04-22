@@ -1,12 +1,12 @@
 <template>
   <tr @click="showVital(vital.id)">
     <td>{{ day }}</td>
-    <td>{{ weather }}</td>
+    <td>{{ selectList({ weather: vital.weather }) }}</td>
     <td>{{ vital.body_temp }}℃</td>
-    <td>{{ condition }}</td>
-    <td>{{ mood }}</td>
-    <td>{{ sleep }}</td>
-    <td>{{ breakfast }}</td>
+    <td>{{ selectList({ mood: vital.condition }) }}</td>
+    <td>{{ selectList({ mood: vital.mood }) }}</td>
+    <td>{{ selectList({ sleep: vital.sleep }) }}</td>
+    <td>{{ selectList({ breakfast: vital.breakfast }) }}</td>
   </tr>
 </template>
 
@@ -25,38 +25,18 @@ export default {
       let day = this.vital.day
       return day.format('YYYY年M月D日')
     },
-    moduleList() {
-      return this.$store.getters['vitalIndex/moduleList']
+    // セレクト項目の数値を文字に置き換えるモジュールを読み込む
+    select() {
+      return this.$store.getters['select']
     },
-    weather() {
-      return this.moduleList.wheatherJp[this.vital.weather]
-    },
-    mood() {
-      let mood = this.moduleList.mood.find((data) => data.value === this.vital.mood)
-      return mood.name
-    },
-    condition() {
-      let condition = this.moduleList.mood.find(
-        (data) => data.value === this.vital.condition
-      )
-      return condition.name
-    },
-    sleep() {
-      let sleep = this.moduleList.sleep.find((data) => data.value === this.vital.sleep)
-      return sleep.name
-    },
-    breakfast() {
-      let breakfast = this.moduleList.breakfast.find(
-        (data) => data.value === this.vital.breakfast
-      )
-      return breakfast.name
+    // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
+    selectList() {
+      return (v) => {
+        return this.select.selectList(v)
+      }
     },
   },
   methods: {
-    // チェックボックスに入力があればstoreのdeleteCheckを動かす
-    deleteCheck(e) {
-      this.$store.dispatch('vital/deleteCheck', e)
-    },
     // 非同期通信が終了するのを待って、モーダルを実行する
     async showVital(id) {
       await this.$store.dispatch('vital/showVital', id)

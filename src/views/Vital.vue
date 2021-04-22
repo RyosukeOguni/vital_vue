@@ -53,19 +53,18 @@ export default {
   },
   computed: {
     vitalsList() {
-      return this.$store.getters['vitalIndex/vitalsList']
+      return this.$store.getters['vital/vitalsList']
     },
     vitalsLength() {
       return this.vitalsList.length
     },
   },
-  // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする
+  // userとdayの入力が変わる度にDBからデータを取得する
   watch: {
     tableProps: {
       handler: function (tableProps) {
-        this.$store.dispatch('vitalIndex/vitalsListSet', tableProps)
+        this.$store.dispatch('vital/vitalsListSet', tableProps)
       },
-      // 下位のプロパティが変更された場合でもwatchを起動させる
       deep: true,
     },
   },
@@ -82,6 +81,9 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+  },
+  destroyed() {
+    this.$store.dispatch('vital/resetData')
   },
   methods: {
     inputForm(e) {

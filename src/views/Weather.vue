@@ -52,7 +52,9 @@
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
             <dd class="d-inline-block">
-              <u class="font-weight-bold fs18">{{ wheatherJp[weatherData.weather] }}</u>
+              <u class="font-weight-bold fs18">{{
+                selectList({ weather: weatherData.weather })
+              }}</u>
             </dd>
           </dl>
           <dl class="col-6 col-sm-4 col-md-15">
@@ -129,19 +131,35 @@ export default {
     weatherData() {
       return this.$store.getters['weather/weatherData']
     },
-    wheatherJp() {
-      return this.$store.getters['weather/wheatherJp']
+    // セレクト項目の数値を文字に置き換えるモジュールを読み込む
+    select() {
+      return this.$store.getters['select']
     },
-    weatherDefalut() {
-      return this.$store.getters['weather/weatherDefalut']
+    // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
+    selectList() {
+      return (v) => {
+        return this.select.selectList(v)
+      }
     },
+
+    // wheatherJp() {
+    //   return this.$store.getters['weather/wheatherJp']
+    // },
+    // weatherDefalut() {
+    //   return this.$store.getters['weather/weatherDefalut']
+    // },
+
     wheatherTranslate() {
       return this.$store.getters['weather/wheatherTranslate']
     },
   },
   created() {
-    // コンポーネントが読み込まれた際、DBから今日の天候情報を取得し、無ければモーダルを開く
+    // 今日の日付を取得
     var day = this.today.format('YYYY-MM-DD')
+    if (this.weatherData.day !== day) {
+      this.$store.dispatch('weather/resetWeatherData')
+    }
+    // コンポーネントが読み込まれた際、DBから今日の天候情報を取得し、無ければモーダルを開く
     axios
       .get('http://localhost:8000/api/weather_records?day=' + day)
       .then((response) => {

@@ -16,13 +16,6 @@ const wheatherEn = {
   Rain: 3,
   Snow: 4,
 }
-// DBで数値化された天気状態と日本語の対応
-const wheatherJp = {
-  1: '晴れ',
-  2: '曇り',
-  3: '雨',
-  4: '雪',
-}
 // OpenWeatherAPIから受け取った天気状態をDB管理するための数値に置き換える
 const wheatherTranslate = (main) => {
   return wheatherEn[main]
@@ -31,7 +24,7 @@ const wheatherTranslate = (main) => {
 const alrtMsg = (day) => {
   return moment(day).format('YYYY年MM月DD日(ddd)')
 }
-// 小数点以下の桁数を表示
+// 小数点以下の、.0000の桁数を表示
 const getDecimalLength = (number) => {
   var numbers = String(number).split('.')
   return numbers[1] ? numbers[1].length : 0
@@ -53,7 +46,6 @@ export default {
     weatherData: (state) => state.weatherData,
     weatherInputData: (state) => state.weatherInputData,
     weatherValidate: (state) => state.weatherValidate,
-    wheatherJp: () => wheatherJp,
   },
 
   mutations: {
@@ -71,6 +63,10 @@ export default {
     resetData(state) {
       state.weatherInputData = {}
       state.weatherValidate = {}
+    },
+    // ▼ weatherDataオブジェクトをリセット
+    resetWeatherData(state) {
+      state.weatherData = {}
     },
     // ▼ weatherValidateにプロパティと値を追加する
     inputValidate(state, e) {
@@ -166,9 +162,13 @@ export default {
       }
       commit('inputValidate', e)
     },
-    // ▼ 入力したweatherDateをstateから削除
+    // ▼ weatherInputData、weatherValidateをstateから削除
     resetData({ commit }) {
       commit('resetData')
+    },
+    // ▼ 入力したweatherDateをstateから削除
+    resetWeatherData({ commit }) {
+      commit('resetWeatherData')
     },
     dataToInput({ commit }) {
       commit('dataToInput')

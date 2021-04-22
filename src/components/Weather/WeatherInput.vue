@@ -12,7 +12,7 @@
           <dt class="font-weight-normal d-inline-block">天　候：</dt>
           <dd class="d-inline-block">
             <u class="font-weight-bold fs18">{{
-              wheatherJp[weatherInputData.weather]
+              selectList({ weather: weatherInputData.weather })
             }}</u>
           </dd>
         </dl>
@@ -86,8 +86,13 @@ export default {
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
     },
-    wheatherJp() {
-      return this.$store.getters['weather/wheatherJp']
+    select() {
+      return this.$store.getters['select']
+    },
+    selectList() {
+      return (v) => {
+        return this.select.selectList(v)
+      }
     },
   },
   // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする

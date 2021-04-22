@@ -1,9 +1,20 @@
 // 時間に関するパッケージをインポート
 import moment from 'moment'
 import axios from 'axios'
-import moduleList from './vital/moduleList'
 
 const url = 'http://localhost:8000/api/index/medicals'
+
+// vitalDateオブジェクトを返す
+const vitalDate = () => ({
+  id: '',
+  day: '',
+  weather: '',
+  body_temp: '',
+  condition: '',
+  mood: '',
+  sleep: '',
+  breakfast: '',
+})
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {
@@ -23,7 +34,7 @@ export default {
   namespaced: true,
   state: {
     vitalsList: [],
-    vitalData: moduleList.vitalDate(),
+    vitalData: vitalDate(),
     vitalValidate: {},
   },
 
@@ -31,7 +42,6 @@ export default {
     vitalsList: (state) => state.vitalsList,
     vitalData: (state) => state.vitalData,
     vitalValidate: (state) => state.vitalValidate,
-    moduleList: () => moduleList,
   },
 
   mutations: {
@@ -64,6 +74,8 @@ export default {
 
     // ▼ vitalData、vitalValidateオブジェクトをリセット
     resetData(state) {
+      // vitalsListオブジェクトを初期化する
+      state.vitalsList = []
       // vitalDataオブジェクトを初期化する
       state.vitalData = vitalDate()
       // vitalValidateオブジェクトを空にする
@@ -98,27 +110,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-    },
-
-    // ▼ 非同期通信でDBからチェックを付けたVitalを削除
-    async removeVitalsList({ dispatch, state }) {
-      // stateのvitalsListから、checkが付いているvitalのみをdelete_vitalsに抽出
-      let delete_vitals = state.vitalsList.filter((data) => data.check === true)
-      // delete_vitalsから、idと名前のみをオブジェクトリテラルで配列に入れる
-      let json = delete_vitals.map((vital) => ({ id: vital.id, name: vital.name }))
-      // 非同期通信でapiにjsonで削除対象を送信
-      !!json.length &&
-        (await axios
-          .post(url + '/selectdelete', json)
-          .then((response) => {
-            console.log(response)
-            // DBへの削除が完了したら、新しいDB情報をstateに再取得する
-            dispatch('vitalsListSet')
-            alert(alrtMsg(json) + 'を削除しました')
-          })
-          .catch((error) => {
-            console.log(error)
-          }))
     },
 
     // ▼ 非同期通信でVitalDataをDBに登録
