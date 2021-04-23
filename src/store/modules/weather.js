@@ -20,10 +20,12 @@ const wheatherEn = {
 const wheatherTranslate = (main) => {
   return wheatherEn[main]
 }
+
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (day) => {
   return moment(day).format('YYYY年MM月DD日(ddd)')
 }
+
 // 小数点以下の、.0000の桁数を表示
 const getDecimalLength = (number) => {
   var numbers = String(number).split('.')
@@ -35,10 +37,8 @@ const url = 'http://localhost:8000/api/weather_records'
 export default {
   namespaced: true,
   state: {
-    // DBから取得した天候情報
-    weatherData: weatherDate(),
-    // OpenWeatherAPIから取得した天候情報と入力用
-    weatherInputData: weatherDate(),
+    weatherData: weatherDate(), // DBから取得した天候情報
+    weatherInputData: weatherDate(), // OpenWeatherAPIから取得した天候情報と入力用
     weatherValidate: {},
   },
 
@@ -79,10 +79,9 @@ export default {
   },
 
   actions: {
+    // ▼ 非同期通信で天候情報を登録
     postTodayWeather({ state, commit }) {
-      // jsonで送るデータをオブジェクトのまま取得
       var json = state.weatherInputData
-      // 非同期通信でapiにjsonで送信
       axios
         .post(url, json)
         .then((response) => {
@@ -95,10 +94,9 @@ export default {
           console.log(error)
         })
     },
+    // ▼ 非同期通信で天候情報を変更
     putTodayWeather({ state, commit }) {
-      // jsonで送るデータをオブジェクトのまま取得
       var json = state.weatherInputData
-      // 非同期通信でapiにjsonで送信
       axios
         .put(url + '/' + json.id, json)
         .then((response) => {

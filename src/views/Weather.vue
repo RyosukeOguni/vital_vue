@@ -53,7 +53,7 @@
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
             <dd class="d-inline-block">
               <u class="font-weight-bold fs18">{{
-                selectList({ weather: weatherData.weather })
+                selectStr({ weather: weatherData.weather })
               }}</u>
             </dd>
           </dl>
@@ -112,7 +112,7 @@
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import WeatherUpdate from '@/components/Weather/WeatherUpdate.vue'
-import SelectModule from '@/store/modules/select'
+import SelectModule from '@/mixins/select'
 import moment from 'moment'
 import axios from 'axios'
 moment.locale('ja')
@@ -123,6 +123,7 @@ export default {
     WeatherInput,
     WeatherUpdate,
   },
+  mixins: [SelectModule], //ミックスインでcomputedを共通化
   data() {
     return {
       today: moment(),
@@ -131,12 +132,6 @@ export default {
   computed: {
     weatherData() {
       return this.$store.getters['weather/weatherData']
-    },
-    // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
-    selectList() {
-      return (v) => {
-        return SelectModule.selectList(v)
-      }
     },
   },
   created() {

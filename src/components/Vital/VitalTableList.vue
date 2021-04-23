@@ -1,20 +1,21 @@
 <template>
   <tr @click="showVital(vital.id)">
     <td>{{ day }}</td>
-    <td>{{ selectList({ weather: vital.weather }) }}</td>
+    <td>{{ selectStr({ weather: vital.weather }) }}</td>
     <td>{{ vital.body_temp }}℃</td>
-    <td>{{ selectList({ mood: vital.condition }) }}</td>
-    <td>{{ selectList({ mood: vital.mood }) }}</td>
-    <td>{{ selectList({ sleep: vital.sleep }) }}</td>
-    <td>{{ selectList({ breakfast: vital.breakfast }) }}</td>
+    <td>{{ selectStr({ mood: vital.condition }) }}</td>
+    <td>{{ selectStr({ mood: vital.mood }) }}</td>
+    <td>{{ selectStr({ sleep: vital.sleep }) }}</td>
+    <td>{{ selectStr({ breakfast: vital.breakfast }) }}</td>
   </tr>
 </template>
 
 <script>
-import SelectModule from '@/store/modules/select'
+import SelectModule from '@/mixins/select'
 
 export default {
   name: 'VitalTableList',
+  mixins: [SelectModule], //ミックスインでcomputedを共通化
   props: {
     vital: {
       type: Object,
@@ -26,12 +27,6 @@ export default {
       // フォーマットでライブラリmomentのデータを整形表示
       let day = this.vital.day
       return day.format('YYYY年M月D日')
-    },
-    // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
-    selectList() {
-      return (v) => {
-        return SelectModule.selectList(v)
-      }
     },
   },
   methods: {

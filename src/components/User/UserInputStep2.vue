@@ -11,7 +11,7 @@
         >
       </li>
       <li class="col-md-6">
-        <InputForm :selectlist="sexList" name="sex" :value="userData.sex" fill
+        <InputForm :selectlist="selectList('sex')" name="sex" :value="userData.sex" fill
           >性別</InputForm
         >
       </li>
@@ -29,21 +29,18 @@
 
 <script>
 import InputForm from '@/components/Common/InputForm.vue'
+import SelectModule from '@/mixins/select'
 
 export default {
   name: 'UserInputStep2',
   components: {
     InputForm,
   },
+  mixins: [SelectModule], //ミックスインでcomputedを共通化
   props: {
     userData: {
       type: Object,
       default: () => {},
-    },
-  },
-  computed: {
-    sexList() {
-      return this.$store.getters['user/sexList']
     },
   },
 }

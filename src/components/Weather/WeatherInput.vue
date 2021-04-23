@@ -12,7 +12,7 @@
           <dt class="font-weight-normal d-inline-block">天　候：</dt>
           <dd class="d-inline-block">
             <u class="font-weight-bold fs18">{{
-              selectList({ weather: weatherInputData.weather })
+              selectStr({ weather: weatherInputData.weather })
             }}</u>
           </dd>
         </dl>
@@ -64,13 +64,14 @@
 </template>
 <script>
 import InputForm from '@/components/Common/InputForm.vue'
-import SelectModule from '@/store/modules/select'
+import SelectModule from '@/mixins/select'
 
 export default {
   name: 'WeatherInput',
   components: {
     InputForm,
   },
+  mixins: [SelectModule], //ミックスインでcomputedを共通化
   props: {
     modelId: {
       type: String,
@@ -87,11 +88,6 @@ export default {
     },
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
-    },
-    selectList() {
-      return (v) => {
-        return SelectModule.selectList(v)
-      }
     },
   },
   // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする

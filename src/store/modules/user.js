@@ -9,12 +9,6 @@ const userDate = () => ({
   note: '',
 })
 
-const sexList = [
-  { value: '1', name: '男' },
-  { value: '2', name: '女' },
-  { value: '9', name: '適用不能' },
-]
-
 const url = 'http://localhost:8000/api/users'
 
 // jsonからidと名前を抽出して文字列に変換
@@ -49,7 +43,6 @@ export default {
         return b.created_at - a.created_at
       }),
     userData: (state) => state.userData,
-    sexList: () => sexList,
     userValidate: (state) => state.userValidate,
   },
 

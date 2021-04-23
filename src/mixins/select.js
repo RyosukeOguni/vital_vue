@@ -1,18 +1,4 @@
-// 配列をセレクトボックスに入れるオブジェクト配列に変換
-const selectMethod = (list) => {
-  let selectlist = list.map((data, key) => ({ value: key + 1, name: data }))
-  return selectlist
-}
-
-// 数値化したプロパティを対応の配列で文字に変換
-const selectList = (v) => {
-  let list = selectMethod(eval(Object.keys(v)[0])).find(
-    (data) => data.value === Object.values(v)[0]
-  )
-  // 算出プロパティで使用された場合、createdで必要なデータが入る前に処理されるので、空の場合はlist.nameせず''を返す
-  return !!list ? list.name : ''
-}
-
+const sex = ['男', '女', '適用不能']
 const mood = ['よい', 'ふつう', 'よくない']
 const sleep = ['よく寝た', '時々起きた', '不眠']
 const breakfast = ['食べた', '少し食べた', '食べてない']
@@ -50,20 +36,34 @@ const step = [
 ]
 const weather = ['晴れ', '曇り', '雨', '雪']
 
+// 配列をセレクトボックスに入れるオブジェクト配列に変換
+const selectList = (list) => {
+  // ebal()は文字列を変数名の宣言に変換する。1から順にvalueに振り番する
+  let selectlist = eval(list).map((data, key) => ({ value: key + 1, name: data }))
+  return selectlist
+}
+
+// 数値化したプロパティを対応の配列で文字に変換
+const selectStr = (v) => {
+  let list = selectList(Object.keys(v)[0]).find(
+    (data) => data.value === Object.values(v)[0]
+  )
+  // 算出プロパティで使用された場合、createdでデータが入る前に処理されるので、空の場合はlist.nameせず''を返す
+  return !!list ? list.name : ''
+}
+
 export default {
-  selectMethod,
-  selectList,
-  mood,
-  sleep,
-  breakfast,
-  lunchAmount,
-  waterIntake,
-  vol,
-  attack,
-  attackDuration,
-  aspirationPoint,
-  aspirationColor,
-  aspirationType,
-  step,
-  weather,
+  computed: {
+    // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
+    selectList() {
+      return (object) => {
+        return selectList(object)
+      }
+    },
+    selectStr() {
+      return (object) => {
+        return selectStr(object)
+      }
+    },
+  },
 }
