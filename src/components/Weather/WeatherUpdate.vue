@@ -64,6 +64,8 @@
 </template>
 <script>
 import InputForm from '@/components/Common/InputForm.vue'
+import SelectModule from '@/store/modules/select'
+
 export default {
   name: 'WeatherUpdate',
   components: {
@@ -86,12 +88,9 @@ export default {
     weatherValidate() {
       return this.$store.getters['weather/weatherValidate']
     },
-    select() {
-      return this.$store.getters['select']
-    },
     selectList() {
       return (v) => {
-        return this.select.selectList(v)
+        return SelectModule.selectList(v)
       }
     },
   },
@@ -112,8 +111,8 @@ export default {
   },
   methods: {
     closeModel() {
-      this.$store.dispatch('weather/resetData')
       this.$bvModal.hide(this.modelId)
+      this.$store.dispatch('weather/resetData')
     },
     inputForm(e) {
       this.$store.dispatch('weather/inputForm', e)
@@ -123,8 +122,8 @@ export default {
       this.$store.dispatch('weather/Validate')
       // weatherValidateのプロパティの値がすべて空の時、DBに天候情報を登録しモーダルを閉じる
       if (Object.values(this.weatherValidate).every((value) => value === '')) {
-        this.$bvModal.hide(this.modelId)
         this.$store.dispatch('weather/putTodayWeather', this.weatherInputData.id)
+        this.$bvModal.hide(this.modelId)
       }
     },
   },

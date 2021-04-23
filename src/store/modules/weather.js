@@ -36,9 +36,9 @@ export default {
   namespaced: true,
   state: {
     // DBから取得した天候情報
-    weatherData: {},
+    weatherData: weatherDate(),
     // OpenWeatherAPIから取得した天候情報と入力用
-    weatherInputData: {},
+    weatherInputData: weatherDate(),
     weatherValidate: {},
   },
 
@@ -170,6 +170,7 @@ export default {
     resetWeatherData({ commit }) {
       commit('resetWeatherData')
     },
+    // ▼ 入力したweatherDateをstateから削除
     dataToInput({ commit }) {
       commit('dataToInput')
     },

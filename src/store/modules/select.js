@@ -4,11 +4,13 @@ const selectMethod = (list) => {
   return selectlist
 }
 
+// 数値化したプロパティを対応の配列で文字に変換
 const selectList = (v) => {
   let list = selectMethod(eval(Object.keys(v)[0])).find(
     (data) => data.value === Object.values(v)[0]
   )
-  return list.name
+  // 算出プロパティで使用された場合、createdで必要なデータが入る前に処理されるので、空の場合はlist.nameせず''を返す
+  return !!list ? list.name : ''
 }
 
 const mood = ['よい', 'ふつう', 'よくない']

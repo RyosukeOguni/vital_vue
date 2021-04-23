@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import SelectModule from '@/store/modules/select'
+
 export default {
   name: 'VitalTableList',
   props: {
@@ -25,14 +27,10 @@ export default {
       let day = this.vital.day
       return day.format('YYYY年M月D日')
     },
-    // セレクト項目の数値を文字に置き換えるモジュールを読み込む
-    select() {
-      return this.$store.getters['select']
-    },
     // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
     selectList() {
       return (v) => {
-        return this.select.selectList(v)
+        return SelectModule.selectList(v)
       }
     },
   },

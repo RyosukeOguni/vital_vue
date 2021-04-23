@@ -112,6 +112,7 @@
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import WeatherUpdate from '@/components/Weather/WeatherUpdate.vue'
+import SelectModule from '@/store/modules/select'
 import moment from 'moment'
 import axios from 'axios'
 moment.locale('ja')
@@ -131,26 +132,11 @@ export default {
     weatherData() {
       return this.$store.getters['weather/weatherData']
     },
-    // セレクト項目の数値を文字に置き換えるモジュールを読み込む
-    select() {
-      return this.$store.getters['select']
-    },
     // 算出プロパティの関数で、returnする関数に引数を入れると、算出プロパティが引数を受付けるようになる
     selectList() {
       return (v) => {
-        return this.select.selectList(v)
+        return SelectModule.selectList(v)
       }
-    },
-
-    // wheatherJp() {
-    //   return this.$store.getters['weather/wheatherJp']
-    // },
-    // weatherDefalut() {
-    //   return this.$store.getters['weather/weatherDefalut']
-    // },
-
-    wheatherTranslate() {
-      return this.$store.getters['weather/wheatherTranslate']
     },
   },
   created() {
