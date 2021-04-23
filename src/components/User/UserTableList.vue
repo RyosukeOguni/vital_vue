@@ -11,12 +11,12 @@
         />
       </div>
     </td>
-    <td @click="showUser(user.id)">{{ user.id }}</td>
-    <td @click="showUser(user.id)">{{ user.name }}</td>
-    <td @click="showUser(user.id)">{{ user.age }}歳</td>
-    <td @click="showUser(user.id)">{{ selectStr({ sex: user.sex }) }}</td>
-    <td @click="showUser(user.id)">{{ user.diagnosis }}</td>
-    <td @click="showUser(user.id)">{{ createDate }}</td>
+    <td @click="showModal(user.id)">{{ user.id }}</td>
+    <td @click="showModal(user.id)">{{ user.name }}</td>
+    <td @click="showModal(user.id)">{{ user.age }}歳</td>
+    <td @click="showModal(user.id)">{{ selectStr({ sex: user.sex }) }}</td>
+    <td @click="showModal(user.id)">{{ user.diagnosis }}</td>
+    <td @click="showModal(user.id)">{{ createDate }}</td>
   </tr>
 </template>
 
@@ -43,8 +43,8 @@ export default {
     deleteCheck(e) {
       this.$store.dispatch('user/deleteCheck', e)
     },
-    // 非同期通信が終了するのを待って、モーダルを実行する
-    async showUser(id) {
+    // async/awaitで非同期通信が終了するのを待って、モーダルを開く
+    async showModal(id) {
       await this.$store.dispatch('user/showUser', id)
       await this.$bvModal.show('modal-put')
     },

@@ -62,7 +62,6 @@ export default {
       return this.$store.getters['vital/vitalValidate']
     },
   },
-  // vitalValidateに値が入っている間
   watch: {
     vitalData: {
       handler: function () {
@@ -70,7 +69,6 @@ export default {
           this.$store.dispatch('vital/Validate')
         }
       },
-      // vitalDataの下位のプロパティが変更された場合でもwatchを起動させる
       deep: true,
     },
   },

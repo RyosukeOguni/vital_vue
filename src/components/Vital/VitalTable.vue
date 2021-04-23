@@ -59,9 +59,9 @@ export default {
     }
   },
   watch: {
+    // 利用者、年月が変更された場合、ページネーションの初期位置を０に戻す
     vitalsList: {
       handler: function () {
-        // vitalsListが変更された場合、ページネーションを０に戻す
         this.paginate['paginate-items'].page = 0
       },
       deep: true,

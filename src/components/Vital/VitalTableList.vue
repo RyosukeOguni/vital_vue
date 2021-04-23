@@ -23,8 +23,8 @@ export default {
     },
   },
   computed: {
+    // フォーマットでライブラリmomentのデータを整形表示
     day() {
-      // フォーマットでライブラリmomentのデータを整形表示
       let day = this.vital.day
       return day.format('YYYY年M月D日')
     },

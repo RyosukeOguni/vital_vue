@@ -82,6 +82,7 @@ export default {
         console.log(error)
       })
   },
+  // ルート変更時にバイタル一覧をリセットする
   destroyed() {
     this.$store.dispatch('vital/resetData')
   },

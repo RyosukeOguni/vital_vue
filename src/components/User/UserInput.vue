@@ -62,16 +62,15 @@ export default {
       return this.$store.getters['user/userValidate']
     },
   },
-  // userValidateに値が入っている間
   watch: {
+    // userValidateからプロパティが無くなるまでuserDataをバリデーションする
     userData: {
       handler: function () {
         if (Object.keys(this.userValidate).length) {
           this.$store.dispatch('user/Validate')
         }
       },
-      // userDataの下位のプロパティが変更された場合でもwatchを起動させる
-      deep: true,
+      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
     },
   },
   methods: {

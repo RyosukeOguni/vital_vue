@@ -90,16 +90,15 @@ export default {
       return this.$store.getters['weather/weatherValidate']
     },
   },
-  // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする
   watch: {
+    // weatherValidateからプロパティが無くなるまでweatherInputDataをバリデーションする
     weatherInputData: {
       handler: function () {
         if (!!Object.keys(this.weatherValidate).length) {
           this.$store.dispatch('weather/Validate')
         }
       },
-      // weatherInputDataの下位のプロパティが変更された場合でもwatchを起動させる
-      deep: true,
+      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
     },
   },
   created() {

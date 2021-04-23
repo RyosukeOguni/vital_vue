@@ -22,6 +22,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- is="コンポーネント名"で、コンポーネント名がtrで無い為のエラーを回避する -->
           <tr
             is="user-table-list"
             v-for="user in paginated('paginate-items')"

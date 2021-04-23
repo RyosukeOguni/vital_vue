@@ -1,5 +1,6 @@
 <template>
   <ul class="progressbar list-unstyled d-flex justify-content-center">
+    <!-- step.activeがtureのとき、classにactiveを追加 -->
     <li
       v-for="(step, index) in progress"
       :key="index"
