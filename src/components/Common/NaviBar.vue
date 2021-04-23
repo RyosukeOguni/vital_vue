@@ -14,7 +14,10 @@
           ></b-icon>
         </template>
         <b-dropdown-item
-          ><router-link to="/weather">バイタル登録</router-link></b-dropdown-item
+          ><router-link to="/weather">バイタル登録/天候情報</router-link></b-dropdown-item
+        >
+        <b-dropdown-item
+          ><router-link to="/vital">バイタル一覧</router-link></b-dropdown-item
         >
         <b-dropdown-item
           ><router-link to="/user">利用者登録</router-link></b-dropdown-item
