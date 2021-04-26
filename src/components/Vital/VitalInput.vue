@@ -1,23 +1,23 @@
 <template>
   <main class="container">
     <article class="vital_input row justify-content-center">
-      <section class="mt-2 col-md-12">
+      <section class="mt-4 col-md-12">
         <ProgressBar :progress="progress"></ProgressBar>
-        <VitalInputStep1
-          v-if="page === 1"
-          :vital-data="vitalData"
-          :vital-validate="vitalValidate"
-        ></VitalInputStep1>
-        <VitalInputStep2 v-if="page === 2" :vital-data="vitalData"></VitalInputStep2>
-        <InputButton
-          :page="page"
-          :progress="progress"
-          @pageBack="pageBack"
-          @pageNext="pageNext"
-          @decision="decision"
-          ><slot name="button"></slot
-        ></InputButton>
       </section>
+      <VitalInputStep1
+        v-if="page === 1"
+        :vital-data="vitalData"
+        :vital-validate="vitalValidate"
+      ></VitalInputStep1>
+      <VitalInputStep2 v-if="page === 2" :vital-data="vitalData"></VitalInputStep2>
+      <InputButton
+        :page="page"
+        :progress="progress"
+        @pageBack="pageBack"
+        @pageNext="pageNext"
+        @decision="decision"
+        ><slot name="button"></slot
+      ></InputButton>
     </article>
   </main>
 </template>
@@ -49,7 +49,9 @@ export default {
     return {
       page: 1,
       progress: [
-        { active: true, state: '基本情報入力' },
+        { active: true, state: 'バイタル記録' },
+        { active: false, state: '排泄記録' },
+        { active: false, state: '状態' },
         { active: false, state: '確認' },
       ],
     }
@@ -105,3 +107,24 @@ export default {
   },
 }
 </script>
+<style>
+/* vital_input */
+.vital_input h3 {
+  padding: 0.2rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border-radius: 1.4rem;
+  background: #dae8fc;
+  color: #6c8ebf;
+}
+.vital_input section section > ul {
+  padding: 0 1rem;
+}
+@media (max-width: 767px) {
+  .vital_input section section ul ul {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: #6c757d 1px dashed;
+  }
+}
+</style>

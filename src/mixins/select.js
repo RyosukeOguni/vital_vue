@@ -1,4 +1,5 @@
 const sex = ['男', '女', '適用不能']
+const breath = ['多い', 'ふつう', '少ない']
 const mood = ['よい', 'ふつう', 'よくない']
 const sleep = ['よく寝た', '時々起きた', '不眠']
 const breakfast = ['食べた', '少し食べた', '食べてない']
@@ -36,6 +37,11 @@ const step = [
 ]
 const weather = ['晴れ', '曇り', '雨', '雪']
 
+const bool = [
+  { value: false, name: '無' },
+  { value: true, name: '有' },
+]
+
 // 配列をセレクトボックスに入れるオブジェクト配列に変換
 const selectList = (list) => {
   // ebal()は文字列を変数名の宣言に変換する。1から順にvalueに振り番する
@@ -64,6 +70,9 @@ export default {
       return (object) => {
         return selectStr(object)
       }
+    },
+    bool() {
+      return bool
     },
   },
 }

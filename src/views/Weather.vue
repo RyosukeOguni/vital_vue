@@ -16,6 +16,7 @@
               type="button"
               class="btn btn-primary fs14"
               :disabled="!Object.values(weatherData).length"
+              @click="openModel('modal-vital-post')"
             >
               バイタル新規登録
             </button>
@@ -41,7 +42,7 @@
             <button
               type="button"
               class="btn btn-primary fs14"
-              @click="openModel('modal-post')"
+              @click="openModel('modal-weather-post')"
             >
               天候登録
             </button>
@@ -86,7 +87,7 @@
               <button
                 type="button"
                 class="btn btn-warning fs14"
-                @click="openModel('modal-put')"
+                @click="openModel('modal-weather-put')"
               >
                 天候編集
               </button>
@@ -96,19 +97,35 @@
       </section>
     </article>
     <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
-    <WeatherModal id="modal-post">
+    <WeatherModal id="modal-weather-post">
       <template #input>
-        <WeatherInput model-id="modal-post" :today="today"></WeatherInput></template
+        <WeatherInput
+          model-id="modal-weather-post"
+          :today="today"
+        ></WeatherInput></template
     ></WeatherModal>
     <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
-    <WeatherModal id="modal-put">
+    <WeatherModal id="modal-weather-put">
       <template #input>
-        <WeatherUpdate model-id="modal-put" :today="today"></WeatherUpdate></template
+        <WeatherUpdate
+          model-id="modal-weather-put"
+          :today="today"
+        ></WeatherUpdate></template
     ></WeatherModal>
+    <VitalModal id="modal-vital-post"
+      >バイタル登録
+      <template #input>
+        <VitalInput input-type="vitalRegist" model-id="modal-vital-post"
+          ><template #button>登録</template></VitalInput
+        ></template
+      ></VitalModal
+    >
   </main>
 </template>
 
 <script>
+import VitalModal from '@/components/Vital/VitalModal.vue'
+import VitalInput from '@/components/Vital/VitalInput.vue'
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import WeatherUpdate from '@/components/Weather/WeatherUpdate.vue'
@@ -122,6 +139,8 @@ export default {
     WeatherModal,
     WeatherInput,
     WeatherUpdate,
+    VitalModal,
+    VitalInput,
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
   data() {
