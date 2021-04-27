@@ -167,7 +167,7 @@ export default {
         this.$store.dispatch('weather/showTodayWeather', response)
       })
       .catch(() => {
-        this.openModel('modal-post')
+        this.openModel('modal-weather-post')
       })
   },
   methods: {
@@ -177,3 +177,10 @@ export default {
   },
 }
 </script>
+<style>
+@media (min-width: 576px) {
+  #modal-vital-post .modal-dialog {
+    max-width: 90%;
+  }
+}
+</style>

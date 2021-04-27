@@ -2,19 +2,89 @@
 import moment from 'moment'
 import axios from 'axios'
 
-const url = 'http://localhost:8000/api/index/medicals'
+const url = 'http://localhost:8000/api/index/vitals'
 
 // vitalDateオブジェクトを返す
-const vitalDate = () => ({
-  id: '',
-  day: '',
-  weather: '',
-  body_temp: '',
-  condition: '',
-  mood: '',
-  sleep: '',
-  breakfast: '',
-})
+const vitalDate = () => [
+  {
+    user_id: '',
+    weather_record_id: '',
+    body_temp: '',
+    pulse: '',
+    breath: '',
+    spo2: '',
+    dbp: '',
+    sbp: '',
+    vital_note: '',
+    condition: '',
+    mood: '',
+    sleep: '',
+    breakfast: '',
+    lunch: '',
+    lunch_amount: '',
+    lunch_start: '',
+    lunch_end: '',
+    snack: '',
+    snack_time: '',
+    water_intake: '',
+    life_note: '',
+  },
+  {
+    voiding_vol1: '',
+    voiding_time1: '',
+    voiding_memo1: '',
+    voiding_vol2: '',
+    voiding_time2: '',
+    voiding_memo2: '',
+    voiding_vol3: '',
+    voiding_time3: '',
+    voiding_memo3: '',
+    defecation_vol1: '',
+    defecation_time1: '',
+    defecation_memo1: '',
+    defecation_vol2: '',
+    defecation_time2: '',
+    defecation_memo2: '',
+    defecation_vol3: '',
+    defecation_time3: '',
+    defecation_memo3: '',
+    total_defecation: '',
+    excretion_note: '',
+  },
+  {
+    medicine: '',
+    medicine_time: '',
+    vomiting: '',
+    vomiting_time: '',
+    attack1: '',
+    attack_time1: '',
+    attack_duration1: '',
+    attack_memo1: '',
+    attack2: '',
+    attack_time2: '',
+    attack_duration2: '',
+    attack_memo2: '',
+    attack3: '',
+    attack_time3: '',
+    attack_duration3: '',
+    attack_memo3: '',
+    aspiration: '',
+    aspiration_time: '',
+    aspiration_point: '',
+    aspiration_color: '',
+    aspiration_type: '',
+    aspiration_note: '',
+    injection: '',
+    injection_start: '',
+    injection_end: '',
+    injection_point: '',
+    injection_vol: '',
+    injection_note: '',
+    choke: '',
+    step: '',
+    total_vital_note: '',
+  },
+]
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {
@@ -35,7 +105,7 @@ export default {
   state: {
     vitalsList: [],
     vitalData: vitalDate(),
-    vitalValidate: {},
+    vitalValidate: [{}, {}, {}],
   },
 
   getters: {
@@ -63,8 +133,8 @@ export default {
     },
 
     // ▼ vitalDataの各プロパティに、Inputされた値を入力する
-    inputVitalData(state, { name, text }) {
-      state.vitalData[name] = text
+    inputVitalData(state, { name, text, page }) {
+      state.vitalData[page][name] = text
     },
 
     // ▼ vitalValidateにプロパティと値を追加する

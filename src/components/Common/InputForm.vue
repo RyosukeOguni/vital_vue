@@ -23,7 +23,7 @@
         :disabled="fill"
         @change="inputForm({ name: name, value: newValue })"
       >
-        <option value="" disabled selected>選択して下さい</option>
+        <option value="" disabled selected>-----</option>
         <option v-for="select in selectlist" :key="select.value" :value="select.value">
           {{ select.name }}
         </option>

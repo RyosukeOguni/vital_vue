@@ -6,8 +6,8 @@
       </section>
       <VitalInputStep1
         v-if="page === 1"
-        :vital-data="vitalData"
-        :vital-validate="vitalValidate"
+        :vital-data="vitalData[0]"
+        :vital-validate="vitalValidate[0]"
       ></VitalInputStep1>
       <VitalInputStep2 v-if="page === 2" :vital-data="vitalData"></VitalInputStep2>
       <InputButton

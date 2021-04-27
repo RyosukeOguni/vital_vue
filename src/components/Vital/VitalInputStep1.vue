@@ -5,41 +5,24 @@
       <ul class="row list-unstyled">
         <li class="col-md-4">
           <InputForm
-            type="text"
-            name="name"
+            :selectlist="userNameList"
+            name="user_id"
             :value="vitalData.user_id"
             :validate="vitalValidate.user_id"
-            @inputForm="inputForm"
-            >名前</InputForm
+            @inputForm="selectUser"
+            >利用者</InputForm
           >
         </li>
         <li class="col-md-2 col-6">
-          <InputForm
-            type="number"
-            name="age"
-            :value="vitalData.age"
-            :validate="vitalValidate.age"
-            @inputForm="inputForm"
-            >年齢</InputForm
-          >
+          <InputForm type="number" :value="userData.age" fill>年齢</InputForm>
         </li>
         <li class="col-md-2 col-6">
-          <InputForm
-            :selectlist="sexList"
-            name="sex"
-            :value="vitalData.sex"
-            :validate="vitalValidate.sex"
-            @inputForm="inputForm"
+          <InputForm :selectlist="selectList('sex')" name="sex" :value="userData.sex" fill
             >性別</InputForm
           >
         </li>
         <li class="col-md-4">
-          <InputForm
-            type="text"
-            name="diagnosis"
-            :value="vitalData.diagnosis"
-            :validate="vitalValidate.diagnosis"
-            @inputForm="inputForm"
+          <InputForm type="text" name="diagnosis" :value="userData.diagnosis" fill
             >診断名</InputForm
           >
         </li>
@@ -264,6 +247,7 @@
 <script>
 import InputForm from '@/components/Common/InputForm.vue'
 import SelectModule from '@/mixins/select'
+import axios from 'axios'
 
 export default {
   name: 'VitalInputStep1',
@@ -281,11 +265,13 @@ export default {
       default: () => {},
     },
   },
-  computed: {
-    sexList() {
-      return this.$store.getters['vital/sexList']
-    },
+  data() {
+    return {
+      userNameList: [],
+      userData: {},
+    }
   },
+  computed: {},
   created() {
     axios
       .get('http://localhost:8000/api/users')
@@ -302,15 +288,20 @@ export default {
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('vital/inputForm', e)
+      this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
+    },
+    selectUser(e) {
+      axios
+        .get('http://localhost:8000/api/users/' + e.value)
+        .then((response) => {
+          console.log(response)
+          this.userData = response.data.data.attribute
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
     },
   },
 }
 </script>
-<style>
-@media (min-width: 576px) {
-  .modal-dialog {
-    max-width: 90%;
-  }
-}
-</style>
