@@ -105,7 +105,7 @@ export default {
   state: {
     vitalsList: [],
     vitalData: vitalDate(),
-    vitalValidate: [{}, {}, {}],
+    vitalValidate: {},
   },
 
   getters: {
@@ -133,8 +133,8 @@ export default {
     },
 
     // ▼ vitalDataの各プロパティに、Inputされた値を入力する
-    inputVitalData(state, { name, text, page }) {
-      state.vitalData[page][name] = text
+    inputVitalData(state, { name, value, page }) {
+      state.vitalData[page][name] = value
     },
 
     // ▼ vitalValidateにプロパティと値を追加する
@@ -150,6 +150,10 @@ export default {
       state.vitalData = vitalDate()
       // vitalValidateオブジェクトを空にする
       state.vitalValidate = {}
+    },
+
+    switchInput(state, callback) {
+      callback(state)
     },
   },
 
@@ -229,17 +233,17 @@ export default {
     },
 
     // ▼ stateのvitalDataの対応する状態に対し、vitalValidateにの対応するキーにエラーメッセージを追加する
-    Validate({ commit, state }) {
+    Validate({ commit, state }, page) {
       let e = {}
-      !state.vitalData.name ? (e.name = '名前を入力してください') : (e.name = '')
-      !state.vitalData.age && state.vitalData.age !== 0
-        ? (e.age = '年齢を入力してください')
-        : (e.age = '')
-      !state.vitalData.sex ? (e.sex = '性別を選択してください') : (e.sex = '')
-      !state.vitalData.diagnosis
-        ? (e.diagnosis = '診断名を入力してください')
-        : (e.diagnosis = '')
+      !state.vitalData[page].user_id
+        ? (e.user_id = '利用者を選択してください')
+        : (e.user_id = '')
       commit('inputValidate', e)
+    },
+
+    // ▼ 入力したvitalDataをstateから削除
+    switchInput({ commit }, callback) {
+      commit('switchInput', callback)
     },
   },
 }

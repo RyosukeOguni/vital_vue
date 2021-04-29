@@ -7,7 +7,7 @@
       <VitalInputStep1
         v-if="page === 1"
         :vital-data="vitalData[0]"
-        :vital-validate="vitalValidate[0]"
+        :vital-validate="vitalValidate"
       ></VitalInputStep1>
       <VitalInputStep2 v-if="page === 2" :vital-data="vitalData"></VitalInputStep2>
       <InputButton
@@ -68,10 +68,10 @@ export default {
     vitalData: {
       handler: function () {
         if (Object.keys(this.vitalValidate).length) {
-          this.$store.dispatch('vital/Validate')
+          this.$store.dispatch('vital/Validate', this.page - 1)
         }
       },
-      deep: true,
+      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
     },
   },
   methods: {
@@ -81,7 +81,7 @@ export default {
     },
     pageNext() {
       // バリデーションを開始してvitalValidateにプロパティを付与する
-      this.$store.dispatch('vital/Validate')
+      this.$store.dispatch('vital/Validate', this.page - 1)
       // vitalValidateのプロパティの値がすべて空の時、次のページへ移る
       if (Object.values(this.vitalValidate).every((value) => value === '')) {
         this.page++

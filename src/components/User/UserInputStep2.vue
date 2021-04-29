@@ -6,9 +6,7 @@
         <InputForm type="text" name="name" :value="userData.name" fill>名前</InputForm>
       </li>
       <li class="col-md-6">
-        <InputForm type="number" min="0" name="age" :value="userData.age" fill
-          >年齢</InputForm
-        >
+        <InputForm type="number" name="age" :value="userData.age" fill>年齢</InputForm>
       </li>
       <li class="col-md-6">
         <InputForm :selectlist="selectList('sex')" name="sex" :value="userData.sex" fill

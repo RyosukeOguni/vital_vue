@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const sex = ['男', '女', '適用不能']
 const breath = ['多い', 'ふつう', '少ない']
 const mood = ['よい', 'ふつう', 'よくない']
@@ -42,6 +44,18 @@ const bool = [
   { value: true, name: '有' },
 ]
 
+// 1日の時間を10分刻みでリスト表示
+const daytime = (() => {
+  let time = moment().hour(0).minute(0).seconds(0)
+  let timearray = [time.format('HH:mm')]
+  while (time.format('HH:mm') !== '23:50') {
+    time.add(10, 'minute')
+    timearray.push(time.format('HH:mm'))
+  }
+  let selectlist = timearray.map((data) => ({ value: data, name: data }))
+  return selectlist
+})()
+
 // 配列をセレクトボックスに入れるオブジェクト配列に変換
 const selectList = (list) => {
   // ebal()は文字列を変数名の宣言に変換する。1から順にvalueに振り番する
@@ -73,6 +87,9 @@ export default {
     },
     bool() {
       return bool
+    },
+    daytime() {
+      return daytime
     },
   },
 }

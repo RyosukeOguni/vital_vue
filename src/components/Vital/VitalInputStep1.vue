@@ -32,41 +32,47 @@
       <h3>記録日／気候</h3>
       <ul class="row list-unstyled">
         <li class="col-md-4">
-          <label class="text-field">
-            <span class="text-field-label">日付</span>
-            <input class="text-field-input" type="date" name="weather_record_id" />
-          </label>
+          <InputForm
+            type="date"
+            name="weather_record_id"
+            :value="weatherData.day"
+            @inputForm="inputForm"
+            >年月</InputForm
+          >
         </li>
         <li class="col-md-4">
-          <label class="text-field fill">
-            <span class="text-field-label">天気</span>
-            <p class="text-field-input">曇り</p>
-          </label>
+          <InputForm
+            :selectlist="selectList('weather')"
+            name="weather"
+            :value="weatherData.weather"
+            fill
+            >天気</InputForm
+          >
         </li>
         <li class="w-100"></li>
         <li class="col-md-3 col-6">
-          <label class="text-field fill">
-            <span class="text-field-label">外気温(℃)</span>
-            <p class="text-field-input">31</p>
-          </label>
+          <InputForm type="number" name="temp" :value="weatherData.temp" fill
+            >外気温(℃)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field fill">
-            <span class="text-field-label">内気温(℃)</span>
-            <p class="text-field-input">31</p>
-          </label>
+          <InputForm type="number" name="room_temp" :value="weatherData.room_temp" fill
+            >内気温(℃)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field fill">
-            <span class="text-field-label">外湿度(％)</span>
-            <p class="text-field-input">70</p>
-          </label>
+          <InputForm type="number" name="humidity" :value="weatherData.humidity" fill
+            >外湿度(％)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field fill">
-            <span class="text-field-label">内湿度(％)</span>
-            <p class="text-field-input">60</p>
-          </label>
+          <InputForm
+            type="number"
+            name="room_humidity"
+            :value="weatherData.room_humidity"
+            fill
+            >内湿度(％)</InputForm
+          >
         </li>
       </ul>
     </section>
@@ -74,16 +80,24 @@
       <h3>バイタル</h3>
       <ul class="row list-unstyled">
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">体温(℃)</span>
-            <input class="text-field-input" type="number" name="body_temp" />
-          </label>
+          <InputForm
+            type="number"
+            name="body_temp"
+            :value="vitalData.body_temp"
+            :validate="vitalValidate.body_temp"
+            @inputForm="inputForm"
+            >体温(℃)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">脈拍(bpm)</span>
-            <input class="text-field-input" type="number" name="pulse" />
-          </label>
+          <InputForm
+            type="number"
+            name="pulse"
+            :value="vitalData.pulse"
+            :validate="vitalValidate.pulse"
+            @inputForm="inputForm"
+            >脈拍(bpm)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
           <InputForm
@@ -96,29 +110,45 @@
           >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">SPO2(％)</span>
-            <input class="text-field-input" type="number" name="spo2" />
-          </label>
+          <InputForm
+            type="number"
+            name="spo2"
+            :value="vitalData.spo2"
+            :validate="vitalValidate.spo2"
+            @inputForm="inputForm"
+            >SPO2(％)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">血圧(拡張)</span>
-            <input class="text-field-input" type="number" name="dbp" />
-          </label>
+          <InputForm
+            type="number"
+            name="dbp"
+            :value="vitalData.dbp"
+            :validate="vitalValidate.dbp"
+            @inputForm="inputForm"
+            >血圧(拡張)</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">血圧(収縮)</span>
-            <input class="text-field-input" type="number" name="sbp" />
-          </label>
+          <InputForm
+            type="number"
+            name="sbp"
+            :value="vitalData.sbp"
+            :validate="vitalValidate.sbp"
+            @inputForm="inputForm"
+            >血圧(収縮)</InputForm
+          >
         </li>
         <li class="w-100"></li>
         <li class="col-md-12">
-          <label class="text-field">
-            <span class="text-field-label">バイタル備考</span>
-            <input class="text-field-input" type="text" name="vital_note" />
-          </label>
+          <InputForm
+            type="text"
+            name="vital_note"
+            :value="vitalData.vital_note"
+            :validate="vitalValidate.vital_note"
+            @inputForm="inputForm"
+            >バイタル備考</InputForm
+          >
         </li>
       </ul>
     </section>
@@ -179,34 +209,34 @@
           <InputForm
             :selectlist="selectList('lunchAmount')"
             name="lunch_amount"
-            :value="vitalData.lunchAmount"
-            :validate="vitalValidate.lunchAmount"
+            :value="vitalData.lunch_amount"
+            :validate="vitalValidate.lunch_amount"
+            :fill="!vitalData.lunch"
             @inputForm="inputForm"
             >昼食量</InputForm
           >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field fill">
-            <span class="text-field-label">昼食開始時間</span>
-            <input
-              type="time"
-              class="timselect ui-timepicker-input text-field-input"
-              step="600"
-              name="lunch_start"
-              disabled
-            />
-          </label>
+          <InputForm
+            :selectlist="daytime"
+            name="lunch_start"
+            :value="vitalData.lunch_start"
+            :validate="vitalValidate.lunch_start"
+            :fill="!vitalData.lunch"
+            @inputForm="inputForm"
+            >昼食開始時間</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">昼食終了時間</span>
-            <input
-              type="time"
-              class="timeselect ui-timepicker-input text-field-input"
-              step="600"
-              name="lunch_end"
-            />
-          </label>
+          <InputForm
+            :selectlist="daytime"
+            name="lunch_end"
+            :value="vitalData.lunch_end"
+            :validate="vitalValidate.lunch_end"
+            :fill="!vitalData.lunch"
+            @inputForm="inputForm"
+            >昼食終了時間</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
           <InputForm
@@ -219,15 +249,15 @@
           >
         </li>
         <li class="col-md-3 col-6">
-          <label class="text-field">
-            <span class="text-field-label">おやつ時間</span>
-            <input
-              type="time"
-              class="timeselect ui-timepicker-input text-field-input"
-              step="600"
-              name="snack_time"
-            />
-          </label>
+          <InputForm
+            :selectlist="daytime"
+            name="snack_time"
+            :value="vitalData.snack_time"
+            :validate="vitalValidate.snsnack_timeack"
+            :fill="!vitalData.snack"
+            @inputForm="inputForm"
+            >おやつ時間</InputForm
+          >
         </li>
         <li class="col-md-3 col-6">
           <InputForm
@@ -271,7 +301,31 @@ export default {
       userData: {},
     }
   },
-  computed: {},
+  computed: {
+    weatherData() {
+      return this.$store.getters['weather/weatherData']
+    },
+  },
+  watch: {
+    vitalData: {
+      handler: function () {
+        // 昼食、おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (this.vitalData.lunch === false) {
+          this.$store.dispatch('vital/switchInput', (state) => {
+            state.vitalData[0].lunch_amount = ''
+            state.vitalData[0].lunch_start = ''
+            state.vitalData[0].lunch_end = ''
+          })
+        }
+        if (this.vitalData.snack === false) {
+          this.$store.dispatch('vital/switchInput', (state) => {
+            state.vitalData[0].snack_time = ''
+          })
+        }
+      },
+      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
+    },
+  },
   created() {
     axios
       .get('http://localhost:8000/api/users')
@@ -290,8 +344,8 @@ export default {
     inputForm(e) {
       this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
     },
-    selectUser(e) {
-      axios
+    async selectUser(e) {
+      await axios
         .get('http://localhost:8000/api/users/' + e.value)
         .then((response) => {
           console.log(response)
@@ -300,7 +354,7 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
+      await this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
     },
   },
 }

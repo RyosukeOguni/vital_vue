@@ -46,7 +46,7 @@ export default {
       default: '',
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: '',
     },
     selectlist: {
@@ -67,6 +67,13 @@ export default {
       newValue: this.value,
     }
   },
+  watch: {
+    // propsの値が変化しても最初の読み込み時しかnewValueに反映されないので、
+    // watchで変化があれば反映されるように設定する
+    value: function () {
+      this.newValue = this.value
+    },
+  },
   methods: {
     inputForm(e) {
       this.$emit('inputForm', e)
@@ -75,7 +82,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* input */
 .text-field {
   position: relative;
