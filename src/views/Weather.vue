@@ -169,6 +169,7 @@ export default {
       .catch(() => {
         this.openModel('modal-weather-post')
       })
+    this.$store.dispatch('user/usersListSet')
   },
   methods: {
     openModel(modelid) {

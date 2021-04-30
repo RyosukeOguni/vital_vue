@@ -71,7 +71,7 @@ export default {
           this.$store.dispatch('vital/Validate', this.page - 1)
         }
       },
-      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
+      deep: true,
     },
   },
   methods: {

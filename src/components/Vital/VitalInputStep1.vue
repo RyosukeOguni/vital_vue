@@ -9,7 +9,7 @@
             name="user_id"
             :value="vitalData.user_id"
             :validate="vitalValidate.user_id"
-            @inputForm="selectUser"
+            @inputForm="inputForm"
             >利用者</InputForm
           >
         </li>
@@ -29,39 +29,40 @@
       </ul>
     </section>
     <section class="mt-4">
-      <h3>記録日／気候</h3>
+      <h3>記録日／天候</h3>
       <ul class="row list-unstyled">
         <li class="col-md-4">
           <InputForm
             type="date"
             name="weather_record_id"
-            :value="weatherData.day"
-            @inputForm="inputForm"
-            >年月</InputForm
+            :value="weatherSelect.day"
+            :validate="vitalValidate.weather_record_id"
+            @inputForm="selectDays"
+            >日付</InputForm
           >
         </li>
         <li class="col-md-4">
           <InputForm
             :selectlist="selectList('weather')"
             name="weather"
-            :value="weatherData.weather"
+            :value="weatherSelect.weather"
             fill
             >天気</InputForm
           >
         </li>
         <li class="w-100"></li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="temp" :value="weatherData.temp" fill
+          <InputForm type="number" name="temp" :value="weatherSelect.temp" fill
             >外気温(℃)</InputForm
           >
         </li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="room_temp" :value="weatherData.room_temp" fill
+          <InputForm type="number" name="room_temp" :value="weatherSelect.room_temp" fill
             >内気温(℃)</InputForm
           >
         </li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="humidity" :value="weatherData.humidity" fill
+          <InputForm type="number" name="humidity" :value="weatherSelect.humidity" fill
             >外湿度(％)</InputForm
           >
         </li>
@@ -69,7 +70,7 @@
           <InputForm
             type="number"
             name="room_humidity"
-            :value="weatherData.room_humidity"
+            :value="weatherSelect.room_humidity"
             fill
             >内湿度(％)</InputForm
           >
@@ -263,8 +264,8 @@
           <InputForm
             :selectlist="selectList('waterIntake')"
             name="water_intake"
-            :value="vitalData.waterIntake"
-            :validate="vitalValidate.waterIntake"
+            :value="vitalData.water_intake"
+            :validate="vitalValidate.water_intake"
             @inputForm="inputForm"
             >摂取水分量</InputForm
           >
@@ -297,13 +298,27 @@ export default {
   },
   data() {
     return {
-      userNameList: [],
-      userData: {},
+      weatherSelect: {},
     }
   },
   computed: {
+    userNameList() {
+      return this.usersList.map((data) => ({
+        value: data.id,
+        name: data.id + '：' + data.name,
+      }))
+    },
     weatherData() {
       return this.$store.getters['weather/weatherData']
+    },
+    usersList() {
+      return this.$store.getters['user/usersList']
+    },
+    userData() {
+      let a = this.usersList
+      return !!this.vitalData.user_id
+        ? a.find((data) => data.id == this.vitalData.user_id)
+        : {}
     },
   },
   watch: {
@@ -327,34 +342,43 @@ export default {
     },
   },
   created() {
-    axios
-      .get('http://localhost:8000/api/users')
-      .then((response) => {
-        console.log(response)
-        this.userNameList = response.data.data.map((data) => ({
-          value: data.data.id,
-          name: data.data.id + '：' + data.data.attribute.name,
-        }))
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    if (this.vitalData.weather_record_id === '') {
+      // vitalDataのweather_record_idに値が無ければ本日の天候情報を取得
+      this.weatherSelect = { ...this.weatherData }
+      // 天候情報の初期idをvitalDataに登録する
+      this.$store.dispatch('vital/switchInput', this.inputWeatherId())
+    } else {
+      axios
+        .get(
+          'http://localhost:8000/api/weather_records/' + this.vitalData.weather_record_id
+        )
+        .then((response) => {
+          console.log(response)
+          this.weatherSelect = response.data.data.attribute
+        })
+        .catch(() => {})
+    }
   },
   methods: {
+    inputWeatherId() {
+      return (state) => {
+        state.vitalData[0].weather_record_id = this.weatherSelect.id
+      }
+    },
     inputForm(e) {
       this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
     },
-    async selectUser(e) {
+    async selectDays(e) {
       await axios
-        .get('http://localhost:8000/api/users/' + e.value)
+        .get('http://localhost:8000/api/weather_records?day=' + e.value)
         .then((response) => {
           console.log(response)
-          this.userData = response.data.data.attribute
+          this.weatherSelect = { ...response.data.data.attribute }
         })
-        .catch((error) => {
-          console.log(error)
+        .catch(() => {
+          this.weatherSelect = { id: '' }
         })
-      await this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
+      await this.$store.dispatch('vital/switchInput', this.inputWeatherId())
     },
   },
 }

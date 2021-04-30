@@ -151,7 +151,7 @@ export default {
       // vitalValidateオブジェクトを空にする
       state.vitalValidate = {}
     },
-
+    // コールバック関数で受け取った処理をstateに行う
     switchInput(state, callback) {
       callback(state)
     },
@@ -235,13 +235,19 @@ export default {
     // ▼ stateのvitalDataの対応する状態に対し、vitalValidateにの対応するキーにエラーメッセージを追加する
     Validate({ commit, state }, page) {
       let e = {}
+      // 利用者のバリデーション
       !state.vitalData[page].user_id
         ? (e.user_id = '利用者を選択してください')
         : (e.user_id = '')
+      // 天候情報のバリデーション
+      !state.vitalData[page].weather_record_id
+        ? (e.weather_record_id = '登録された日付を選択して下さい')
+        : (e.weather_record_id = '')
+
       commit('inputValidate', e)
     },
 
-    // ▼ 入力したvitalDataをstateから削除
+    // ▼ コールバック関数で受け取った処理をそのままmutationsに送る
     switchInput({ commit }, callback) {
       commit('switchInput', callback)
     },

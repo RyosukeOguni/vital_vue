@@ -49,7 +49,11 @@ export default {
   },
   computed: {
     usersList() {
-      return this.$store.getters['user/usersList']
+      let users = this.$store.getters['user/usersList']
+      // ライブラリMomentのインスタンスcreated_atを比較して降順に並び替え
+      return users.sort((a, b) => {
+        return b.created_at - a.created_at
+      })
     },
     usersLength() {
       return this.usersList.length

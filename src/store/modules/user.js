@@ -37,11 +37,7 @@ export default {
   },
 
   getters: {
-    usersList: (state) =>
-      // ライブラリMomentのインスタンスcreated_atを比較して降順に並び替え
-      state.usersList.sort((a, b) => {
-        return b.created_at - a.created_at
-      }),
+    usersList: (state) => state.usersList,
     userData: (state) => state.userData,
     userValidate: (state) => state.userValidate,
   },
