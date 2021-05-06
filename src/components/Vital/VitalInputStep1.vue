@@ -286,16 +286,6 @@ export default {
     InputForm,
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
-  props: {
-    vitalData: {
-      type: Object,
-      default: () => {},
-    },
-    vitalValidate: {
-      type: Object,
-      default: () => {},
-    },
-  },
   data() {
     return {
       weatherSelect: {},
@@ -314,6 +304,12 @@ export default {
     usersList() {
       return this.$store.getters['user/usersList']
     },
+    vitalData() {
+      return this.$store.getters['vital/vitalData'][0]
+    },
+    vitalValidate() {
+      return this.$store.getters['vital/vitalValidate']
+    },
     userData() {
       let a = this.usersList
       return !!this.vitalData.user_id
@@ -324,18 +320,23 @@ export default {
   watch: {
     vitalData: {
       handler: function () {
-        // 昼食、おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        // 昼食がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (this.vitalData.lunch === false) {
-          this.$store.dispatch('vital/switchInput', (state) => {
+          this.$store.dispatch('vital/stateInput', (state) => {
             state.vitalData[0].lunch_amount = ''
             state.vitalData[0].lunch_start = ''
             state.vitalData[0].lunch_end = ''
           })
         }
+        // おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (this.vitalData.snack === false) {
-          this.$store.dispatch('vital/switchInput', (state) => {
+          this.$store.dispatch('vital/stateInput', (state) => {
             state.vitalData[0].snack_time = ''
           })
+        }
+        // バリデーションを監視する
+        if (Object.keys(this.vitalValidate).length) {
+          this.$store.dispatch('vital/Validate', 0)
         }
       },
       deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
@@ -346,7 +347,7 @@ export default {
       // vitalDataのweather_record_idに値が無ければ本日の天候情報を取得
       this.weatherSelect = { ...this.weatherData }
       // 天候情報の初期idをvitalDataに登録する
-      this.$store.dispatch('vital/switchInput', this.inputWeatherId())
+      this.$store.dispatch('vital/stateInput', this.inputWeatherId())
     } else {
       axios
         .get(
@@ -378,7 +379,7 @@ export default {
         .catch(() => {
           this.weatherSelect = { id: '' }
         })
-      await this.$store.dispatch('vital/switchInput', this.inputWeatherId())
+      await this.$store.dispatch('vital/stateInput', this.inputWeatherId())
     },
   },
 }

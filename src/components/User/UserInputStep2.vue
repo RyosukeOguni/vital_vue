@@ -35,10 +35,9 @@ export default {
     InputForm,
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
-  props: {
-    userData: {
-      type: Object,
-      default: () => {},
+  computed: {
+    userData() {
+      return this.$store.getters['user/userData']
     },
   },
 }

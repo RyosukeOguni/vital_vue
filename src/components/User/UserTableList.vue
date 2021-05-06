@@ -41,8 +41,17 @@ export default {
   methods: {
     // チェックボックスに入力があればstoreのdeleteCheckを動かす
     deleteCheck(e) {
-      this.$store.dispatch('user/deleteCheck', e)
+      this.$store.dispatch('user/stateInput', (state) => {
+        state.usersList = state.usersList.map((data) => {
+          // payloadされたuserオブジェクトをリストと比較して、同じであればチェック状態を変更
+          if (data === e.user) {
+            data.check = e.check
+          }
+          return data
+        })
+      })
     },
+
     // async/awaitで非同期通信が終了するのを待って、モーダルを開く
     async showModal(id) {
       await this.$store.dispatch('user/showUser', id)

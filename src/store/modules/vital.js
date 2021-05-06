@@ -151,8 +151,9 @@ export default {
       // vitalValidateオブジェクトを空にする
       state.vitalValidate = {}
     },
+
     // コールバック関数で受け取った処理をstateに行う
-    switchInput(state, callback) {
+    stateInput(state, callback) {
       callback(state)
     },
   },
@@ -248,8 +249,8 @@ export default {
     },
 
     // ▼ コールバック関数で受け取った処理をそのままmutationsに送る
-    switchInput({ commit }, callback) {
-      commit('switchInput', callback)
+    stateInput({ commit }, callback) {
+      commit('stateInput', callback)
     },
   },
 }

@@ -1,7 +1,11 @@
 <template>
   <div class="form-footer mt-2 mb-2 text-center">
-    <button v-if="page > 1" class="btn btn-secondary fs14" @click="pageBack">戻る</button>
-    <button v-if="page < progress.length" class="btn btn-primary fs14" @click="pageNext">
+    <button v-if="page > 0" class="btn btn-secondary fs14" @click="pageBack">戻る</button>
+    <button
+      v-if="page < progress.length - 1"
+      class="btn btn-primary fs14"
+      @click="pageNext"
+    >
       次へ
     </button>
     <!-- @clickイベントを複数持たせる場合、methodsの関数名に()をつけて、スペース区切りで記述 -->

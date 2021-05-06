@@ -4,12 +4,8 @@
       <section class="mt-4 col-md-12">
         <ProgressBar :progress="progress"></ProgressBar>
       </section>
-      <VitalInputStep1
-        v-if="page === 1"
-        :vital-data="vitalData[0]"
-        :vital-validate="vitalValidate"
-      ></VitalInputStep1>
-      <VitalInputStep2 v-if="page === 2" :vital-data="vitalData"></VitalInputStep2>
+      <VitalInputStep1 v-if="page === 0"></VitalInputStep1>
+      <VitalInputStep2 v-if="page === 1"></VitalInputStep2>
       <InputButton
         :page="page"
         :progress="progress"
@@ -47,7 +43,7 @@ export default {
   },
   data() {
     return {
-      page: 1,
+      page: 0,
       progress: [
         { active: true, state: 'バイタル記録' },
         { active: false, state: '排泄記録' },
@@ -57,21 +53,8 @@ export default {
     }
   },
   computed: {
-    vitalData() {
-      return this.$store.getters['vital/vitalData']
-    },
     vitalValidate() {
       return this.$store.getters['vital/vitalValidate']
-    },
-  },
-  watch: {
-    vitalData: {
-      handler: function () {
-        if (Object.keys(this.vitalValidate).length) {
-          this.$store.dispatch('vital/Validate', this.page - 1)
-        }
-      },
-      deep: true,
     },
   },
   methods: {
@@ -81,14 +64,14 @@ export default {
     },
     pageNext() {
       // バリデーションを開始してvitalValidateにプロパティを付与する
-      this.$store.dispatch('vital/Validate', this.page - 1)
+      this.$store.dispatch('vital/Validate', this.page)
       // vitalValidateのプロパティの値がすべて空の時、次のページへ移る
       if (Object.values(this.vitalValidate).every((value) => value === '')) {
         this.page++
         this.progressMove()
       }
     },
-    // VitalInputButtonのdecisionが発火したときの処理
+    // InputButtonの最後のボタンが発火したときの処理
     decision() {
       this.$store.dispatch('vital/' + this.inputType)
       this.$store.dispatch('vital/resetData')
@@ -100,7 +83,7 @@ export default {
       // progress配列からactiveを全てfalseに変更
       this.progress = this.progress.map((data) => ({ active: false, state: data.state }))
       // progress配列の頭からpage分だけ、activeをtrueに変更
-      for (let i = 0; i < this.page; i++) {
+      for (let i = 0; i <= this.page; i++) {
         this.progress[i].active = true
       }
     },

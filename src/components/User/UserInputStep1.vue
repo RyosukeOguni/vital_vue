@@ -66,19 +66,45 @@ export default {
     InputForm,
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
-  props: {
-    userData: {
-      type: Object,
-      default: () => {},
+  computed: {
+    userData() {
+      return this.$store.getters['user/userData']
     },
-    userValidate: {
-      type: Object,
-      default: () => {},
+    userValidate() {
+      return this.$store.getters['user/userValidate']
+    },
+  },
+  watch: {
+    // userValidateからプロパティが無くなるまでuserDataをバリデーションする
+    userData: {
+      handler: function () {
+        if (Object.keys(this.userValidate).length) {
+          this.Validate()
+        }
+      },
+      deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
     },
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('user/inputForm', e)
+      this.$store.dispatch('user/stateInput', (state) => {
+        state.userData[e.name] = e.value
+      })
+    },
+    Validate() {
+      let e = {}
+      !this.userData.name ? (e.name = '名前を入力してください') : (e.name = '')
+      !this.userData.age && this.userData.age !== 0
+        ? (e.age = '年齢を入力してください')
+        : (e.age = '')
+      !this.userData.sex ? (e.sex = '性別を選択してください') : (e.sex = '')
+      !this.userData.diagnosis
+        ? (e.diagnosis = '診断名を入力してください')
+        : (e.diagnosis = '')
+      // storeのuserValidateにバリデーションオブジェクトを入れる
+      this.$store.dispatch('user/stateInput', (state) => {
+        state.userValidate = e
+      })
     },
   },
 }
