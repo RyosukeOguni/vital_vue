@@ -4,8 +4,9 @@
       <section class="mt-4 col-md-12">
         <ProgressBar :progress="progress"></ProgressBar>
       </section>
-      <VitalInputStep1 v-if="page === 0"></VitalInputStep1>
-      <VitalInputStep2 v-if="page === 1"></VitalInputStep2>
+      <VitalInputStep1 v-if="page === 0" ref="step_0"></VitalInputStep1>
+      <VitalInputStep2 v-if="page === 1" ref="step_1"></VitalInputStep2>
+      <VitalInputStep3 v-if="page === 2" ref="step_2"></VitalInputStep3>
       <InputButton
         :page="page"
         :progress="progress"
@@ -21,6 +22,7 @@
 import ProgressBar from '@/components/Common/ProgressBar.vue'
 import VitalInputStep1 from '@/components/Vital/VitalInputStep1.vue'
 import VitalInputStep2 from '@/components/Vital/VitalInputStep2.vue'
+import VitalInputStep3 from '@/components/Vital/VitalInputStep3.vue'
 import InputButton from '@/components/Common/InputButton.vue'
 
 export default {
@@ -29,6 +31,7 @@ export default {
     ProgressBar,
     VitalInputStep1,
     VitalInputStep2,
+    VitalInputStep3,
     InputButton,
   },
   props: {
@@ -58,27 +61,29 @@ export default {
     },
   },
   methods: {
+    // ▼ 戻るボタンが発火したときの処理
     pageBack() {
       this.page--
       this.progressMove()
     },
+    // ▼ 次へボタンが発火したときの処理
     pageNext() {
-      // バリデーションを開始してvitalValidateにプロパティを付与する
-      this.$store.dispatch('vital/Validate', this.page)
+      // 指定した子コンポーネントのバリデーションを実行してvitalValidateにプロパティを付与する
+      this.$refs['step_' + this.page].Validate()
       // vitalValidateのプロパティの値がすべて空の時、次のページへ移る
       if (Object.values(this.vitalValidate).every((value) => value === '')) {
         this.page++
         this.progressMove()
       }
     },
-    // InputButtonの最後のボタンが発火したときの処理
+    // ▼ InputButtonの最後のボタンが発火したときの処理
     decision() {
       this.$store.dispatch('vital/' + this.inputType)
       this.$store.dispatch('vital/resetData')
       // モーダルが指定されていない場合、閉じる処理を行わない
       !!this.modelId && this.$bvModal.hide(this.modelId)
     },
-    // プログレスバーをページ通りに進める
+    // ▼ プログレスバーをページ通りに進める
     progressMove() {
       // progress配列からactiveを全てfalseに変更
       this.progress = this.progress.map((data) => ({ active: false, state: data.state }))

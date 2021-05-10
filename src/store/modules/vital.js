@@ -138,23 +138,20 @@ export default {
     },
 
     // ▼ vitalValidateにプロパティと値を追加する
-    inputValidate(state, e) {
-      state.vitalValidate = e
-    },
-
-    // ▼ vitalData、vitalValidateオブジェクトをリセット
-    resetData(state) {
-      // vitalsListオブジェクトを初期化する
-      state.vitalsList = []
-      // vitalDataオブジェクトを初期化する
-      state.vitalData = vitalDate()
-      // vitalValidateオブジェクトを空にする
-      state.vitalValidate = {}
+    inputValidate(state, callback) {
+      callback(state)
     },
 
     // コールバック関数で受け取った処理をstateに行う
     stateInput(state, callback) {
       callback(state)
+    },
+
+    // ▼ vitalData、vitalValidateオブジェクトを初期化
+    resetData(state) {
+      state.vitalsList = []
+      state.vitalData = vitalDate()
+      state.vitalValidate = {}
     },
   },
 
@@ -234,18 +231,8 @@ export default {
     },
 
     // ▼ stateのvitalDataの対応する状態に対し、vitalValidateにの対応するキーにエラーメッセージを追加する
-    Validate({ commit, state }, page) {
-      let e = {}
-      // 利用者のバリデーション
-      !state.vitalData[page].user_id
-        ? (e.user_id = '利用者を選択してください')
-        : (e.user_id = '')
-      // 天候情報のバリデーション
-      !state.vitalData[page].weather_record_id
-        ? (e.weather_record_id = '登録された日付を選択して下さい')
-        : (e.weather_record_id = '')
-
-      commit('inputValidate', e)
+    Validate({ commit }, callback) {
+      commit('inputValidate', callback)
     },
 
     // ▼ コールバック関数で受け取った処理をそのままmutationsに送る

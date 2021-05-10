@@ -27,6 +27,7 @@ const attackDuration = ['～5秒', '5～10秒', '10～15秒', '15～30秒', '30�
 const aspirationPoint = ['口', '鼻', '気管カニューレ']
 const aspirationColor = ['透明', '白', '黄', '緑', '赤褐色']
 const aspirationType = ['しょう液性', '粘ちょう性', '膿性', '血性']
+const injectionPoint = ['鼻', '胃', '腸']
 const step = [
   '0～50歩',
   '50～100歩',

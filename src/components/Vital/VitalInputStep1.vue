@@ -336,7 +336,7 @@ export default {
         }
         // バリデーションを監視する
         if (Object.keys(this.vitalValidate).length) {
-          this.$store.dispatch('vital/Validate', 0)
+          this.Validate()
         }
       },
       deep: true, // watch対象の下位プロパティが変更された場合でもwatchを起動させる
@@ -347,7 +347,7 @@ export default {
       // vitalDataのweather_record_idに値が無ければ本日の天候情報を取得
       this.weatherSelect = { ...this.weatherData }
       // 天候情報の初期idをvitalDataに登録する
-      this.$store.dispatch('vital/stateInput', this.inputWeatherId())
+      this.inputWeatherId()
     } else {
       axios
         .get(
@@ -361,14 +361,16 @@ export default {
     }
   },
   methods: {
-    inputWeatherId() {
-      return (state) => {
-        state.vitalData[0].weather_record_id = this.weatherSelect.id
-      }
-    },
     inputForm(e) {
       this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
     },
+    // ▼ vitalDataのweather_record_idにweather_recordsのidを入力
+    inputWeatherId() {
+      this.$store.dispatch('vital/stateInput', (state) => {
+        state.vitalData[0].weather_record_id = this.weatherSelect.id
+      })
+    },
+    // ▼ 日付を選択した時、weather_recordsDBにレコードがあればweatherSelectに取得、無ければidに""を入れる
     async selectDays(e) {
       await axios
         .get('http://localhost:8000/api/weather_records?day=' + e.value)
@@ -379,7 +381,22 @@ export default {
         .catch(() => {
           this.weatherSelect = { id: '' }
         })
-      await this.$store.dispatch('vital/stateInput', this.inputWeatherId())
+      await this.inputWeatherId()
+    },
+    // ▼ 実行するバリデーションルールを記述（親コンポーネント、自コンポーネントのwatchが使用）
+    Validate() {
+      this.$store.dispatch('vital/Validate', (state) => {
+        let e = {}
+        // 利用者のバリデーション
+        !state.vitalData[0].user_id
+          ? (e.user_id = '利用者を選択してください')
+          : (e.user_id = '')
+        // 天候情報のバリデーション
+        !state.vitalData[0].weather_record_id
+          ? (e.weather_record_id = '登録された日付を選択して下さい')
+          : (e.weather_record_id = '')
+        state.vitalValidate = e
+      })
     },
   },
 }
