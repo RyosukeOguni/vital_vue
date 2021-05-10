@@ -53,10 +53,18 @@
       </ul>
       <div class="form-footer text-right">
         <button type="button" class="btn btn-secondary fs14" @click="closeModel()">
-          後で登録
+          {{ inputType === 'weatherRegist' ? '後で登録' : 'キャンセル' }}
         </button>
-        <button type="button" class="btn btn-primary fs14" @click="postData()">
+        <button
+          v-if="inputType === 'weatherRegist'"
+          type="button"
+          class="btn btn-primary fs14"
+          @click="weatherRegist()"
+        >
           登録
+        </button>
+        <button v-else type="button" class="btn btn-primary fs14" @click="weatherEdit()">
+          変更
         </button>
       </div>
     </article>
@@ -73,6 +81,10 @@ export default {
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
   props: {
+    inputType: {
+      type: String,
+      default: '',
+    },
     modelId: {
       type: String,
       default: '',
@@ -102,7 +114,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('weather/inputTodayWeather', this.today)
+    this.inputType === 'weatherRegist'
+      ? this.$store.dispatch('weather/inputTodayWeather', this.today)
+      : this.$store.dispatch('weather/dataToInput')
   },
   methods: {
     closeModel() {
@@ -112,12 +126,21 @@ export default {
     inputForm(e) {
       this.$store.dispatch('weather/inputForm', e)
     },
-    postData() {
+    weatherRegist() {
       // バリデーションを開始してweatherValidateにプロパティを付与する
       this.$store.dispatch('weather/Validate')
       // weatherValidateのプロパティの値がすべて空の時、DBに天候情報を登録しモーダルを閉じる
       if (Object.values(this.weatherValidate).every((value) => value === '')) {
         this.$store.dispatch('weather/postTodayWeather')
+        this.$bvModal.hide(this.modelId)
+      }
+    },
+    weatherEdit() {
+      // バリデーションを開始してweatherValidateにプロパティを付与する
+      this.$store.dispatch('weather/Validate')
+      // weatherValidateのプロパティの値がすべて空の時、DBに天候情報を登録しモーダルを閉じる
+      if (Object.values(this.weatherValidate).every((value) => value === '')) {
+        this.$store.dispatch('weather/putTodayWeather', this.weatherInputData.id)
         this.$bvModal.hide(this.modelId)
       }
     },

@@ -4,7 +4,7 @@
       <section class="mt-4 col-md-10">
         <h2 class="border-bottom border-secondary pb-2 mb-3">バイタル登録</h2>
         <div
-          v-show="!Object.values(weatherData).length"
+          v-if="!Object.values(weatherData).length"
           class="alert alert-danger"
           role="alert"
         >
@@ -37,7 +37,10 @@
           >です。
         </p>
         <!-- DBから取得した天候情報が無ければ天候登録ボタンを表示する -->
-        <ul v-if="!Object.values(weatherData).length" class="list-unstyled d-flex">
+        <ul
+          v-if="!Object.keys(weatherData).length && showbutton"
+          class="list-unstyled d-flex"
+        >
           <li class="border-secondary pr-3">
             <button
               type="button"
@@ -49,7 +52,7 @@
           </li>
         </ul>
         <!-- DBから取得した天候情報が有れば情報を表示する -->
-        <div v-else class="row">
+        <div v-else-if="!!Object.values(weatherData).length && showbutton" class="row">
           <dl class="col-6 col-sm-4 col-md-15">
             <dt class="font-weight-normal d-inline-block">天　候：</dt>
             <dd class="d-inline-block">
@@ -100,6 +103,7 @@
     <WeatherModal id="modal-weather-post">
       <template #input>
         <WeatherInput
+          input-type="weatherRegist"
           model-id="modal-weather-post"
           :today="today"
         ></WeatherInput></template
@@ -107,10 +111,11 @@
     <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
     <WeatherModal id="modal-weather-put">
       <template #input>
-        <WeatherUpdate
+        <WeatherInput
+          input-type="weatherEdit"
           model-id="modal-weather-put"
           :today="today"
-        ></WeatherUpdate></template
+        ></WeatherInput></template
     ></WeatherModal>
     <VitalModal id="modal-vital-post"
       >バイタル登録
@@ -128,7 +133,6 @@ import VitalModal from '@/components/Vital/VitalModal.vue'
 import VitalInput from '@/components/Vital/VitalInput.vue'
 import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
-import WeatherUpdate from '@/components/Weather/WeatherUpdate.vue'
 import SelectModule from '@/mixins/select'
 import moment from 'moment'
 import axios from 'axios'
@@ -138,7 +142,6 @@ export default {
   components: {
     WeatherModal,
     WeatherInput,
-    WeatherUpdate,
     VitalModal,
     VitalInput,
   },
@@ -146,6 +149,7 @@ export default {
   data() {
     return {
       today: moment(),
+      showbutton: false,
     }
   },
   computed: {
@@ -153,14 +157,14 @@ export default {
       return this.$store.getters['weather/weatherData']
     },
   },
-  created() {
+  async created() {
     // 今日の日付を取得
     var day = this.today.format('YYYY-MM-DD')
     if (this.weatherData.day !== day) {
       this.$store.dispatch('weather/resetWeatherData')
     }
     // コンポーネントが読み込まれた際、DBから今日の天候情報を取得し、無ければモーダルを開く
-    axios
+    await axios
       .get('http://localhost:8000/api/weather_records?day=' + day)
       .then((response) => {
         console.log(response)
@@ -169,6 +173,7 @@ export default {
       .catch(() => {
         this.openModel('modal-weather-post')
       })
+    this.showbutton = true
     this.$store.dispatch('user/usersListSet')
   },
   methods: {

@@ -37,8 +37,8 @@ const url = 'http://localhost:8000/api/weather_records'
 export default {
   namespaced: true,
   state: {
-    weatherData: weatherDate(), // DBから取得した天候情報
-    weatherInputData: weatherDate(), // OpenWeatherAPIから取得した天候情報と入力用
+    weatherData: {}, // DBから取得した天候情報
+    weatherInputData: {}, // OpenWeatherAPIから取得した天候情報と入力用
     weatherValidate: {},
   },
 
