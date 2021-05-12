@@ -33,7 +33,7 @@ export default {
     // 非同期通信が終了するのを待って、モーダルを実行する
     async showVital(id) {
       await this.$store.dispatch('vital/showVital', id)
-      await this.$bvModal.show('modal-put')
+      await this.$bvModal.show('modal-vital-put')
     },
   },
 }

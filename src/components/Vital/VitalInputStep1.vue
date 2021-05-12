@@ -326,17 +326,17 @@ export default {
     vitalData: {
       handler: function () {
         // 昼食がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.lunch === false) {
+        if (!this.vitalData.lunch) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.lunch_amount = ''
-            state.vitalData.lunch_start = ''
-            state.vitalData.lunch_end = ''
+            state.vitalData.lunch_amount = null
+            state.vitalData.lunch_start = null
+            state.vitalData.lunch_end = null
           })
         }
         // おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.snack === false) {
+        if (!this.vitalData.snack) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.snack_time = ''
+            state.vitalData.snack_time = null
           })
         }
         // バリデーションを監視する

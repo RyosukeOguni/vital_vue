@@ -3,8 +3,8 @@ import axios from 'axios'
 // userDateオブジェクトを返す
 const userDate = () => ({
   name: '',
-  age: '',
-  sex: '',
+  age: 0,
+  sex: null,
   diagnosis: '',
   note: '',
 })

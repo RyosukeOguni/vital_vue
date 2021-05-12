@@ -23,7 +23,7 @@
         :disabled="fill"
         @change="inputForm({ name: name, value: newValue })"
       >
-        <option value="" disabled selected>-----</option>
+        <option value="null" disabled selected>-----</option>
         <option v-for="select in selectlist" :key="select.value" :value="select.value">
           {{ select.name }}
         </option>
@@ -47,7 +47,7 @@ export default {
     },
     value: {
       type: [String, Number, Boolean],
-      default: '',
+      default: null,
     },
     selectlist: {
       type: Array,

@@ -28,12 +28,22 @@
         <VitalTable v-if="vitalsList" :vitals-list="vitalsList"></VitalTable>
       </section>
     </article>
+    <!-- バイタル新規登録ボタンを押下したときに展開するバイタル新規登録モーダル -->
+    <VitalModal id="modal-vital-put"
+      >バイタル登録
+      <template #input>
+        <VitalInput input-type="vitalEdit" model-id="modal-vital-put"
+          ><template #button>更新</template></VitalInput
+        ></template
+      ></VitalModal
+    >
   </main>
 </template>
 <script>
 import VitalTable from '@/components/Vital/VitalTable'
 import InputForm from '@/components/Common/InputForm.vue'
-import axios from 'axios'
+import VitalModal from '@/components/Vital/VitalModal.vue'
+import VitalInput from '@/components/Vital/VitalInput.vue'
 import moment from 'moment'
 
 export default {
@@ -41,14 +51,15 @@ export default {
   components: {
     VitalTable,
     InputForm,
+    VitalModal,
+    VitalInput,
   },
   data() {
     return {
       tableProps: {
-        user_id: '',
+        user_id: null,
         year_month: moment().format('YYYY-MM'),
       },
-      userNameList: [],
     }
   },
   computed: {
@@ -57,6 +68,15 @@ export default {
     },
     vitalsLength() {
       return this.vitalsList.length
+    },
+    usersList() {
+      return this.$store.getters['user/usersList']
+    },
+    userNameList() {
+      return this.usersList.map((data) => ({
+        value: data.id,
+        name: data.id + '：' + data.name,
+      }))
     },
   },
   // userとdayの入力が変わる度にDBからデータを取得する
@@ -69,18 +89,8 @@ export default {
     },
   },
   created() {
-    axios
-      .get('http://localhost:8000/api/users')
-      .then((response) => {
-        console.log(response)
-        this.userNameList = response.data.data.map((data) => ({
-          value: data.data.id,
-          name: data.data.id + '：' + data.data.attribute.name,
-        }))
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    // バイタル入力画面で選択する利用者一覧をあらかじめ読み込んでおく
+    this.$store.dispatch('user/usersListSet')
   },
   // ルート変更時にバイタル一覧をリセットする
   destroyed() {
@@ -93,3 +103,10 @@ export default {
   },
 }
 </script>
+<style>
+@media (min-width: 576px) {
+  #modal-vital-put .modal-dialog {
+    max-width: 90%;
+  }
+}
+</style>

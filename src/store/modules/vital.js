@@ -2,109 +2,104 @@
 import moment from 'moment'
 import axios from 'axios'
 
-const url = 'http://localhost:8000/api/index/vitals'
+const indexurl = 'http://localhost:8000/api/index/vitals'
+const url = 'http://localhost:8000/api/vitals'
 
 // vitalDateオブジェクトを返す
 const vitalDate = () => ({
-  user_id: '',
+  user_id: null,
   user_data: {
-    name: '',
-    age: '',
-    sex: '',
-    diagnosis: '',
+    name: null,
+    age: null,
+    sex: null,
+    diagnosis: null,
   },
   weather_record_id: '',
   weather_data: {
-    day: '',
-    weather: '',
-    temp: '',
-    humidity: '',
-    room_temp: '',
-    room_humidity: '',
+    day: null,
+    weather: null,
+    temp: null,
+    humidity: null,
+    room_temp: null,
+    room_humidity: null,
   },
-  body_temp: '',
-  pulse: '',
-  breath: '',
-  spo2: '',
-  dbp: '',
-  sbp: '',
-  vital_note: '',
-  condition: '',
-  mood: '',
-  sleep: '',
-  breakfast: '',
-  lunch: '',
-  lunch_amount: '',
-  lunch_start: '',
-  lunch_end: '',
-  snack: '',
-  snack_time: '',
-  water_intake: '',
-  life_note: '',
-  voiding_vol1: '',
-  voiding_time1: '',
-  voiding_memo1: '',
-  voiding_vol2: '',
-  voiding_time2: '',
-  voiding_memo2: '',
-  voiding_vol3: '',
-  voiding_time3: '',
-  voiding_memo3: '',
-  defecation_vol1: '',
-  defecation_time1: '',
-  defecation_memo1: '',
-  defecation_vol2: '',
-  defecation_time2: '',
-  defecation_memo2: '',
-  defecation_vol3: '',
-  defecation_time3: '',
-  defecation_memo3: '',
-  total_defecation: '',
-  excretion_note: '',
-  medicine: '',
-  medicine_time: '',
-  vomiting: '',
-  vomiting_time: '',
-  attack1: '',
-  attack_time1: '',
-  attack_duration1: '',
-  attack_memo1: '',
-  attack2: '',
-  attack_time2: '',
-  attack_duration2: '',
-  attack_memo2: '',
-  attack3: '',
-  attack_time3: '',
-  attack_duration3: '',
-  attack_memo3: '',
-  aspiration: '',
-  aspiration_time: '',
-  aspiration_point: '',
-  aspiration_color: '',
-  aspiration_type: '',
-  aspiration_note: '',
-  injection: '',
-  injection_start: '',
-  injection_end: '',
-  injection_point: '',
-  injection_vol: '',
-  injection_note: '',
-  choke: '',
-  step: '',
-  total_vital_note: '',
+  body_temp: 0,
+  pulse: 0,
+  breath: null,
+  spo2: 0,
+  dbp: 0,
+  sbp: 0,
+  vital_note: null,
+  condition: null,
+  mood: null,
+  sleep: null,
+  breakfast: null,
+  lunch: null,
+  lunch_amount: null,
+  lunch_start: null,
+  lunch_end: null,
+  snack: null,
+  snack_time: null,
+  water_intake: null,
+  life_note: null,
+  voiding_vol1: null,
+  voiding_time1: null,
+  voiding_memo1: null,
+  voiding_vol2: null,
+  voiding_time2: null,
+  voiding_memo2: null,
+  voiding_vol3: null,
+  voiding_time3: null,
+  voiding_memo3: null,
+  defecation_vol1: null,
+  defecation_time1: null,
+  defecation_memo1: null,
+  defecation_vol2: null,
+  defecation_time2: null,
+  defecation_memo2: null,
+  defecation_vol3: null,
+  defecation_time3: null,
+  defecation_memo3: null,
+  total_defecation: 0,
+  excretion_note: null,
+  medicine: null,
+  medicine_time: null,
+  vomiting: null,
+  vomiting_time: null,
+  attack1: null,
+  attack_time1: null,
+  attack_duration1: null,
+  attack_memo1: null,
+  attack2: null,
+  attack_time2: null,
+  attack_duration2: null,
+  attack_memo2: null,
+  attack3: null,
+  attack_time3: null,
+  attack_duration3: null,
+  attack_memo3: null,
+  aspiration: null,
+  aspiration_time: null,
+  aspiration_point: null,
+  aspiration_color: null,
+  aspiration_type: null,
+  aspiration_note: null,
+  injection: null,
+  injection_start: null,
+  injection_end: null,
+  injection_point: null,
+  injection_vol: null,
+  injection_note: null,
+  choke: 0,
+  step: null,
+  total_vital_note: null,
 })
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {
   let msg = ''
-  if (Array.isArray(data)) {
-    data.forEach((vital) => {
-      msg += '【' + vital.id + '：' + vital.name + '】'
-    })
-  } else {
-    let json = data.data.attribute
-    msg += '【' + json.id + '：' + json.name + '】'
-  }
+  let json = data.data.attribute
+  msg += '【' + json.weather_data.day + '：' + json.user_data.name + '】'
   return msg
 }
 
@@ -171,7 +166,7 @@ export default {
     // ▼ 非同期通信でDBからバイタル一覧データを取得
     vitalsListSet({ commit }, input) {
       axios
-        .get(url + '?user_id=' + input.user_id + '&month=' + input.year_month)
+        .get(indexurl + '?user_id=' + input.user_id + '&month=' + input.year_month)
         .then((response) => {
           console.log(response)
           // vitalをstateに反映
@@ -197,9 +192,11 @@ export default {
     },
 
     // ▼ 非同期通信でVitalDataをDBに登録
-    async vitalRegist({ dispatch, state }) {
+    async vitalRegist({ state }) {
       // jsonで送るデータをオブジェクトのまま取得
       var json = state.vitalData
+      delete json.weather_data
+      delete json.user_data
       // 非同期通信でapiにjsonで送信
       await axios
         .post(url, json)
@@ -210,8 +207,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      // DBへの登録が完了したら、新しいDB情報をstateに再取得する
-      dispatch('vitalsListSet')
     },
 
     // ▼ 非同期通信でDBからVitalDataを更新

@@ -391,54 +391,54 @@ export default {
         // 服薬がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         !this.vitalData.medicine &&
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.medicine_time = ''
+            state.vitalData.medicine_time = null
           })
         // 服薬がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         !this.vitalData.vomiting &&
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.vomiting_time = ''
+            state.vitalData.vomiting_time = null
           })
         // 発作１がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (!this.vitalData.attack1 || this.vitalData.attack1 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.attack_time1 = ''
-            state.vitalData.attack_duration1 = ''
-            state.vitalData.attack_memo1 = ''
+            state.vitalData.attack_time1 = null
+            state.vitalData.attack_duration1 = null
+            state.vitalData.attack_memo1 = null
           })
         }
         // 発作２がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (!this.vitalData.attack2 || this.vitalData.attack2 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.attack_time2 = ''
-            state.vitalData.attack_duration2 = ''
-            state.vitalData.attack_memo2 = ''
+            state.vitalData.attack_time2 = null
+            state.vitalData.attack_duration2 = null
+            state.vitalData.attack_memo2 = null
           })
         }
         // 発作３がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (!this.vitalData.attack3 || this.vitalData.attack3 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.attack_time3 = ''
-            state.vitalData.attack_duration3 = ''
-            state.vitalData.attack_memo3 = ''
+            state.vitalData.attack_time3 = null
+            state.vitalData.attack_duration3 = null
+            state.vitalData.attack_memo3 = null
           })
         }
         // 吸引がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         !this.vitalData.aspiration &&
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.aspiration_time = ''
-            state.vitalData.aspiration_point = ''
-            state.vitalData.aspiration_color = ''
-            state.vitalData.aspiration_type = ''
-            state.vitalData.aspiration_note = ''
+            state.vitalData.aspiration_time = null
+            state.vitalData.aspiration_point = null
+            state.vitalData.aspiration_color = null
+            state.vitalData.aspiration_type = null
+            state.vitalData.aspiration_note = null
           })
         // 注入がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         !this.vitalData.injection &&
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.injection_start = ''
-            state.vitalData.injection_end = ''
-            state.vitalData.injection_point = ''
-            state.vitalData.injection_vol = ''
-            state.vitalData.injection_note = ''
+            state.vitalData.injection_start = null
+            state.vitalData.injection_end = null
+            state.vitalData.injection_point = null
+            state.vitalData.injection_vol = null
+            state.vitalData.injection_note = null
           })
         // バリデーションを監視する
         if (Object.keys(this.vitalValidate).length) {

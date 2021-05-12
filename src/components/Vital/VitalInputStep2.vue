@@ -266,39 +266,39 @@ export default {
         // 排尿量がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (!this.vitalData.voiding_vol1 || this.vitalData.voiding_vol1 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.voiding_time1 = ''
-            state.vitalData.voiding_memo1 = ''
+            state.vitalData.voiding_time1 = null
+            state.vitalData.voiding_memo1 = null
           })
         }
         if (!this.vitalData.voiding_vol2 || this.vitalData.voiding_vol2 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.voiding_time2 = ''
-            state.vitalData.voiding_memo2 = ''
+            state.vitalData.voiding_time2 = null
+            state.vitalData.voiding_memo2 = null
           })
         }
         if (!this.vitalData.voiding_vol3 || this.vitalData.voiding_vol3 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.voiding_time3 = ''
-            state.vitalData.voiding_memo3 = ''
+            state.vitalData.voiding_time3 = null
+            state.vitalData.voiding_memo3 = null
           })
         }
         // 排尿量がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (!this.vitalData.defecation_vol1 || this.vitalData.defecation_vol1 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.defecation_time1 = ''
-            state.vitalData.defecation_memo1 = ''
+            state.vitalData.defecation_time1 = null
+            state.vitalData.defecation_memo1 = null
           })
         }
         if (!this.vitalData.defecation_vol2 || this.vitalData.defecation_vol2 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.defecation_time2 = ''
-            state.vitalData.defecation_memo2 = ''
+            state.vitalData.defecation_time2 = null
+            state.vitalData.defecation_memo2 = null
           })
         }
         if (!this.vitalData.defecation_vol3 || this.vitalData.defecation_vol3 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData.defecation_time3 = ''
-            state.vitalData.defecation_memo3 = ''
+            state.vitalData.defecation_time3 = null
+            state.vitalData.defecation_memo3 = null
           })
         }
         // バリデーションを監視する

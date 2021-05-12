@@ -41,19 +41,22 @@ const step = [
 const weather = ['晴れ', '曇り', '雨', '雪']
 
 const bool = [
-  { value: false, name: '無' },
-  { value: true, name: '有' },
+  { value: 0, name: '無' },
+  { value: 1, name: '有' },
 ]
 
 // 1日の時間を10分刻みでリスト表示
 const daytime = (() => {
   let time = moment().hour(0).minute(0).seconds(0)
-  let timearray = [time.format('HH:mm')]
+  let timearray = [moment(time.toISOString())]
   while (time.format('HH:mm') !== '23:50') {
     time.add(10, 'minute')
-    timearray.push(time.format('HH:mm'))
+    timearray.push(moment(time.toISOString()))
   }
-  let selectlist = timearray.map((data) => ({ value: data, name: data }))
+  let selectlist = timearray.map((data) => ({
+    value: data.format('HH:mm:ss'),
+    name: data.format('HH:mm'),
+  }))
   return selectlist
 })()
 
