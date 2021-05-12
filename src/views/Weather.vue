@@ -117,6 +117,7 @@
           :today="today"
         ></WeatherInput></template
     ></WeatherModal>
+    <!-- バイタル新規登録ボタンを押下したときに展開するバイタル新規登録モーダル -->
     <VitalModal id="modal-vital-post"
       >バイタル登録
       <template #input>
@@ -173,7 +174,9 @@ export default {
       .catch(() => {
         this.openModel('modal-weather-post')
       })
+    // 天候情報を読み込み中に、天候情報登録ボタンを表示させない
     this.showbutton = true
+    // バイタル入力画面で選択する利用者一覧をあらかじめ読み込んでおく
     this.$store.dispatch('user/usersListSet')
   },
   methods: {

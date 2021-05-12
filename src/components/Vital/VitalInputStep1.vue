@@ -9,20 +9,28 @@
             name="user_id"
             :value="vitalData.user_id"
             :validate="vitalValidate.user_id"
-            @inputForm="inputForm"
+            @inputForm="selectUsers"
             >利用者</InputForm
           >
         </li>
         <li class="col-md-2 col-6">
-          <InputForm type="number" :value="userData.age" fill>年齢</InputForm>
+          <InputForm type="number" :value="vitalData.user_data.age" fill>年齢</InputForm>
         </li>
         <li class="col-md-2 col-6">
-          <InputForm :selectlist="selectList('sex')" name="sex" :value="userData.sex" fill
+          <InputForm
+            :selectlist="selectList('sex')"
+            name="sex"
+            :value="vitalData.user_data.sex"
+            fill
             >性別</InputForm
           >
         </li>
         <li class="col-md-4">
-          <InputForm type="text" name="diagnosis" :value="userData.diagnosis" fill
+          <InputForm
+            type="text"
+            name="diagnosis"
+            :value="vitalData.user_data.diagnosis"
+            fill
             >診断名</InputForm
           >
         </li>
@@ -35,7 +43,7 @@
           <InputForm
             type="date"
             name="weather_record_id"
-            :value="weatherSelect.day"
+            :value="vitalData.weather_data.day"
             :validate="vitalValidate.weather_record_id"
             @inputForm="selectDays"
             >日付</InputForm
@@ -45,24 +53,32 @@
           <InputForm
             :selectlist="selectList('weather')"
             name="weather"
-            :value="weatherSelect.weather"
+            :value="vitalData.weather_data.weather"
             fill
             >天気</InputForm
           >
         </li>
         <li class="w-100"></li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="temp" :value="weatherSelect.temp" fill
+          <InputForm type="number" name="temp" :value="vitalData.weather_data.temp" fill
             >外気温(℃)</InputForm
           >
         </li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="room_temp" :value="weatherSelect.room_temp" fill
+          <InputForm
+            type="number"
+            name="room_temp"
+            :value="vitalData.weather_data.room_temp"
+            fill
             >内気温(℃)</InputForm
           >
         </li>
         <li class="col-md-3 col-6">
-          <InputForm type="number" name="humidity" :value="weatherSelect.humidity" fill
+          <InputForm
+            type="number"
+            name="humidity"
+            :value="vitalData.weather_data.humidity"
+            fill
             >外湿度(％)</InputForm
           >
         </li>
@@ -70,7 +86,7 @@
           <InputForm
             type="number"
             name="room_humidity"
-            :value="weatherSelect.room_humidity"
+            :value="vitalData.weather_data.room_humidity"
             fill
             >内湿度(％)</InputForm
           >
@@ -286,17 +302,12 @@ export default {
     InputForm,
   },
   mixins: [SelectModule], //ミックスインでcomputedを共通化
-  data() {
-    return {
-      weatherSelect: {},
-    }
-  },
   computed: {
-    userNameList() {
-      return this.usersList.map((data) => ({
-        value: data.id,
-        name: data.id + '：' + data.name,
-      }))
+    vitalData() {
+      return this.$store.getters['vital/vitalData']
+    },
+    vitalValidate() {
+      return this.$store.getters['vital/vitalValidate']
     },
     weatherData() {
       return this.$store.getters['weather/weatherData']
@@ -304,17 +315,11 @@ export default {
     usersList() {
       return this.$store.getters['user/usersList']
     },
-    vitalData() {
-      return this.$store.getters['vital/vitalData'][0]
-    },
-    vitalValidate() {
-      return this.$store.getters['vital/vitalValidate']
-    },
-    userData() {
-      let a = this.usersList
-      return !!this.vitalData.user_id
-        ? a.find((data) => data.id == this.vitalData.user_id)
-        : {}
+    userNameList() {
+      return this.usersList.map((data) => ({
+        value: data.id,
+        name: data.id + '：' + data.name,
+      }))
     },
   },
   watch: {
@@ -323,15 +328,15 @@ export default {
         // 昼食がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (this.vitalData.lunch === false) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].lunch_amount = ''
-            state.vitalData[0].lunch_start = ''
-            state.vitalData[0].lunch_end = ''
+            state.vitalData.lunch_amount = ''
+            state.vitalData.lunch_start = ''
+            state.vitalData.lunch_end = ''
           })
         }
         // おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
         if (this.vitalData.snack === false) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].snack_time = ''
+            state.vitalData.snack_time = ''
           })
         }
         // バリデーションを監視する
@@ -344,10 +349,11 @@ export default {
   },
   created() {
     if (this.vitalData.weather_record_id === '') {
-      // vitalDataのweather_record_idに値が無ければ本日の天候情報を取得
-      this.weatherSelect = { ...this.weatherData }
-      // 天候情報の初期idをvitalDataに登録する
-      this.inputWeatherId()
+      this.$store.dispatch('vital/stateInput', (state) => {
+        state.vitalData.weather_record_id = this.weatherData.id
+        delete this.weatherData.id
+        state.vitalData.weather_data = { ...this.weatherData }
+      })
     } else {
       axios
         .get(
@@ -355,44 +361,55 @@ export default {
         )
         .then((response) => {
           console.log(response)
-          this.weatherSelect = response.data.data.attribute
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.weather_record_id = response.data.data.attribute.id
+            delete response.data.data.attribute.id
+            state.vitalData.weather_data = { ...response.data.data.attribute }
+          })
         })
         .catch(() => {})
     }
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('vital/inputForm', { ...e, page: 0 })
+      this.$store.dispatch('vital/inputForm', e)
     },
-    // ▼ vitalDataのweather_record_idにweather_recordsのidを入力
-    inputWeatherId() {
+    selectUsers(e) {
+      let user = this.usersList.find((data) => data.id == e.value)
       this.$store.dispatch('vital/stateInput', (state) => {
-        state.vitalData[0].weather_record_id = this.weatherSelect.id
+        state.vitalData.user_id = user.id
+        state.vitalData.user_data = { ...user }
       })
     },
-    // ▼ 日付を選択した時、weather_recordsDBにレコードがあればweatherSelectに取得、無ければidに""を入れる
+    // ▼ 日付を選択した時、weather_recordsDBにレコードがあればvitalData.weather_dataに取得、無ければidに""を入れる
     async selectDays(e) {
       await axios
         .get('http://localhost:8000/api/weather_records?day=' + e.value)
         .then((response) => {
           console.log(response)
-          this.weatherSelect = { ...response.data.data.attribute }
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.weather_record_id = response.data.data.attribute.id
+            delete response.data.data.attribute.id
+            state.vitalData.weather_data = { ...response.data.data.attribute }
+          })
         })
         .catch(() => {
-          this.weatherSelect = { id: '' }
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.weather_record_id = ''
+            state.vitalData.weather_data = {}
+          })
         })
-      await this.inputWeatherId()
     },
     // ▼ 実行するバリデーションルールを記述（親コンポーネント、自コンポーネントのwatchが使用）
     Validate() {
       this.$store.dispatch('vital/Validate', (state) => {
         let e = {}
         // 利用者のバリデーション
-        !state.vitalData[0].user_id
+        !state.vitalData.user_id
           ? (e.user_id = '利用者を選択してください')
           : (e.user_id = '')
         // 天候情報のバリデーション
-        !state.vitalData[0].weather_record_id
+        !state.vitalData.weather_record_id
           ? (e.weather_record_id = '登録された日付を選択して下さい')
           : (e.weather_record_id = '')
         state.vitalValidate = e

@@ -21,6 +21,7 @@
                 name="voiding_time1"
                 :value="vitalData.voiding_time1"
                 :validate="vitalValidate.voiding_time1"
+                :fill="!vitalData.voiding_vol1 || vitalData.voiding_vol1 == 4"
                 @inputForm="inputForm"
                 >排尿時間１</InputForm
               >
@@ -31,6 +32,7 @@
                 name="voiding_memo1"
                 :value="vitalData.voiding_memo1"
                 :validate="vitalValidate.voiding_memo1"
+                :fill="!vitalData.voiding_vol1 || vitalData.voiding_vol1 == 4"
                 @inputForm="inputForm"
                 >排尿その他１</InputForm
               >
@@ -53,6 +55,7 @@
                 name="voiding_time2"
                 :value="vitalData.voiding_time2"
                 :validate="vitalValidate.voiding_time2"
+                :fill="!vitalData.voiding_vol2 || vitalData.voiding_vol2 == 4"
                 @inputForm="inputForm"
                 >排尿時間２</InputForm
               >
@@ -63,6 +66,7 @@
                 name="voiding_memo2"
                 :value="vitalData.voiding_memo2"
                 :validate="vitalValidate.voiding_memo2"
+                :fill="!vitalData.voiding_vol2 || vitalData.voiding_vol2 == 4"
                 @inputForm="inputForm"
                 >排尿その他２</InputForm
               >
@@ -85,6 +89,7 @@
                 name="voiding_time3"
                 :value="vitalData.voiding_time3"
                 :validate="vitalValidate.voiding_time3"
+                :fill="!vitalData.voiding_vol3 || vitalData.voiding_vol3 == 4"
                 @inputForm="inputForm"
                 >排尿時間３</InputForm
               >
@@ -95,6 +100,7 @@
                 name="voiding_memo3"
                 :value="vitalData.voiding_memo3"
                 :validate="vitalValidate.voiding_memo3"
+                :fill="!vitalData.voiding_vol3 || vitalData.voiding_vol3 == 4"
                 @inputForm="inputForm"
                 >排尿その他３</InputForm
               >
@@ -124,6 +130,7 @@
                 name="defecation_time1"
                 :value="vitalData.defecation_time1"
                 :validate="vitalValidate.defecation_time1"
+                :fill="!vitalData.defecation_vol1 || vitalData.defecation_vol1 == 4"
                 @inputForm="inputForm"
                 >排便時間１</InputForm
               >
@@ -134,6 +141,7 @@
                 name="defecation_memo1"
                 :value="vitalData.defecation_memo1"
                 :validate="vitalValidate.defecation_memo1"
+                :fill="!vitalData.defecation_vol1 || vitalData.defecation_vol1 == 4"
                 @inputForm="inputForm"
                 >排便その他１</InputForm
               >
@@ -156,6 +164,7 @@
                 name="defecation_time2"
                 :value="vitalData.defecation_time2"
                 :validate="vitalValidate.defecation_time2"
+                :fill="!vitalData.defecation_vol2 || vitalData.defecation_vol2 == 4"
                 @inputForm="inputForm"
                 >排便時間２</InputForm
               >
@@ -166,6 +175,7 @@
                 name="defecation_memo2"
                 :value="vitalData.defecation_memo2"
                 :validate="vitalValidate.defecation_memo2"
+                :fill="!vitalData.defecation_vol2 || vitalData.defecation_vol2 == 4"
                 @inputForm="inputForm"
                 >排便その他２</InputForm
               >
@@ -188,6 +198,7 @@
                 name="defecation_time3"
                 :value="vitalData.defecation_time3"
                 :validate="vitalValidate.defecation_time3"
+                :fill="!vitalData.defecation_vol3 || vitalData.defecation_vol3 == 4"
                 @inputForm="inputForm"
                 >排便時間３</InputForm
               >
@@ -198,6 +209,7 @@
                 name="defecation_memo3"
                 :value="vitalData.defecation_memo3"
                 :validate="vitalValidate.defecation_memo3"
+                :fill="!vitalData.defecation_vol3 || vitalData.defecation_vol3 == 4"
                 @inputForm="inputForm"
                 >排便その他２</InputForm
               >
@@ -242,7 +254,7 @@ export default {
   mixins: [SelectModule], //ミックスインでcomputedを共通化
   computed: {
     vitalData() {
-      return this.$store.getters['vital/vitalData'][1]
+      return this.$store.getters['vital/vitalData']
     },
     vitalValidate() {
       return this.$store.getters['vital/vitalValidate']
@@ -251,18 +263,42 @@ export default {
   watch: {
     vitalData: {
       handler: function () {
-        // 昼食がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.lunch === false) {
+        // 排尿量がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (!this.vitalData.voiding_vol1 || this.vitalData.voiding_vol1 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].lunch_amount = ''
-            state.vitalData[0].lunch_start = ''
-            state.vitalData[0].lunch_end = ''
+            state.vitalData.voiding_time1 = ''
+            state.vitalData.voiding_memo1 = ''
           })
         }
-        // おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.snack === false) {
+        if (!this.vitalData.voiding_vol2 || this.vitalData.voiding_vol2 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].snack_time = ''
+            state.vitalData.voiding_time2 = ''
+            state.vitalData.voiding_memo2 = ''
+          })
+        }
+        if (!this.vitalData.voiding_vol3 || this.vitalData.voiding_vol3 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.voiding_time3 = ''
+            state.vitalData.voiding_memo3 = ''
+          })
+        }
+        // 排尿量がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (!this.vitalData.defecation_vol1 || this.vitalData.defecation_vol1 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.defecation_time1 = ''
+            state.vitalData.defecation_memo1 = ''
+          })
+        }
+        if (!this.vitalData.defecation_vol2 || this.vitalData.defecation_vol2 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.defecation_time2 = ''
+            state.vitalData.defecation_memo2 = ''
+          })
+        }
+        if (!this.vitalData.defecation_vol3 || this.vitalData.defecation_vol3 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.defecation_time3 = ''
+            state.vitalData.defecation_memo3 = ''
           })
         }
         // バリデーションを監視する
@@ -275,18 +311,18 @@ export default {
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('vital/inputForm', { ...e, page: 1 })
+      this.$store.dispatch('vital/inputForm', e)
     },
     // ▼ 実行するバリデーションルールを記述（親コンポーネント、自コンポーネントのwatchが使用）
     Validate() {
       this.$store.dispatch('vital/Validate', (state) => {
         let e = {}
         // 利用者のバリデーション
-        !state.vitalData[0].user_id
+        !state.vitalData.user_id
           ? (e.user_id = '利用者を選択してください')
           : (e.user_id = '')
         // 天候情報のバリデーション
-        !state.vitalData[0].weather_record_id
+        !state.vitalData.weather_record_id
           ? (e.weather_record_id = '登録された日付を選択して下さい')
           : (e.weather_record_id = '')
         state.vitalValidate = e

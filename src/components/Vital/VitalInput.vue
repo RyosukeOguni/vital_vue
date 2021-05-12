@@ -7,6 +7,7 @@
       <VitalInputStep1 v-if="page === 0" ref="step_0"></VitalInputStep1>
       <VitalInputStep2 v-if="page === 1" ref="step_1"></VitalInputStep2>
       <VitalInputStep3 v-if="page === 2" ref="step_2"></VitalInputStep3>
+      <VitalInputStep4 v-if="page === 3" ref="step_3"></VitalInputStep4>
       <InputButton
         :page="page"
         :progress="progress"
@@ -23,6 +24,7 @@ import ProgressBar from '@/components/Common/ProgressBar.vue'
 import VitalInputStep1 from '@/components/Vital/VitalInputStep1.vue'
 import VitalInputStep2 from '@/components/Vital/VitalInputStep2.vue'
 import VitalInputStep3 from '@/components/Vital/VitalInputStep3.vue'
+import VitalInputStep4 from '@/components/Vital/VitalInputStep4.vue'
 import InputButton from '@/components/Common/InputButton.vue'
 
 export default {
@@ -32,6 +34,7 @@ export default {
     VitalInputStep1,
     VitalInputStep2,
     VitalInputStep3,
+    VitalInputStep4,
     InputButton,
   },
   props: {
@@ -70,17 +73,18 @@ export default {
     pageNext() {
       // 指定した子コンポーネントのバリデーションを実行してvitalValidateにプロパティを付与する
       this.$refs['step_' + this.page].Validate()
-      // vitalValidateのプロパティの値がすべて空の時、次のページへ移る
+      // vitalValidateのプロパティの値がすべて空の時、Validateプロパティを削除して次のページへ移る
       if (Object.values(this.vitalValidate).every((value) => value === '')) {
         this.page++
+        this.$store.dispatch('vital/resetValidate')
         this.progressMove()
       }
     },
-    // ▼ InputButtonの最後のボタンが発火したときの処理
+    // ▼ 最後のボタンが発火したときの処理
     decision() {
       this.$store.dispatch('vital/' + this.inputType)
       this.$store.dispatch('vital/resetData')
-      // モーダルが指定されていない場合、閉じる処理を行わない
+      // モーダル名が指定されている場合、閉じる処理を行う
       !!this.modelId && this.$bvModal.hide(this.modelId)
     },
     // ▼ プログレスバーをページ通りに進める

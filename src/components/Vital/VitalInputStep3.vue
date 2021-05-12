@@ -19,6 +19,7 @@
             name="medicine_time"
             :value="vitalData.medicine_time"
             :validate="vitalValidate.medicine_time"
+            :fill="!vitalData.medicine"
             @inputForm="inputForm"
             >服薬時間</InputForm
           >
@@ -39,6 +40,7 @@
             name="vomiting_time"
             :value="vitalData.vomiting_time"
             :validate="vitalValidate.vomiting_time"
+            :fill="!vitalData.vomiting"
             @inputForm="inputForm"
             >嘔吐時間</InputForm
           >
@@ -66,6 +68,7 @@
                 name="attack_time1"
                 :value="vitalData.attack_time1"
                 :validate="vitalValidate.attack_time1"
+                :fill="!vitalData.attack1 || vitalData.attack1 == 4"
                 @inputForm="inputForm"
                 >発作時間１</InputForm
               >
@@ -76,6 +79,7 @@
                 name="attack_duration1"
                 :value="vitalData.attack_duration1"
                 :validate="vitalValidate.attack_duration1"
+                :fill="!vitalData.attack1 || vitalData.attack1 == 4"
                 @inputForm="inputForm"
                 >発作継続時間１</InputForm
               >
@@ -86,6 +90,7 @@
                 name="attack_memo1"
                 :value="vitalData.attack_memo1"
                 :validate="vitalValidate.attack_memo1"
+                :fill="!vitalData.attack1 || vitalData.attack1 == 4"
                 @inputForm="inputForm"
                 >その他１</InputForm
               >
@@ -108,6 +113,7 @@
                 name="attack_time2"
                 :value="vitalData.attack_time2"
                 :validate="vitalValidate.attack_time2"
+                :fill="!vitalData.attack2 || vitalData.attack2 == 4"
                 @inputForm="inputForm"
                 >発作時間２</InputForm
               >
@@ -118,6 +124,7 @@
                 name="attack_duration2"
                 :value="vitalData.attack_duration2"
                 :validate="vitalValidate.attack_duration2"
+                :fill="!vitalData.attack2 || vitalData.attack2 == 4"
                 @inputForm="inputForm"
                 >発作継続時間２</InputForm
               >
@@ -128,6 +135,7 @@
                 name="attack_memo2"
                 :value="vitalData.attack_memo2"
                 :validate="vitalValidate.attack_memo2"
+                :fill="!vitalData.attack2 || vitalData.attack2 == 4"
                 @inputForm="inputForm"
                 >その他２</InputForm
               >
@@ -150,6 +158,7 @@
                 name="attack_time3"
                 :value="vitalData.attack_time3"
                 :validate="vitalValidate.attack_time3"
+                :fill="!vitalData.attack3 || vitalData.attack3 == 4"
                 @inputForm="inputForm"
                 >発作時間３</InputForm
               >
@@ -160,6 +169,7 @@
                 name="attack_duration3"
                 :value="vitalData.attack_duration3"
                 :validate="vitalValidate.attack_duration3"
+                :fill="!vitalData.attack3 || vitalData.attack3 == 4"
                 @inputForm="inputForm"
                 >発作継続時間３</InputForm
               >
@@ -170,6 +180,7 @@
                 name="attack_memo3"
                 :value="vitalData.attack_memo3"
                 :validate="vitalValidate.attack_memo3"
+                :fill="!vitalData.attack3 || vitalData.attack3 == 4"
                 @inputForm="inputForm"
                 >その他３</InputForm
               >
@@ -197,6 +208,7 @@
             name="aspiration_time"
             :value="vitalData.aspiration_time"
             :validate="vitalValidate.aspiration_time"
+            :fill="!vitalData.aspiration"
             @inputForm="inputForm"
             >吸引時間</InputForm
           >
@@ -207,6 +219,7 @@
             name="aspiration_point"
             :value="vitalData.aspiration_point"
             :validate="vitalValidate.aspiration_point"
+            :fill="!vitalData.aspiration"
             @inputForm="inputForm"
             >吸引場所</InputForm
           >
@@ -217,6 +230,7 @@
             name="aspiration_color"
             :value="vitalData.aspiration_color"
             :validate="vitalValidate.aspiration_color"
+            :fill="!vitalData.aspiration"
             @inputForm="inputForm"
             >吸引物色</InputForm
           >
@@ -227,6 +241,7 @@
             name="aspiration_type"
             :value="vitalData.aspiration_type"
             :validate="vitalValidate.aspiration_type"
+            :fill="!vitalData.aspiration"
             @inputForm="inputForm"
             >吸引質</InputForm
           >
@@ -237,6 +252,7 @@
             name="aspiration_note"
             :value="vitalData.aspiration_note"
             :validate="vitalValidate.aspiration_note"
+            :fill="!vitalData.aspiration"
             @inputForm="inputForm"
             >吸引備考</InputForm
           >
@@ -262,6 +278,7 @@
             name="injection_start"
             :value="vitalData.injection_start"
             :validate="vitalValidate.injection_start"
+            :fill="!vitalData.injection"
             @inputForm="inputForm"
             >注入開始時間</InputForm
           >
@@ -272,6 +289,7 @@
             name="injection_end"
             :value="vitalData.injection_end"
             :validate="vitalValidate.injection_end"
+            :fill="!vitalData.injection"
             @inputForm="inputForm"
             >注入終了時間</InputForm
           >
@@ -282,6 +300,7 @@
             name="injection_point"
             :value="vitalData.injection_point"
             :validate="vitalValidate.injection_point"
+            :fill="!vitalData.injection"
             @inputForm="inputForm"
             >注入場所</InputForm
           >
@@ -292,6 +311,7 @@
             name="injection_vol"
             :value="vitalData.injection_vol"
             :validate="vitalValidate.injection_vol"
+            :fill="!vitalData.injection"
             @inputForm="inputForm"
             >注入量</InputForm
           >
@@ -302,6 +322,7 @@
             name="injection_note"
             :value="vitalData.injection_note"
             :validate="vitalValidate.injection_note"
+            :fill="!vitalData.injection"
             @inputForm="inputForm"
             >注入備考</InputForm
           >
@@ -358,7 +379,7 @@ export default {
   mixins: [SelectModule], //ミックスインでcomputedを共通化
   computed: {
     vitalData() {
-      return this.$store.getters['vital/vitalData'][2]
+      return this.$store.getters['vital/vitalData']
     },
     vitalValidate() {
       return this.$store.getters['vital/vitalValidate']
@@ -367,20 +388,58 @@ export default {
   watch: {
     vitalData: {
       handler: function () {
-        // 昼食がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.lunch === false) {
+        // 服薬がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        !this.vitalData.medicine &&
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].lunch_amount = ''
-            state.vitalData[0].lunch_start = ''
-            state.vitalData[0].lunch_end = ''
+            state.vitalData.medicine_time = ''
+          })
+        // 服薬がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        !this.vitalData.vomiting &&
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.vomiting_time = ''
+          })
+        // 発作１がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (!this.vitalData.attack1 || this.vitalData.attack1 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.attack_time1 = ''
+            state.vitalData.attack_duration1 = ''
+            state.vitalData.attack_memo1 = ''
           })
         }
-        // おやつがfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
-        if (this.vitalData.snack === false) {
+        // 発作２がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (!this.vitalData.attack2 || this.vitalData.attack2 == 4) {
           this.$store.dispatch('vital/stateInput', (state) => {
-            state.vitalData[0].snack_time = ''
+            state.vitalData.attack_time2 = ''
+            state.vitalData.attack_duration2 = ''
+            state.vitalData.attack_memo2 = ''
           })
         }
+        // 発作３がないの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        if (!this.vitalData.attack3 || this.vitalData.attack3 == 4) {
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.attack_time3 = ''
+            state.vitalData.attack_duration3 = ''
+            state.vitalData.attack_memo3 = ''
+          })
+        }
+        // 吸引がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        !this.vitalData.aspiration &&
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.aspiration_time = ''
+            state.vitalData.aspiration_point = ''
+            state.vitalData.aspiration_color = ''
+            state.vitalData.aspiration_type = ''
+            state.vitalData.aspiration_note = ''
+          })
+        // 注入がfalseの場合、storeのcommitにコールバック関数で処理を送り、stateの値を変更する
+        !this.vitalData.injection &&
+          this.$store.dispatch('vital/stateInput', (state) => {
+            state.vitalData.injection_start = ''
+            state.vitalData.injection_end = ''
+            state.vitalData.injection_point = ''
+            state.vitalData.injection_vol = ''
+            state.vitalData.injection_note = ''
+          })
         // バリデーションを監視する
         if (Object.keys(this.vitalValidate).length) {
           this.Validate()
@@ -391,18 +450,18 @@ export default {
   },
   methods: {
     inputForm(e) {
-      this.$store.dispatch('vital/inputForm', { ...e, page: 2 })
+      this.$store.dispatch('vital/inputForm', e)
     },
     // ▼ 実行するバリデーションルールを記述（親コンポーネント、自コンポーネントのwatchが使用）
     Validate() {
       this.$store.dispatch('vital/Validate', (state) => {
         let e = {}
         // 利用者のバリデーション
-        !state.vitalData[0].user_id
+        !state.vitalData.user_id
           ? (e.user_id = '利用者を選択してください')
           : (e.user_id = '')
         // 天候情報のバリデーション
-        !state.vitalData[0].weather_record_id
+        !state.vitalData.weather_record_id
           ? (e.weather_record_id = '登録された日付を選択して下さい')
           : (e.weather_record_id = '')
         state.vitalValidate = e
