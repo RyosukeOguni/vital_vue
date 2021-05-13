@@ -52,6 +52,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    tableProps: {
+      type: Object,
+      default: () => {},
+    },
   },
   data: () => {
     return {
@@ -64,7 +68,7 @@ export default {
       handler: function () {
         this.paginate['paginate-items'].page = 0
       },
-      deep: true,
+      // 変更でvitalsListの情報が変わったとき、ページをそのままにする為、 deep: true, はしない。
     },
   },
 }

@@ -25,7 +25,11 @@
             >
           </li>
         </ul>
-        <VitalTable v-if="vitalsList" :vitals-list="vitalsList"></VitalTable>
+        <VitalTable
+          v-if="vitalsList"
+          :vitals-list="vitalsList"
+          :table-props="tableProps"
+        ></VitalTable>
       </section>
     </article>
     <!-- バイタル新規登録ボタンを押下したときに展開するバイタル新規登録モーダル -->
@@ -94,7 +98,7 @@ export default {
   },
   // ルート変更時にバイタル一覧をリセットする
   destroyed() {
-    this.$store.dispatch('vital/resetData')
+    this.$store.dispatch('vital/resetList')
   },
   methods: {
     inputForm(e) {

@@ -126,6 +126,26 @@ export default {
         attribute.day = moment(attribute.day)
         return attribute
       })
+      // dayを昇順で並べる
+      state.vitalsList.sort((a, b) => {
+        return a.day - b.day
+      })
+    },
+
+    // ▼ 変更したバイタル情報をvitalsListに適用（watchでvitalsListでの変更がかからないように、下層で変更をかける）
+    vitalsListPut(state, response) {
+      let attribute = response.data.data.attribute
+      state.vitalsList.forEach((data) => {
+        if (data.id == attribute.id) {
+          data.day = moment(attribute.weather_data.day)
+          data.weather = attribute.weather_data.weather
+          data.body_temp = attribute.body_temp
+          data.condition = attribute.condition
+          data.mood = attribute.mood
+          data.sleep = attribute.sleep
+          data.breakfast = attribute.breakfast
+        }
+      })
     },
 
     // ▼ DBから取得した利用者１件をstateに反映
@@ -147,16 +167,16 @@ export default {
 
     // ▼ vitalData、vitalValidateオブジェクトを初期化
     resetData(state) {
-      state.vitalsList = []
       state.vitalData = vitalDate()
       state.vitalValidate = {}
     },
 
-    resetValidate(state) {
-      state.vitalValidate = {}
+    // ▼ vitalsListオブジェクトを初期化
+    resetList(state) {
+      state.vitalsList = []
     },
 
-    // コールバック関数で受け取った処理をstateに行う
+    // ▼ コールバック関数で受け取った処理をstateに行う
     stateInput(state, callback) {
       callback(state)
     },
@@ -210,7 +230,7 @@ export default {
     },
 
     // ▼ 非同期通信でDBからVitalDataを更新
-    async vitalEdit({ dispatch, state }) {
+    async vitalEdit({ commit, state }) {
       // jsonで送るデータをオブジェクトのまま取得
       var json = state.vitalData
       // 非同期通信でapiにjsonで送信
@@ -219,12 +239,12 @@ export default {
         .then((response) => {
           console.log(response)
           alert(alrtMsg(response.data) + 'を変更しました')
+          // state.vitalListを変更する
+          commit('vitalsListPut', response)
         })
         .catch((error) => {
           console.log(error)
         })
-      // DBへの登録が完了したら、新しいDB情報をstateに再取得する
-      dispatch('vitalsListSet')
     },
 
     // ▼ フォームに入力があった場合、VitalData{}の対応するキーに値を入れる
@@ -242,9 +262,8 @@ export default {
       commit('resetData')
     },
 
-    // ▼ vitalValidateをstateから削除
-    resetValidate({ commit }) {
-      commit('resetValidate')
+    resetList({ commit }) {
+      commit('resetList')
     },
 
     // ▼ コールバック関数で受け取った処理をそのままmutationsに送る

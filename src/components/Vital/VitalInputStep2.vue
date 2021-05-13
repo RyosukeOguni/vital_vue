@@ -314,20 +314,7 @@ export default {
       this.$store.dispatch('vital/inputForm', e)
     },
     // ▼ 実行するバリデーションルールを記述（親コンポーネント、自コンポーネントのwatchが使用）
-    Validate() {
-      this.$store.dispatch('vital/Validate', (state) => {
-        let e = {}
-        // 利用者のバリデーション
-        !state.vitalData.user_id
-          ? (e.user_id = '利用者を選択してください')
-          : (e.user_id = '')
-        // 天候情報のバリデーション
-        !state.vitalData.weather_record_id
-          ? (e.weather_record_id = '登録された日付を選択して下さい')
-          : (e.weather_record_id = '')
-        state.vitalValidate = e
-      })
-    },
+    Validate() {},
   },
 }
 </script>

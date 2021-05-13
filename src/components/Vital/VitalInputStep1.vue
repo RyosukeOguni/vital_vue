@@ -415,6 +415,12 @@ export default {
         state.vitalValidate = e
       })
     },
+    scrollTop: function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    },
   },
 }
 </script>

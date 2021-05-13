@@ -76,7 +76,6 @@ export default {
       // vitalValidateのプロパティの値がすべて空の時、Validateプロパティを削除して次のページへ移る
       if (Object.values(this.vitalValidate).every((value) => value === '')) {
         this.page++
-        this.$store.dispatch('vital/resetValidate')
         this.progressMove()
       }
     },
