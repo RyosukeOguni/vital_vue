@@ -6,6 +6,7 @@
       :key="index"
       :class="step.active && 'active'"
       class="w-50 position-relative text-center fs12"
+      @click="step.active && pageSelect(index)"
     >
       {{ step.state }}
     </li>
@@ -21,6 +22,11 @@ export default {
       default: () => [],
     },
   },
+  methods: {
+    pageSelect(e) {
+      this.$emit('pageSelect', e)
+    },
+  },
 }
 </script>
 
@@ -28,6 +34,9 @@ export default {
 /* progressbar */
 .progressbar {
   counter-reset: step;
+}
+.progressbar li {
+  cursor: pointer;
 }
 .progressbar li:before {
   content: counter(step);

@@ -36,7 +36,10 @@
     <VitalModal id="modal-vital-put"
       >バイタル登録
       <template #input>
-        <VitalInput input-type="vitalEdit" model-id="modal-vital-put"
+        <VitalInput
+          input-type="vitalEdit"
+          model-id="modal-vital-put"
+          @scrollTop="scrollTop"
           ><template #button>更新</template></VitalInput
         ></template
       ></VitalModal
@@ -103,6 +106,13 @@ export default {
   methods: {
     inputForm(e) {
       this.tableProps[e.name] = e.value
+    },
+    // 進行ボタンが押される度にモーダルスクロールを上部に移動
+    scrollTop(e) {
+      document.getElementById(e).scrollTo({
+        top: 0,
+        behavior: 'instant',
+      })
     },
   },
 }

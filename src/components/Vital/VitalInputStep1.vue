@@ -351,7 +351,6 @@ export default {
     if (this.vitalData.weather_record_id === '') {
       this.$store.dispatch('vital/stateInput', (state) => {
         state.vitalData.weather_record_id = this.weatherData.id
-        delete this.weatherData.id
         state.vitalData.weather_data = { ...this.weatherData }
       })
     } else {
@@ -413,12 +412,6 @@ export default {
           ? (e.weather_record_id = '登録された日付を選択して下さい')
           : (e.weather_record_id = '')
         state.vitalValidate = e
-      })
-    },
-    scrollTop: function () {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
       })
     },
   },

@@ -2,7 +2,7 @@
   <main class="container">
     <article class="vital_input row justify-content-center">
       <section class="mt-4 col-md-12">
-        <ProgressBar :progress="progress"></ProgressBar>
+        <ProgressBar :progress="progress" @pageSelect="pageSelect"></ProgressBar>
       </section>
       <VitalInputStep1 v-if="page === 0" ref="step_0"></VitalInputStep1>
       <VitalInputStep2 v-if="page === 1" ref="step_1"></VitalInputStep2>
@@ -64,6 +64,12 @@ export default {
     },
   },
   methods: {
+    // ▼ プログレスバーから前の手順に戻るボタンが発火したときの処理
+    pageSelect(e) {
+      this.scrollTop()
+      this.page = e
+      this.progressMove()
+    },
     // ▼ 戻るボタンが発火したときの処理
     pageBack() {
       this.scrollTop()

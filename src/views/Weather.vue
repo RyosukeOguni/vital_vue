@@ -186,6 +186,7 @@ export default {
     openModel(modelid) {
       this.$bvModal.show(modelid)
     },
+    // 進行ボタンが押される度にモーダルスクロールを上部に移動
     scrollTop(e) {
       document.getElementById(e).scrollTo({
         top: 0,

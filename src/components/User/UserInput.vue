@@ -2,7 +2,7 @@
   <main class="container">
     <article class="user_input row justify-content-center">
       <section class="mt-2 col-md-12">
-        <ProgressBar :progress="progress"></ProgressBar>
+        <ProgressBar :progress="progress" @pageSelect="pageSelect"></ProgressBar>
         <UserInputStep1 v-if="page === 0" ref="step1"></UserInputStep1>
         <UserInputStep2 v-if="page === 1"></UserInputStep2>
         <InputButton
@@ -56,6 +56,11 @@ export default {
     },
   },
   methods: {
+    // ▼ プログレスバーから前の手順に戻るボタンが発火したときの処理
+    pageSelect(e) {
+      this.page = e
+      this.progressMove()
+    },
     pageBack() {
       this.page--
       this.progressMove()
