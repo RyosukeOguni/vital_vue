@@ -121,7 +121,10 @@
     <VitalModal id="modal-vital-post"
       >バイタル登録
       <template #input>
-        <VitalInput input-type="vitalRegist" model-id="modal-vital-post"
+        <VitalInput
+          input-type="vitalRegist"
+          model-id="modal-vital-post"
+          @scrollTop="scrollTop"
           ><template #button>登録</template></VitalInput
         ></template
       ></VitalModal
@@ -183,13 +186,12 @@ export default {
     openModel(modelid) {
       this.$bvModal.show(modelid)
     },
+    scrollTop(e) {
+      document.getElementById(e).scrollTo({
+        top: 0,
+        behavior: 'instant',
+      })
+    },
   },
 }
 </script>
-<style>
-@media (min-width: 576px) {
-  #modal-vital-post .modal-dialog {
-    max-width: 90%;
-  }
-}
-</style>

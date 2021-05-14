@@ -107,10 +107,3 @@ export default {
   },
 }
 </script>
-<style>
-@media (min-width: 576px) {
-  #modal-vital-put .modal-dialog {
-    max-width: 90%;
-  }
-}
-</style>

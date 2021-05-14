@@ -66,6 +66,7 @@ export default {
   methods: {
     // ▼ 戻るボタンが発火したときの処理
     pageBack() {
+      this.scrollTop()
       this.page--
       this.progressMove()
     },
@@ -78,6 +79,7 @@ export default {
         this.page++
         this.progressMove()
       }
+      this.scrollTop()
     },
     // ▼ 最後のボタンが発火したときの処理
     decision() {
@@ -94,6 +96,9 @@ export default {
       for (let i = 0; i <= this.page; i++) {
         this.progress[i].active = true
       }
+    },
+    scrollTop() {
+      this.$emit('scrollTop', this.modelId)
     },
   },
 }
