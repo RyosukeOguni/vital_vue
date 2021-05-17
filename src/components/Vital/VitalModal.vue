@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="$attrs.id" size="xl" hide-footer no-close-on-backdrop>
+  <b-modal :id="$attrs.id" size="xl" hide-footer no-close-on-backdrop centered>
     <template #modal-header="{ close }">
       <h5 class="modal-title"><slot></slot></h5>
       <button

@@ -12,9 +12,6 @@ Vue.use(IconsPlugin)
 // vue-paginateには型定義ファイルが提供されていないので、src/@type/d.tsに型定義を設定している
 import VuePaginate from 'vue-paginate'
 Vue.use(VuePaginate)
-// vue-scrollto（スクロール）を読込
-import VueScrollTo from 'vue-scrollto'
-Vue.use(VueScrollTo)
 
 Vue.config.productionTip = false
 // ブラウザのデベロッパーを許可
