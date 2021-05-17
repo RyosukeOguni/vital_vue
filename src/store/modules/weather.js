@@ -111,11 +111,16 @@ export default {
     },
 
     // ▼ DBから取得した天候情報をweatherDateに入れる
-    showTodayWeather({ commit }, response) {
-      response !== null
-        ? commit('weatherDataSet', response.data.data.attribute)
-        : commit('weatherDataSet', {})
+    async showWeather({ commit }, day) {
+      await axios
+        .get('http://localhost:8000/api/weather_records?day=' + day)
+        .then((response) => {
+          console.log(response)
+          commit('weatherDataSet', response.data.data.attribute)
+        })
+        .catch(() => {})
     },
+
     // ▼ OpenWeatherAPIから今日の天候情報を取得してweatherInputDataに入れる
     inputTodayWeather({ commit }, today) {
       axios
@@ -168,7 +173,7 @@ export default {
     resetWeatherData({ commit }) {
       commit('resetWeatherData')
     },
-    // ▼ 入力したweatherDateをstateから削除
+    // ▼ DBから取得したweatherDataをweatherInputDataにディープコピー
     dataToInput({ commit }) {
       commit('dataToInput')
     },

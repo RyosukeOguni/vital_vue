@@ -139,7 +139,6 @@ import WeatherModal from '@/components/Weather/WeatherModal.vue'
 import WeatherInput from '@/components/Weather/WeatherInput.vue'
 import SelectModule from '@/mixins/select'
 import moment from 'moment'
-import axios from 'axios'
 moment.locale('ja')
 export default {
   name: 'Weather',
@@ -164,19 +163,13 @@ export default {
   async created() {
     // 今日の日付を取得
     var day = this.today.format('YYYY-MM-DD')
-    if (this.weatherData.day !== day) {
-      this.$store.dispatch('weather/resetWeatherData')
+    if (!!Object.keys(this.weatherData).length) {
+      if (this.weatherData.day !== day) {
+        await this.$store.dispatch('weather/resetWeatherData')
+      }
+    } else {
+      await this.$store.dispatch('weather/showWeather', day)
     }
-    // コンポーネントが読み込まれた際、DBから今日の天候情報を取得し、無ければモーダルを開く
-    await axios
-      .get('http://localhost:8000/api/weather_records?day=' + day)
-      .then((response) => {
-        console.log(response)
-        this.$store.dispatch('weather/showTodayWeather', response)
-      })
-      .catch(() => {
-        this.openModel('modal-weather-post')
-      })
     // 天候情報を読み込み中に、天候情報登録ボタンを表示させない
     this.showbutton = true
     // バイタル入力画面で選択する利用者一覧をあらかじめ読み込んでおく
