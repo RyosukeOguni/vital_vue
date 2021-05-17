@@ -1,7 +1,7 @@
 // 時間に関するパッケージをインポート
 import moment from 'moment'
 import axios from 'axios'
-
+moment.locale('ja')
 const indexurl = 'http://localhost:8000/api/index/vitals'
 const url = 'http://localhost:8000/api/vitals'
 
@@ -99,7 +99,12 @@ const vitalDate = () => ({
 const alrtMsg = (data) => {
   let msg = ''
   let json = data.data.attribute
-  msg += '【' + json.weather_data.day + '：' + json.user_data.name + '】'
+  msg +=
+    '【' +
+    moment(json.weather_data.day).format('YYYY年MM月DD日(ddd)') +
+    '　' +
+    json.user_data.name +
+    '】'
   return msg
 }
 

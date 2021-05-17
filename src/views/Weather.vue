@@ -165,12 +165,13 @@ export default {
     var day = this.today.format('YYYY-MM-DD')
     if (!!Object.keys(this.weatherData).length) {
       if (this.weatherData.day !== day) {
-        await this.$store.dispatch('weather/resetWeatherData')
+        this.$store.dispatch('weather/resetWeatherData')
       }
     } else {
+      // storeの非同期通信が終わるまでこの処理で止める
       await this.$store.dispatch('weather/showWeather', day)
     }
-    // 天候情報を読み込み中に、天候情報登録ボタンを表示させない
+    // 非同期通信の終了を待ってボタンを表示させる
     this.showbutton = true
     // バイタル入力画面で選択する利用者一覧をあらかじめ読み込んでおく
     this.$store.dispatch('user/usersListSet')

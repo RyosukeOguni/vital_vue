@@ -1,5 +1,6 @@
 import moment from 'moment'
 import axios from 'axios'
+moment.locale('ja')
 
 const weatherDate = () => ({
   day: '',
@@ -21,7 +22,7 @@ const wheatherTranslate = (main) => {
   return wheatherEn[main]
 }
 
-// jsonからidと名前を抽出して文字列に変換
+// dayをmomentに変換し、formatで文字列化
 const alrtMsg = (day) => {
   return moment(day).format('YYYY年MM月DD日(ddd)')
 }
