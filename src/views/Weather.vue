@@ -2,33 +2,6 @@
   <main class="container">
     <article class="vital_menu row justify-content-center">
       <section class="mt-4 col-md-10">
-        <h2 class="border-bottom border-secondary pb-2 mb-3">バイタル登録</h2>
-        <div
-          v-if="!Object.values(weatherData).length"
-          class="alert alert-danger"
-          role="alert"
-        >
-          本日の天候情報を登録しないとバイタル新規登録はできません
-        </div>
-        <ul class="list-unstyled d-flex">
-          <li class="border-secondary pr-3" style="border-right: 1px dotted">
-            <button
-              type="button"
-              class="btn btn-primary fs14"
-              :disabled="!Object.values(weatherData).length"
-              @click="openModel('modal-vital-post')"
-            >
-              バイタル新規登録
-            </button>
-          </li>
-          <li class="ml-3">
-            <router-link to="/vital" class="btn btn-outline-secondary fs14"
-              >バイタル一覧表示／編集</router-link
-            >
-          </li>
-        </ul>
-      </section>
-      <section class="mt-4 col-md-10">
         <h2 class="border-bottom border-secondary pb-2 mb-3">天候情報</h2>
         <p>
           本日は<u class="mx-2 font-weight-bold fs18">{{
@@ -97,6 +70,33 @@
             </li>
           </ul>
         </div>
+      </section>
+      <section class="mt-4 col-md-10">
+        <h2 class="border-bottom border-secondary pb-2 mb-3">バイタル登録</h2>
+        <div
+          v-if="!Object.values(weatherData).length"
+          class="alert alert-danger"
+          role="alert"
+        >
+          本日の天候情報を登録しないとバイタル新規登録はできません
+        </div>
+        <ul class="list-unstyled d-flex">
+          <li class="border-secondary pr-3" style="border-right: 1px dotted">
+            <button
+              type="button"
+              class="btn btn-primary fs14"
+              :disabled="!Object.values(weatherData).length"
+              @click="openModel('modal-vital-post')"
+            >
+              バイタル新規登録
+            </button>
+          </li>
+          <li class="ml-3">
+            <router-link to="/vital" class="btn btn-outline-secondary fs14"
+              >バイタル一覧表示／編集</router-link
+            >
+          </li>
+        </ul>
       </section>
     </article>
     <!-- 天候登録ボタンを押下したときに展開する天候登録モーダル -->
