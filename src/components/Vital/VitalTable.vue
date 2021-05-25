@@ -77,4 +77,8 @@ export default {
 table tbody tr {
   cursor: pointer;
 }
+.table-hover tbody tr:hover {
+  color: #212529;
+  background-color: rgb(255 240 0 / 70%);
+}
 </style>

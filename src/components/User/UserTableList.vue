@@ -1,15 +1,14 @@
 <template>
   <tr>
-    <td class="text-center">
-      <div class="form-check text-center">
+    <td class="text-center check">
+      <label>
         <input
           type="checkbox"
-          class="form-check-input position-static"
           :value="user.check"
           :checked="user.check"
           @input="deleteCheck({ user: user, check: !user.check })"
         />
-      </div>
+      </label>
     </td>
     <td @click="showModal(user.id)">{{ user.id }}</td>
     <td @click="showModal(user.id)">{{ user.name }}</td>
@@ -60,3 +59,13 @@ export default {
   },
 }
 </script>
+<style>
+.table td.check {
+  padding: 0rem;
+}
+.table td.check label {
+  display: block;
+  padding: 0.75rem;
+  margin: 0;
+}
+</style>
