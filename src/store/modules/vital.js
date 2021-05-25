@@ -2,8 +2,8 @@
 import moment from 'moment'
 import axios from 'axios'
 moment.locale('ja')
-const indexurl = 'http://localhost:8000/api/index/vitals'
-const url = 'http://localhost:8000/api/vitals'
+const url = process.env.VUE_APP_API_URL + 'vitals'
+const indexurl = process.env.VUE_APP_API_URL + 'index/vitals'
 
 // vitalDateオブジェクトを返す
 const vitalDate = () => ({

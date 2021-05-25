@@ -9,7 +9,7 @@ const userDate = () => ({
   note: '',
 })
 
-const url = 'http://localhost:8000/api/users'
+const url = process.env.VUE_APP_API_URL + 'users'
 
 // jsonからidと名前を抽出して文字列に変換
 const alrtMsg = (data) => {

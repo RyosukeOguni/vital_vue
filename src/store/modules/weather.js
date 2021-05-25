@@ -33,7 +33,7 @@ const getDecimalLength = (number) => {
   return numbers[1] ? numbers[1].length : 0
 }
 
-const url = 'http://localhost:8000/api/weather_records'
+const url = process.env.VUE_APP_API_URL + 'weather_records'
 
 export default {
   namespaced: true,
@@ -114,7 +114,7 @@ export default {
     // ▼ DBから取得した天候情報をweatherDateに入れる
     async showWeather({ commit }, day) {
       await axios
-        .get('http://localhost:8000/api/weather_records?day=' + day)
+        .get(url + '?day=' + day)
         .then((response) => {
           console.log(response)
           commit('weatherDataSet', response.data.data.attribute)

@@ -356,7 +356,9 @@ export default {
     } else {
       axios
         .get(
-          'http://localhost:8000/api/weather_records/' + this.vitalData.weather_record_id
+          process.env.VUE_APP_API_URL +
+            'weather_records/' +
+            this.vitalData.weather_record_id
         )
         .then((response) => {
           console.log(response)
@@ -383,7 +385,7 @@ export default {
     // ▼ 日付を選択した時、weather_recordsDBにレコードがあればvitalData.weather_dataに取得、無ければidに""を入れる
     async selectDays(e) {
       await axios
-        .get('http://localhost:8000/api/weather_records?day=' + e.value)
+        .get(process.env.VUE_APP_API_URL + 'weather_records?day=' + e.value)
         .then((response) => {
           console.log(response)
           this.$store.dispatch('vital/stateInput', (state) => {
