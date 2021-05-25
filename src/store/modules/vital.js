@@ -3,7 +3,7 @@ import moment from 'moment'
 import axios from 'axios'
 moment.locale('ja')
 const url = process.env.VUE_APP_API_URL + 'vitals'
-const indexurl = process.env.VUE_APP_API_URL + 'index/vitals'
+const index_url = process.env.VUE_APP_API_URL + 'index/vitals'
 
 // vitalDateオブジェクトを返す
 const vitalDate = () => ({
@@ -191,7 +191,7 @@ export default {
     // ▼ 非同期通信でDBからバイタル一覧データを取得
     vitalsListSet({ commit }, input) {
       axios
-        .get(indexurl + '?user_id=' + input.user_id + '&month=' + input.year_month)
+        .get(index_url + '?user_id=' + input.user_id + '&month=' + input.year_month)
         .then((response) => {
           console.log(response)
           // vitalをstateに反映
