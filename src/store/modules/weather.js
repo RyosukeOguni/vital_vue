@@ -112,6 +112,18 @@ export default {
     },
 
     // ▼ DBから取得した天候情報をweatherDateに入れる
+    async createWeather({ dispatch, state }, day) {
+      if (!!Object.keys(state.weatherData).length) {
+        if (state.weatherData.day !== day) {
+          dispatch('resetWeatherData')
+        }
+      } else {
+        // storeの非同期通信が終わるまでこの処理で止める
+        await dispatch('showWeather', day)
+      }
+    },
+
+    // ▼ DBから取得した天候情報をweatherDateに入れる
     async showWeather({ commit }, day) {
       await axios
         .get(url + '?day=' + day)

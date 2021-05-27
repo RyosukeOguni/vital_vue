@@ -108,15 +108,22 @@ const alrtMsg = (data) => {
   return msg
 }
 
+const tableProps = () => ({
+  user_id: null,
+  year_month: moment().format('YYYY-MM'),
+})
+
 export default {
   namespaced: true,
   state: {
     vitalsList: [],
     vitalData: vitalDate(),
     vitalValidate: {},
+    tableProps: tableProps(),
   },
 
   getters: {
+    tableProps: (state) => state.tableProps,
     vitalsList: (state) => state.vitalsList,
     vitalData: (state) => state.vitalData,
     vitalValidate: (state) => state.vitalValidate,
@@ -135,6 +142,23 @@ export default {
       state.vitalsList.sort((a, b) => {
         return a.day - b.day
       })
+    },
+
+    // ▼ 変更したバイタル情報をvitalsListに適用（watchでvitalsListでの変更がかからないように、下層で変更をかける）
+    vitalsListPost(state, response) {
+      let attribute = response.data.data.attribute
+      if (state.tableProps.user_id == attribute.user_id) {
+        let data = {}
+        data.id = attribute.id
+        data.day = moment(attribute.weather_data.day)
+        data.weather = attribute.weather_data.weather
+        data.body_temp = attribute.body_temp
+        data.condition = attribute.condition
+        data.mood = attribute.mood
+        data.sleep = attribute.sleep
+        data.breakfast = attribute.breakfast
+        state.vitalsList.push(data)
+      }
     },
 
     // ▼ 変更したバイタル情報をvitalsListに適用（watchでvitalsListでの変更がかからないように、下層で変更をかける）
@@ -179,6 +203,7 @@ export default {
     // ▼ vitalsListオブジェクトを初期化
     resetList(state) {
       state.vitalsList = []
+      state.tableProps = tableProps()
     },
 
     // ▼ コールバック関数で受け取った処理をstateに行う
@@ -217,7 +242,7 @@ export default {
     },
 
     // ▼ 非同期通信でVitalDataをDBに登録
-    async vitalRegist({ state }) {
+    async vitalRegist({ commit, state }) {
       // jsonで送るデータをオブジェクトのまま取得
       var json = state.vitalData
       delete json.weather_data
@@ -228,6 +253,8 @@ export default {
         .then((response) => {
           console.log(response)
           alert(alrtMsg(response.data) + 'を登録しました')
+          // state.vitalListを変更する
+          commit('vitalsListPost', response)
         })
         .catch((error) => {
           console.log(error)

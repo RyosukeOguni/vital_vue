@@ -13,14 +13,12 @@
             style="width: 2rem; height: 2rem"
           ></b-icon>
         </template>
+        <b-dropdown-item><router-link to="/">TOP/天候情報</router-link></b-dropdown-item>
         <b-dropdown-item
-          ><router-link to="/weather">天候情報/バイタル登録</router-link></b-dropdown-item
+          ><router-link to="/vital">バイタル管理</router-link></b-dropdown-item
         >
         <b-dropdown-item
-          ><router-link to="/vital">バイタル一覧</router-link></b-dropdown-item
-        >
-        <b-dropdown-item
-          ><router-link to="/user">利用者一覧</router-link></b-dropdown-item
+          ><router-link to="/user">利用者管理</router-link></b-dropdown-item
         >
       </b-dropdown>
     </nav>
