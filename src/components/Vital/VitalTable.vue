@@ -1,7 +1,13 @@
 <template>
   <div>
-    <paginate name="paginate-items" tag="div" :list="vitalsList" :per="10">
-      <table class="table table-hover table-striped mt-3 fs14">
+    <paginate
+      class="table-responsive"
+      name="paginate-items"
+      tag="div"
+      :list="vitalsList"
+      :per="10"
+    >
+      <table class="table table-hover table-striped text-nowrap mt-3 fs14">
         <thead>
           <tr>
             <th class="border-top-0">通所日</th>
