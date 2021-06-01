@@ -1,11 +1,11 @@
 <template>
-  <section class="col-md-12">
+  <section class="col-lg-12">
     <section class="mt-4">
       <h3>排尿記録</h3>
       <ul class="row list-unstyled">
-        <li class="col-md-12 no-gutters">
+        <li class="col-lg-12 no-gutters">
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol1"
@@ -15,7 +15,7 @@
                 >排尿量１</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time1"
@@ -26,7 +26,7 @@
                 >排尿時間１</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="voiding_memo1"
@@ -39,7 +39,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol2"
@@ -49,7 +49,7 @@
                 >排尿量２</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time2"
@@ -60,7 +60,7 @@
                 >排尿時間２</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="voiding_memo2"
@@ -73,7 +73,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol3"
@@ -83,7 +83,7 @@
                 >排尿量３</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time3"
@@ -94,7 +94,7 @@
                 >排尿時間３</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="voiding_memo3"
@@ -112,9 +112,9 @@
     <section class="mt-4">
       <h3>排便記録</h3>
       <ul class="row list-unstyled">
-        <li class="col-md-12 no-gutters">
+        <li class="col-lg-12 no-gutters">
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol1"
@@ -124,7 +124,7 @@
                 >排便量１</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time1"
@@ -135,7 +135,7 @@
                 >排便時間１</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="defecation_memo1"
@@ -148,7 +148,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol2"
@@ -158,7 +158,7 @@
                 >排便量２</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time2"
@@ -169,7 +169,7 @@
                 >排便時間２</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="defecation_memo2"
@@ -182,7 +182,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol3"
@@ -192,7 +192,7 @@
                 >排便量３</InputForm
               >
             </li>
-            <li class="col-md-3 col-6">
+            <li class="col-lg-3 col-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time3"
@@ -203,7 +203,7 @@
                 >排便時間３</InputForm
               >
             </li>
-            <li class="col-md-6">
+            <li class="col-lg-6">
               <InputForm
                 type="text"
                 name="defecation_memo3"
@@ -216,7 +216,7 @@
             </li>
           </ul>
         </li>
-        <li class="col-md-3">
+        <li class="col-lg-3">
           <InputForm
             type="number"
             name="total_defecation"
@@ -227,7 +227,7 @@
           >
         </li>
         <li class="w-100"></li>
-        <li class="col-md-12">
+        <li class="col-lg-12">
           <InputForm
             type="text"
             name="excretion_note"
