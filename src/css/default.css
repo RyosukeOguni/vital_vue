@@ -17,6 +17,11 @@
 .fs20 {
   font-size: 1.25rem !important;
 }
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.5rem !important;
+  }
+}
 
 /* 5 Columns */
 .col-15,
