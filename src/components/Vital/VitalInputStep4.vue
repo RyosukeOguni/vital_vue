@@ -94,17 +94,17 @@
     <section class="mt-4">
       <h3>バイタル</h3>
       <ul class="row list-unstyled">
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="body_temp" :value="vitalData.body_temp" fill
             >体温(℃)</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="pulse" :value="vitalData.pulse" fill
             >脈拍(bpm)</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('breath')"
             name="breath"
@@ -113,17 +113,17 @@
             >呼吸頻度</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="spo2" :value="vitalData.spo2" fill
             >SPO2(％)</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="dbp" :value="vitalData.dbp" fill
             >血圧(拡張)</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="sbp" :value="vitalData.sbp" fill
             >血圧(収縮)</InputForm
           >
@@ -139,7 +139,7 @@
     <section class="mt-4">
       <h3>生活記録</h3>
       <ul class="row list-unstyled">
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('mood')"
             name="condition"
@@ -148,7 +148,7 @@
             >体調</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('mood')"
             name="mood"
@@ -157,7 +157,7 @@
             >機嫌</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('sleep')"
             name="sleep"
@@ -166,7 +166,7 @@
             >睡眠</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('breakfast')"
             name="breakfast"
@@ -175,12 +175,12 @@
             >朝食</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm :selectlist="bool" name="lunch" :value="vitalData.lunch" fill
             >昼食</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('lunchAmount')"
             name="lunch_amount"
@@ -189,7 +189,7 @@
             >昼食量</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="lunch_start"
@@ -198,7 +198,7 @@
             >昼食開始時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="lunch_end"
@@ -207,12 +207,12 @@
             >昼食終了時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm :selectlist="bool" name="snack" :value="vitalData.snack" fill
             >おやつ</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="snack_time"
@@ -221,7 +221,7 @@
             >おやつ時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('waterIntake')"
             name="water_intake"
@@ -237,7 +237,7 @@
       <ul class="row list-unstyled">
         <li class="col-lg-12 no-gutters">
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol1"
@@ -246,7 +246,7 @@
                 >排尿量１</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time1"
@@ -266,7 +266,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol2"
@@ -275,7 +275,7 @@
                 >排尿量２</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time2"
@@ -295,7 +295,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="voiding_vol3"
@@ -304,7 +304,7 @@
                 >排尿量３</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="voiding_time3"
@@ -331,7 +331,7 @@
       <ul class="row list-unstyled">
         <li class="col-lg-12 no-gutters">
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol1"
@@ -340,7 +340,7 @@
                 >排便量１</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time1"
@@ -360,7 +360,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol2"
@@ -369,7 +369,7 @@
                 >排便量２</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time2"
@@ -389,7 +389,7 @@
             </li>
           </ul>
           <ul class="row list-unstyled">
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('vol')"
                 name="defecation_vol3"
@@ -398,7 +398,7 @@
                 >排便量３</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="defecation_time3"
@@ -442,12 +442,12 @@
     <section class="mt-4">
       <h3>服薬／嘔吐</h3>
       <ul class="row list-unstyled">
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm :selectlist="bool" name="medicine" :value="vitalData.medicine" fill
             >服薬</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="medicine_time"
@@ -456,12 +456,12 @@
             >服薬時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm :selectlist="bool" name="vomiting" :value="vitalData.vomiting" fill
             >嘔吐</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="vomiting_time"
@@ -486,7 +486,7 @@
                 >発作１</InputForm
               >
             </li>
-            <li class="col-lg-2 col-6">
+            <li class="col-lg-2 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="attack_time1"
@@ -495,7 +495,7 @@
                 >発作時間１</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('attackDuration')"
                 name="attack_duration1"
@@ -524,7 +524,7 @@
                 >発作２</InputForm
               >
             </li>
-            <li class="col-lg-2 col-6">
+            <li class="col-lg-2 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="attack_time2"
@@ -533,7 +533,7 @@
                 >発作時間２</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('attackDuration')"
                 name="attack_duration2"
@@ -562,7 +562,7 @@
                 >発作３</InputForm
               >
             </li>
-            <li class="col-lg-2 col-6">
+            <li class="col-lg-2 col-md-6">
               <InputForm
                 :selectlist="daytime"
                 name="attack_time3"
@@ -571,7 +571,7 @@
                 >発作時間３</InputForm
               >
             </li>
-            <li class="col-lg-3 col-6">
+            <li class="col-lg-3 col-md-6">
               <InputForm
                 :selectlist="selectList('attackDuration')"
                 name="attack_duration3"
@@ -605,7 +605,7 @@
             >吸引</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="aspiration_time"
@@ -614,7 +614,7 @@
             >吸引時間</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="selectList('aspirationPoint')"
             name="aspiration_point"
@@ -623,7 +623,7 @@
             >吸引場所</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="selectList('aspirationColor')"
             name="aspiration_color"
@@ -632,7 +632,7 @@
             >吸引物色</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="selectList('aspirationType')"
             name="aspiration_type"
@@ -660,7 +660,7 @@
             >注入</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="injection_start"
@@ -669,7 +669,7 @@
             >注入開始時間</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="injection_end"
@@ -678,7 +678,7 @@
             >注入終了時間</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="selectList('injectionPoint')"
             name="injection_point"
@@ -687,7 +687,7 @@
             >注入場所</InputForm
           >
         </li>
-        <li class="col-lg-15 col-6">
+        <li class="col-lg-15 col-md-6">
           <InputForm
             :selectlist="selectList('waterIntake')"
             name="injection_vol"
@@ -710,12 +710,12 @@
     <section class="mt-4">
       <h3>むせ／歩数</h3>
       <ul class="row list-unstyled">
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm type="number" name="choke" :value="vitalData.choke" fill
             >むせ(回数)</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('step')"
             name="step"

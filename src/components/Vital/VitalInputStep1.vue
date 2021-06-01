@@ -172,7 +172,7 @@
     <section class="mt-4">
       <h3>生活記録</h3>
       <ul class="row list-unstyled">
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('mood')"
             name="condition"
@@ -182,7 +182,7 @@
             >体調</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('mood')"
             name="mood"
@@ -192,7 +192,7 @@
             >機嫌</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('sleep')"
             name="sleep"
@@ -202,7 +202,7 @@
             >睡眠</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('breakfast')"
             name="breakfast"
@@ -212,7 +212,7 @@
             >朝食</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="bool"
             name="lunch"
@@ -222,7 +222,7 @@
             >昼食</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('lunchAmount')"
             name="lunch_amount"
@@ -233,7 +233,7 @@
             >昼食量</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="lunch_start"
@@ -244,7 +244,7 @@
             >昼食開始時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="lunch_end"
@@ -255,7 +255,7 @@
             >昼食終了時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="bool"
             name="snack"
@@ -265,7 +265,7 @@
             >おやつ</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="daytime"
             name="snack_time"
@@ -276,7 +276,7 @@
             >おやつ時間</InputForm
           >
         </li>
-        <li class="col-lg-3 col-6">
+        <li class="col-lg-3 col-md-6">
           <InputForm
             :selectlist="selectList('waterIntake')"
             name="water_intake"

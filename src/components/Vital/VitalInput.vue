@@ -119,9 +119,6 @@ export default {
   background: #dae8fc;
   color: #6c8ebf;
 }
-.vital_input section section > ul {
-  padding: 0 1rem;
-}
 @media (max-width: 767px) {
   .vital_input section section ul ul {
     padding-bottom: 1rem;
