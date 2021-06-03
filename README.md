@@ -297,5 +297,3 @@ VUE_APP_API_URL=APIエンドポイントアドレス
 ## ７．作成者情報
 
 -   作成者：小国亮介
--   所属：株式会社 B-FORME
--   E-mail：oguni@b-forme.net
