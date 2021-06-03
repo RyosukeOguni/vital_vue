@@ -5,23 +5,34 @@
       <span class="text-field-label"
         ><slot>ラベル名</slot><span v-if="validate">※</span></span
       >
-      <!-- typeがバインドされた場合、inputを表示 -->
+      <!-- typeがバインドされていて、値が'text'の場合、テキスト入力エリアを表示 -->
+      <div
+        v-if="type && type === 'text'"
+        class="text-field-input"
+        :contenteditable="!fill"
+        :disabled="fill"
+        @input="update"
+        @focus="focus"
+        @blur="blur"
+        v-text="valueText"
+      ></div>
+      <!-- typeがバインドされていて、値が'text'以外の場合、inputを表示 -->
       <input
-        v-if="type"
-        v-model="newValue"
+        v-if="type && type !== 'text'"
+        v-model="valueText"
         class="text-field-input"
         :type="type"
         :disabled="fill"
         min="0"
-        @input="inputForm({ name: name, value: newValue })"
+        @input="inputForm({ name: name, value: valueText })"
       />
       <!-- 配列selectlistがバインドされた場合、selectを表示 -->
       <select
         v-if="selectlist"
-        v-model="newValue"
+        v-model="valueText"
         class="text-field-input"
         :disabled="fill"
-        @change="inputForm({ name: name, value: newValue })"
+        @change="inputForm({ name: name, value: valueText })"
       >
         <option value="null" disabled selected>-----</option>
         <option v-for="select in selectlist" :key="select.value" :value="select.value">
@@ -64,19 +75,44 @@ export default {
   },
   data() {
     return {
-      newValue: this.value,
+      focusIn: false,
+      valueText: '',
     }
   },
-  watch: {
-    // propsの値が変化しても最初の読み込み時しかnewValueに反映されないので、
-    // watchで変化があれば反映されるように設定する
-    value: function () {
-      this.newValue = this.value
+  computed: {
+    localValue: {
+      get: function () {
+        return this.value
+      },
+      set: function (newValue) {
+        this.$emit('inputForm', { name: this.name, value: newValue })
+      },
     },
+  },
+  watch: {
+    localValue(newVal) {
+      // キャレットが動く問題を回避
+      if (!this.focusIn) {
+        this.valueText = newVal
+      }
+    },
+  },
+  created() {
+    // watchが走らない為、初回のみここで代入
+    this.valueText = this.value
   },
   methods: {
     inputForm(e) {
       this.$emit('inputForm', e)
+    },
+    update(e) {
+      this.localValue = e.target.innerText
+    },
+    focus() {
+      this.focusIn = true
+    },
+    blur() {
+      this.focusIn = false
     },
   },
 }
@@ -105,7 +141,7 @@ export default {
   padding: 2rem 0.5rem 0.5rem;
   border: none;
   background: none;
-  height: 4rem;
+  min-height: 4rem;
 }
 /* セレクトボックスのアイコンをSVGでバックグラウンド表示 */
 select.text-field-input {
