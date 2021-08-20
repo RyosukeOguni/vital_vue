@@ -4,8 +4,8 @@
 
 ## １．設計資料
 
--   [画面設計](https://drive.google.com/file/d/1IGmbkJn4Dx5nbSHkTfiAkdNGGcvORjg8/view?usp=sharing)
--   [HTML構造](https://drive.google.com/file/d/1wOO1Gz-_getSXbxY1cNXkVhNJI5lvMZH/view?usp=sharing)
+-   [画面設計](https://drive.google.com/file/d/1AeQJw5u2v5FG5K8XmBloCcciW0LJOkAA/view?usp=sharing)
+-   [HTML構造](https://drive.google.com/file/d/1dZow9_Rt60AOT6ktfCCexR5SKF7wm_HC/view?usp=sharing)
 
 
 ## ２．外部API
