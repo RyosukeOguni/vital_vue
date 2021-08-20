@@ -1,6 +1,6 @@
 # 体調管理システム
 
-[体調管理API](https://github.com/b-forme-oguni/vital_management_system)を操作するWebアプリケーション。
+[体調管理API](https://github.com/RyosukeOguni/vital_api)を操作するWebアプリケーション。
 
 ## １．設計資料
 
@@ -10,7 +10,7 @@
 
 ## ２．外部API
 
--   [体調管理API](https://github.com/b-forme-oguni/vital_management_system)
+-   [体調管理API](https://github.com/RyosukeOguni/vital_api)
       -   利用者、天候、バイタルのデータを管理するAPI
 -   [OpenWeatherMap](https://openweathermap.org/api)
       -   天候情報を取得できるAPI
